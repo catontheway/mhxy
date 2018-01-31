@@ -41,13 +41,8 @@
 #include "State.h"
 
 
-
-
-
-
-
 extern LPDIRECTSOUND8	 g_pDirectSound;
-extern string g_strMediaPath;
+extern string gStrMediaPath;
 extern int g_xOffset;
 extern int g_yOffset;
 //ÁÙ½çÇø

@@ -4762,7 +4762,7 @@ void cTaskJuQing::Load(ifstream& File)
 
 std::string cTaskJuQing::SetUpPathJuQing(string str)
 {
-	string path1 = g_strMediaPath;
+	string path1 = gStrMediaPath;
 	path1+="хннЯ//";
 	path1 += m_AutoPath;
 	path1 += "//";

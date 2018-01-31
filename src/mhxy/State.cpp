@@ -110,10 +110,10 @@ void CMainState::LoadList()
 	ifstream File2;
 	string strdustbin;
 	int intdustbin;
-	string path = g_strMediaPath;
+	string path = gStrMediaPath;
 	path += "数据//角色//角色.txt";
 	File.open(path.c_str());
-	path = g_strMediaPath;
+	path = gStrMediaPath;
 	path += "数据//角色//角色声音.txt";
 	File2.open(path.c_str());
 	getline(File2, strdustbin);
@@ -135,13 +135,13 @@ void CMainState::LoadList()
 	File2.close();
 
 	ifstream File6;
-	path = g_strMediaPath;
+	path = gStrMediaPath;
 	path += "数据//NPC//NPC.txt";
 	File6.open(path.c_str());
 	int npcnum;
 	File6 >> npcnum;
 	m_pNpcList.resize(npcnum);
-	path = g_strMediaPath;
+	path = gStrMediaPath;
 	path += "数据//坐骑//坐骑列表.txt";
 	m_ZuoQi.Init(path.c_str());
 	for (int i = 0; i < npcnum; i++)
@@ -1366,7 +1366,7 @@ void CMainState::Init3()
 
 	//加载行为模板
 	string path;
-	path = g_strMediaPath;
+	path = gStrMediaPath;
 	path += "行为模板.txt";
 	m_ScriptTemplate.LoadActionTemplate(path.c_str());
 	m_ColorManage.Init();
@@ -4228,7 +4228,7 @@ BOOL cMenuState::Init(void* pData /*= 0*/)
 	g_pMainState->UpDateInput();
 	g_pMainState->m_Cursor.m_Data.SetXY(g_xMouse, g_yMouse);
 	string path;
-	path = g_strMediaPath;
+	path = gStrMediaPath;
 	path += "数据\\开始界面\\0.BMP";
 	m_Back.LoadBMP(path.c_str());
 
@@ -4302,7 +4302,7 @@ BOOL cMenuState::Frame(void* pData /*= 0*/)
 		m_ID += 1;
 		m_ID %= 15;
 		ostringstream oss;
-		oss << g_strMediaPath<< "数据\\开始界面\\";
+		oss << gStrMediaPath<< "数据\\开始界面\\";
 		oss << m_ID;
 		oss << ".BMP";
 		m_Back.LoadBMP(oss.str());//0x01408ACC);
@@ -4347,7 +4347,7 @@ BOOL cEndState::Init(void* pData /*= 0*/)
 {
 	if (m_bInit)return TRUE;
 	m_bInit = TRUE;
-	string path = g_strMediaPath;
+	string path = gStrMediaPath;
 	path += "数据\\开始界面\\end.BMP";
 	m_Back.LoadBMP(path);
 	m_Title.SetColor(RGB(255,0,0));

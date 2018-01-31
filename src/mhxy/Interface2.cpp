@@ -789,7 +789,7 @@ void cInterfaceItem::Init()
 	}
 	ifstream File;
 	ostringstream oss;
-	oss << g_strMediaPath;
+	oss << gStrMediaPath;
 	oss << "道具列表\\导标旗坐标.txt";
 	File.open(oss.str());
 	if (!File)ERRBOX;
@@ -2773,7 +2773,7 @@ BOOL cInterfaceChannel::Init()
 	m_Channel[4].Load(0xF9ADC3DA);
 	ifstream File;
 	ostringstream oss;
-	oss << g_strMediaPath << "数据//表情//表情.txt";
+	oss << gStrMediaPath << "数据//表情//表情.txt";
 	File.open(oss.str());
 	
 	string dustbin;

@@ -22,7 +22,7 @@ BOOL cMyScript::Process(cObj* p)
 			p->m_bScriptLoad = TRUE;
 			//∂¡»°Ω≈±æ
 			ostringstream oss;
-			oss << g_strMediaPath << "script\\common\\"<<p->m_ScriptPath<<".txt";
+			oss << gStrMediaPath << "script\\common\\"<<p->m_ScriptPath<<".txt";
 			if (!p->m_Script.LoadScript(oss.str()))
 			{
 				p->m_bHaveScript = FALSE;

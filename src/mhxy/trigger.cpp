@@ -198,7 +198,7 @@ void cTaskBaotu::Init()
 	//读取名字列表
 	ifstream File;
 	ostringstream oss;
-	oss << g_strMediaPath << "任务//打宝图//百家姓.txt";
+	oss << gStrMediaPath << "任务//打宝图//百家姓.txt";
 	File.open(oss.str());
 	int num;
 	File >> num;
@@ -216,7 +216,7 @@ void cTaskBaotu::Init()
 	}
 	File.close();
 	oss.str("");
-	oss << g_strMediaPath << "任务//打宝图//地点.txt";
+	oss << gStrMediaPath << "任务//打宝图//地点.txt";
 	File.open(oss.str());
 	File >> num;
 	string str;
@@ -526,7 +526,7 @@ void cTaskZhuaGui::Init()
 	//读取名字列表
 	ifstream File;
 	ostringstream oss;
-	oss << g_strMediaPath << "任务//抓鬼//百家姓.txt";
+	oss << gStrMediaPath << "任务//抓鬼//百家姓.txt";
 	File.open(oss.str());
 	if (!File)ERRBOX;
 	int num;
@@ -551,7 +551,7 @@ void cTaskZhuaGui::Init()
 	}
 	File.close();
 	oss.str("");
-	oss << g_strMediaPath << "任务//抓鬼//地点.txt";
+	oss << gStrMediaPath << "任务//抓鬼//地点.txt";
 	File.open(oss.str());
 	if (!File)ERRBOX;
 	File >> num;
@@ -1927,7 +1927,7 @@ void cTaskSM::InitShiWei()
 	m_bInitShiWei = TRUE;
 	ifstream File;
 	ostringstream oss;
-	oss << g_strMediaPath << "任务\\师门\\师门示威.txt";
+	oss << gStrMediaPath << "任务\\师门\\师门示威.txt";
 	File.open(oss.str());
 	if (!File)ERRBOX;
 	string name;
@@ -2016,7 +2016,7 @@ BOOL cTaskFB::Start(int id)
 	m_TextList.clear();
 	ifstream File;
 	ostringstream oss;
-	oss <<g_strMediaPath<<"任务//副本//" << id << ".txt";
+	oss <<gStrMediaPath<<"任务//副本//" << id << ".txt";
 	File.open(oss.str());
 	if (!File)ERRBOX;
 	int num;
@@ -4503,7 +4503,7 @@ void cLvTrigger::Load(ifstream& File)
 
 BOOL cDialogTrigger::AddTaskFB(string path, int id, cTaskFather* ptask, int stage)
 {
-	string path1 = g_strMediaPath;
+	string path1 = gStrMediaPath;
 	path1+="任务//副本//";
 	path1 += path;
 	path1 += "对话.txt";
@@ -4938,7 +4938,7 @@ void cTaskHuoDong::Initmp()
 	m_bInit12 = TRUE;
 	ifstream File;
 	ostringstream oss;
-	oss << g_strMediaPath;
+	oss << gStrMediaPath;
 	oss << "任务//12门派.txt";
 	File.open(oss.str());
 	if (!File)ERRBOX;

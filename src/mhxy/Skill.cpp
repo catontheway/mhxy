@@ -191,7 +191,7 @@ BOOL cSkillManager::Init()
 	m_bInit = TRUE;
 	ifstream File;
 	ostringstream oss;
-	oss << g_strMediaPath << "数据//技能//召唤兽技能.txt";
+	oss << gStrMediaPath << "数据//技能//召唤兽技能.txt";
 	File.open(oss.str());
 	if (!File)ERRBOX;
 	int dustbin;
@@ -237,7 +237,7 @@ BOOL cSkillManager::Init()
 	File.close();
 
 	oss.str("");
-	oss << g_strMediaPath << "数据//技能//辅助技能.txt";
+	oss << gStrMediaPath << "数据//技能//辅助技能.txt";
 	File.open(oss.str());
 	if (!File)ERRBOX;
 	File >> dustbin;
@@ -258,7 +258,7 @@ BOOL cSkillManager::Init()
 	File.close();
 
 	oss.str("");
-	oss << g_strMediaPath << "数据//技能//特技.txt";
+	oss << gStrMediaPath << "数据//技能//特技.txt";
 	File.open(oss.str());
 	if (!File)ERRBOX;
 
@@ -284,7 +284,7 @@ BOOL cSkillManager::Init()
 	}
 	File.close();
 	oss.str("");
-	oss << g_strMediaPath << "道具列表\\符石.txt";
+	oss << gStrMediaPath << "道具列表\\符石.txt";
 	File.open(oss.str());
 	if (!File)ERRBOX;
 
@@ -311,7 +311,7 @@ BOOL cSkillManager::Init()
 	}
 	File.close();
 	oss.str("");
-	oss << g_strMediaPath << "数据\\技能\\特技声音.txt";
+	oss << gStrMediaPath << "数据\\技能\\特技声音.txt";
 	File.open(oss.str());
 	if (!File)ERRBOX;
 	int soundnum;
@@ -6723,7 +6723,7 @@ BOOL cMengPaiManager::Init()
 	m_bInit = TRUE;
 	ifstream File;
 	ostringstream oss;
-	oss << g_strMediaPath << "数据//技能//师门技能.txt";
+	oss << gStrMediaPath << "数据//技能//师门技能.txt";
 	File.open(oss.str());
 	int dustbin;
 	File >> dustbin;
@@ -6752,7 +6752,7 @@ BOOL cMengPaiManager::Init()
 	}
 	File.close();
 	oss.str("");
-	oss << g_strMediaPath<<"数据//技能//师门技能声音.txt";
+	oss << gStrMediaPath<<"数据//技能//师门技能声音.txt";
 	File.open(oss.str());
 	if (!File)
 	{
@@ -6771,7 +6771,7 @@ BOOL cMengPaiManager::Init()
 	}
 	File.close();
 	oss.str("");
-	oss << g_strMediaPath << "数据//技能//门派.txt";
+	oss << gStrMediaPath << "数据//技能//门派.txt";
 	File.open(oss.str());
 	File >> dustbin;
 	if (dustbin != c_NumMengPai)

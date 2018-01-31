@@ -7444,7 +7444,7 @@ void cFangWu::Init()
 	if (m_bInit)return;
 	m_bInit = TRUE;
 	ifstream File;
-	string path = g_strMediaPath;
+	string path = gStrMediaPath;
 	path += "任务//房屋//镇宅兽列表.txt";
 	File.open(path.c_str());
 	int num;

@@ -7,7 +7,7 @@ BOOL cPetManager::Init()
 	int dustbin2;
 	ifstream File;
 	ostringstream oss;
-	oss << g_strMediaPath << "Êý¾Ý//ÕÙ»½ÊÞ//ÕÙ»½ÊÞÐÂ.txt";
+	oss << gStrMediaPath << "Êý¾Ý//ÕÙ»½ÊÞ//ÕÙ»½ÊÞÐÂ.txt";
 	File.open(oss.str());
 	File >> dustbin;
 
@@ -25,10 +25,10 @@ BOOL cPetManager::Init()
 
 	ifstream File2;
 	oss.str("");
-	oss << g_strMediaPath << "Êý¾Ý//ÕÙ»½ÊÞ//ÕÙ»½ÊÞÕ½¶·Æ«ÒÆ±í.txt";
+	oss << gStrMediaPath << "Êý¾Ý//ÕÙ»½ÊÞ//ÕÙ»½ÊÞÕ½¶·Æ«ÒÆ±í.txt";
 	File2.open(oss.str());
 	oss.str("");
-	oss << g_strMediaPath << "Êý¾Ý//ÕÙ»½ÊÞ//ÕÙ»½ÊÞ.txt";
+	oss << gStrMediaPath << "Êý¾Ý//ÕÙ»½ÊÞ//ÕÙ»½ÊÞ.txt";
 	File.open(oss.str());
 	File >> dustbin;
 	File2 >> dustbin2;
@@ -79,7 +79,7 @@ BOOL cPetManager::Init()
 	File2.close();
 
 	oss.str("");
-	oss << g_strMediaPath << "Êý¾Ý//ÕÙ»½ÊÞ//ÕÙ»½ÊÞÉùÒô.txt";
+	oss << gStrMediaPath << "Êý¾Ý//ÕÙ»½ÊÞ//ÕÙ»½ÊÞÉùÒô.txt";
 	File.open(oss.str());
 
 	int numsound;

@@ -14,7 +14,7 @@ void cMySound::Load(string path)
 	if (0 == m_PrePath.compare(path))return;
 	m_PrePath = path;
 	ostringstream oss;
-	oss << g_strMediaPath << "music\\"<<path<<".mp3";
+	oss << gStrMediaPath << "music\\"<<path<<".mp3";
 	path = oss.str();
 	if (m_pMediaControl)
 	{

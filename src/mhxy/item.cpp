@@ -15,7 +15,7 @@ BOOL cItem::Init()
 			ifstream File;
 			int id,num;
 			ostringstream oss;
-			oss << g_strMediaPath << "数据//武器//武器.txt";
+			oss << gStrMediaPath << "数据//武器//武器.txt";
 			File.open(oss.str());
 			int typenum;
 			File >> typenum;
@@ -37,72 +37,72 @@ BOOL cItem::Init()
 			}
 			File.close();
 			oss.str("");
-			oss << g_strMediaPath << "数据//武器//剑.txt";
+			oss << gStrMediaPath << "数据//武器//剑.txt";
 			LoadItem1(oss.str());
 		}
 
 #pragma omp  section
 		{
 		ostringstream oss;
-		oss << g_strMediaPath << "数据//武器//刀.txt";
+		oss << gStrMediaPath << "数据//武器//刀.txt";
 		LoadItem1(oss.str());
 		oss.str("");
-		oss << g_strMediaPath << "数据//武器//枪.txt";
+		oss << gStrMediaPath << "数据//武器//枪.txt";
 		LoadItem1(oss.str());
 		oss.str("");
-		oss << g_strMediaPath << "数据//武器//锤.txt";
+		oss << gStrMediaPath << "数据//武器//锤.txt";
 		LoadItem1(oss.str());
 		oss.str("");
-		oss << g_strMediaPath << "数据//武器//斧.txt";
+		oss << gStrMediaPath << "数据//武器//斧.txt";
 		LoadItem1(oss.str());
 		oss.str("");
 		}
 #pragma omp  section
 		{
 			ostringstream oss;
-			oss << g_strMediaPath << "数据//武器//扇.txt";
+			oss << gStrMediaPath << "数据//武器//扇.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "数据//武器//爪.txt";
+			oss << gStrMediaPath << "数据//武器//爪.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "数据//武器//棒.txt";
+			oss << gStrMediaPath << "数据//武器//棒.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "数据//武器//飘带.txt";
+			oss << gStrMediaPath << "数据//武器//飘带.txt";
 			LoadItem1(oss.str());
 		}
 #pragma omp  section
 		{
 			ostringstream oss;
-			oss << g_strMediaPath << "数据//武器//鞭.txt";
+			oss << gStrMediaPath << "数据//武器//鞭.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "数据//武器//环.txt";
+			oss << gStrMediaPath << "数据//武器//环.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "数据//武器//双剑.txt";
+			oss << gStrMediaPath << "数据//武器//双剑.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "数据//武器//珠.txt";
+			oss << gStrMediaPath << "数据//武器//珠.txt";
 			LoadItem1(oss.str());
 		}
 #pragma omp  section
 		{
 			ostringstream oss;
-			oss << g_strMediaPath << "数据//武器//弓.txt";
+			oss << gStrMediaPath << "数据//武器//弓.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "数据//武器//杖.txt";
+			oss << gStrMediaPath << "数据//武器//杖.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "道具列表//坐骑装饰.txt";
+			oss << gStrMediaPath << "道具列表//坐骑装饰.txt";
 			LoadZuoqiZhuangShi(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "数据//装备//头盔.txt";
+			oss << gStrMediaPath << "数据//装备//头盔.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "数据//装备//发钗.txt";
+			oss << gStrMediaPath << "数据//装备//发钗.txt";
 			LoadItem1(oss.str());
 			oss.str("");
 
@@ -110,79 +110,79 @@ BOOL cItem::Init()
 #pragma omp  section
 		{
 			ostringstream oss;
-			oss << g_strMediaPath << "数据//装备//铠甲.txt";
+			oss << gStrMediaPath << "数据//装备//铠甲.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "数据//装备//女衣.txt";
+			oss << gStrMediaPath << "数据//装备//女衣.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "数据//装备//项链.txt";
+			oss << gStrMediaPath << "数据//装备//项链.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "数据//装备//腰带.txt";
+			oss << gStrMediaPath << "数据//装备//腰带.txt";
 			LoadItem1(oss.str());
 		}
 #pragma omp  section
 		{
 			ostringstream oss;
-			oss << g_strMediaPath << "数据//装备//鞋.txt";
+			oss << gStrMediaPath << "数据//装备//鞋.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "道具列表\\药品.txt";
+			oss << gStrMediaPath << "道具列表\\药品.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "道具列表\\烹饪.txt";
+			oss << gStrMediaPath << "道具列表\\烹饪.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "道具列表\\法宝.txt";
+			oss << gStrMediaPath << "道具列表\\法宝.txt";
 			LoadFaBao(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "道具列表\\兽决.txt";
+			oss << gStrMediaPath << "道具列表\\兽决.txt";
 			LoadShouJue(oss.str());
 		}
 #pragma omp  section
 		{
 			ostringstream oss;
-			oss << g_strMediaPath << "道具列表\\暗器.txt";
+			oss << gStrMediaPath << "道具列表\\暗器.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "道具列表\\变身卡.txt";
+			oss << gStrMediaPath << "道具列表\\变身卡.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "道具列表\\道具.txt";
+			oss << gStrMediaPath << "道具列表\\道具.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "道具列表\\不可叠加道具.txt";
+			oss << gStrMediaPath << "道具列表\\不可叠加道具.txt";
 			LoadItem1(oss.str());
 		}
 #pragma omp  section
 		{
 			ostringstream oss;
-			oss << g_strMediaPath << "道具列表\\花.txt";
+			oss << gStrMediaPath << "道具列表\\花.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "道具列表\\宝石.txt";
+			oss << gStrMediaPath << "道具列表\\宝石.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "数据\\装备\\召唤兽护腕.txt";
+			oss << gStrMediaPath << "数据\\装备\\召唤兽护腕.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "数据\\装备\\召唤兽铠甲.txt";
+			oss << gStrMediaPath << "数据\\装备\\召唤兽铠甲.txt";
 			LoadItem1(oss.str());
 		}
 #pragma omp  section
 		{
 			ostringstream oss;
-			oss << g_strMediaPath << "数据\\装备\\召唤兽项圈.txt";
+			oss << gStrMediaPath << "数据\\装备\\召唤兽项圈.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "数据//武器//杖.txt";
+			oss << gStrMediaPath << "数据//武器//杖.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "道具列表\\乐器.txt";
+			oss << gStrMediaPath << "道具列表\\乐器.txt";
 			LoadItem1(oss.str());
 			oss.str("");
-			oss << g_strMediaPath << "道具列表\\家具.txt";
+			oss << gStrMediaPath << "道具列表\\家具.txt";
 			LoadJiaJu(oss.str());
 		}
 #pragma omp  section
@@ -190,7 +190,7 @@ BOOL cItem::Init()
 		ifstream File;
 		int num;
 		ostringstream oss;
-		oss << g_strMediaPath << "道具列表\\兽决定义.txt";
+		oss << gStrMediaPath << "道具列表\\兽决定义.txt";
 		File.open(oss.str());
 		int ID;
 		File >> num;
@@ -212,7 +212,7 @@ BOOL cItem::Init()
 			ifstream File;
 			int num,ID;
 			ostringstream oss;
-			oss << g_strMediaPath << "道具列表\\物品类型名.txt";
+			oss << gStrMediaPath << "道具列表\\物品类型名.txt";
 			File.open(oss.str());
 			if (!File)ERRBOX;
 			File >> num;
@@ -225,7 +225,7 @@ BOOL cItem::Init()
 			}
 			File.close();
 			oss.str("");
-			oss << g_strMediaPath << "道具列表\\符石.txt";
+			oss << gStrMediaPath << "道具列表\\符石.txt";
 			File.open(oss.str());
 			if (!File)ERRBOX;
 			int type;

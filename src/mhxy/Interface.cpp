@@ -1798,12 +1798,12 @@ void cInterfaceSystem::Save(int id)
 	if (id < 0)id = 0;
 	ofstream File;
 	string oss;
-	oss = g_strMediaPath + "¥Êµµ//5.txt";
+	oss = gStrMediaPath + "¥Êµµ//5.txt";
 	File.open(oss.c_str());
 	File << id;
 	File.close();
 	oss = "";
-	oss = g_strMediaPath + "¥Êµµ//";
+	oss = gStrMediaPath + "¥Êµµ//";
 	oss += id + '0';
 	oss += ".txt";
 
@@ -1888,7 +1888,7 @@ void cInterfaceSystem::Load(int id)
 	g_pMainState->m_Map.SetLock(FALSE);
 	ifstream File;
 	string oss;
-	oss = g_strMediaPath + "¥Êµµ\\";
+	oss = gStrMediaPath + "¥Êµµ\\";
 	oss += id + '0';
 	oss += ".txt";
 	myencode.fileuncode(oss + ".save", oss);
@@ -2207,7 +2207,7 @@ void cInterfaceSystem::GetSaveTitle(vector<string>& strselect)
 		ifstream File3;
 		ostringstream oss;
 		string filename;
-		filename = g_strMediaPath + "¥Êµµ//";
+		filename = gStrMediaPath + "¥Êµµ//";
 		filename += i + '0';
 		filename += ".txt.save";
 		//∂¡»°µÿµ„
@@ -2219,7 +2219,7 @@ void cInterfaceSystem::GetSaveTitle(vector<string>& strselect)
 	}
 	ifstream File;
 	ostringstream oss;
-	oss << g_strMediaPath << "¥Êµµ//5.txt";
+	oss << gStrMediaPath << "¥Êµµ//5.txt";
 	File.open(oss.str());
 	if (!File)return;
 	int newid;
@@ -6131,7 +6131,7 @@ void cInterfaceDialog::InitQuestion()
 
 	ifstream File;
 	ostringstream oss;
-	oss << g_strMediaPath << "»ŒŒÒ//Ã‚ø‚//";
+	oss << gStrMediaPath << "»ŒŒÒ//Ã‚ø‚//";
 	oss << "0.txt";
 	File.open(oss.str());
 	int num;
@@ -9055,7 +9055,7 @@ void cInterFaceBuy::Reset()
 void cInterFaceBuy::Open(int id)
 {
 	ostringstream oss;
-	oss << g_strMediaPath << "»ŒŒÒ\\…ÃµÍ\\";
+	oss << gStrMediaPath << "»ŒŒÒ\\…ÃµÍ\\";
 	oss << id;
 	oss << ".txt";
 	ifstream File;
@@ -12525,7 +12525,7 @@ BOOL cInterFaceBuyPet::Init()
 
 	ifstream file;
 	ostringstream oss;
-	oss << g_strMediaPath;
+	oss << gStrMediaPath;
 	oss << "»ŒŒÒ//’ŸªΩ ﬁ…ÃµÍ//’ŸªΩ ﬁ¡–±Ì.txt";
 	file.open(oss.str());
 	int lvlimit, num;
@@ -13016,7 +13016,7 @@ void cInterFaceBuyPet::Init3()
 	m_bInit3 = TRUE;
 	ifstream File;
 	ostringstream oss;
-	oss << g_strMediaPath;
+	oss << gStrMediaPath;
 	oss << "»ŒŒÒ//’ŸªΩ ﬁ…ÃµÍ//“˛≤ÿ’ŸªΩ ﬁ¡–±Ì.txt";
 	File.open(oss.str());
 	int num;

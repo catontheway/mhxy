@@ -1,10 +1,10 @@
 #include "global.h"
 
 
-string g_strMediaPath="";
+string gStrMediaPath;
 int g_FPS = 60;
-int g_xOffset=0;
-int g_yOffset=0;
+int g_xOffset = 0;
+int g_yOffset = 0;
 CMainState* g_pMainState;
 cCharacter* g_pCharacter;
 cObj* g_pHeroObj;
@@ -25,7 +25,7 @@ HDC g_DC;
 HDC g_DC2;
 HDC g_ShowDC;
 HBITMAP g_MemBitmap;
-LPDIRECTSOUND8	 g_pDirectSound=0;
+LPDIRECTSOUND8	 g_pDirectSound = 0;
 
 cScript* g_pScriptParent = 0;
 cScript* g_pFirst = 0;
@@ -34,8 +34,8 @@ long  g_NumScriptActions = 0;
 
 BITMAPINFO * g_pBmpinfo;
 
- string g_ScriptPath; //脚本的路径
- string g_MapPath;  //地图的路径
+string g_ScriptPath; //脚本的路径
+string g_MapPath;  //地图的路径
 HWND  g_hWnd;
 HINSTANCE g_hInst;
 void  Resize(long Width, long Height);
@@ -51,12 +51,12 @@ void SetFullScreen(BOOL bFill);
 int PASCAL WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
 #ifdef TESTDEBU
-	g_strMediaPath = "..\\..\\data\\Media\\";
+	gStrMediaPath = "..\\..\\data\\Media\\";
 #else
-	g_strMediaPath = ".\\Media\\";
+	gStrMediaPath = ".\\Media\\";
 #endif
-	g_ScriptPath = g_strMediaPath;
-	g_MapPath = g_strMediaPath;
+	g_ScriptPath = gStrMediaPath;
+	g_MapPath = gStrMediaPath;
 	g_ScriptPath += "script\\1\\"; //脚本的路径
 	g_MapPath += "scene\\";  //地图的路径
 	//
@@ -70,7 +70,7 @@ int PASCAL WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	g_bFillScreen = FALSE;
 	//初始化位图头
-	g_pBmpinfo = (BITMAPINFO*)malloc(sizeof(BITMAPINFO)+sizeof(RGBQUAD)* 2);
+	g_pBmpinfo = (BITMAPINFO*)malloc(sizeof(BITMAPINFO) + sizeof(RGBQUAD) * 2);
 	g_pBmpinfo->bmiHeader.biPlanes = 1;
 	g_pBmpinfo->bmiHeader.biSize = sizeof(BITMAPINFOHEADER);
 	g_pBmpinfo->bmiHeader.biCompression = 3;
@@ -86,37 +86,37 @@ int PASCAL WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	colorbit = 0x1f;
 	memmove(&g_pBmpinfo->bmiColors[2], &colorbit, sizeof(RGBQUAD));
 	////设计窗口
-		g_wcex.cbClsExtra = 0;
-		g_wcex.cbSize = sizeof(g_wcex);
-		g_wcex.cbWndExtra = 0;
-		g_wcex.hbrBackground = 0;
-		g_wcex.hCursor = LoadCursor(0, IDC_ARROW);
-		g_wcex.hIcon = LoadIcon(0, IDI_APPLICATION);
-		g_wcex.hIconSm = g_wcex.hIcon;
-		g_wcex.lpszClassName = L"类名";
-		g_wcex.hInstance = hInstance;
-		g_wcex.lpfnWndProc = WindowProc;	
-		g_wcex.lpszMenuName = 0;
-		g_wcex.style = CS_CLASSDC;
-		//注册窗口
-		if (!RegisterClassEx(&g_wcex))return 0;
+	g_wcex.cbClsExtra = 0;
+	g_wcex.cbSize = sizeof(g_wcex);
+	g_wcex.cbWndExtra = 0;
+	g_wcex.hbrBackground = 0;
+	g_wcex.hCursor = LoadCursor(0, IDC_ARROW);
+	g_wcex.hIcon = LoadIcon(0, IDI_APPLICATION);
+	g_wcex.hIconSm = g_wcex.hIcon;
+	g_wcex.lpszClassName = L"类名";
+	g_wcex.hInstance = hInstance;
+	g_wcex.lpfnWndProc = WindowProc;
+	g_wcex.lpszMenuName = 0;
+	g_wcex.style = CS_CLASSDC;
+	//注册窗口
+	if (!RegisterClassEx(&g_wcex))return 0;
 
-		//产生窗口
-		g_hWnd = CreateWindow(
-			g_wcex.lpszClassName,  //类名
-			L"梦幻",
-			WS_CAPTION | WS_SYSMENU|WS_MINIMIZEBOX,//, //窗口的类型，有标题和菜单
-			0, 0, 640, 480,  //窗口的大小
-			0, 0,          //父窗口的句柄  菜单的句柄
-			g_hInst,   // 应用程序的句柄
-			0
-			);
-		if (!g_hWnd)ERRBOX;
-		Resize(640, 480);
-		//显标窗口并更新窗口
-		ShowWindow(g_hWnd, SW_SHOW);
-		UpdateWindow(g_hWnd);
-		
+	//产生窗口
+	g_hWnd = CreateWindow(
+		g_wcex.lpszClassName,  //类名
+		L"梦幻",
+		WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,//, //窗口的类型，有标题和菜单
+		0, 0, 640, 480,  //窗口的大小
+		0, 0,          //父窗口的句柄  菜单的句柄
+		g_hInst,   // 应用程序的句柄
+		0
+	);
+	if (!g_hWnd)ERRBOX;
+	Resize(640, 480);
+	//显标窗口并更新窗口
+	ShowWindow(g_hWnd, SW_SHOW);
+	UpdateWindow(g_hWnd);
+
 	// 初始COM
 	CoInitialize(NULL);
 
@@ -127,7 +127,7 @@ int PASCAL WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		wdfpath.resize(33);
 		for (int i = 0; i < 33; i++)
 		{
-			wdfpath[i] = g_strMediaPath;
+			wdfpath[i] = gStrMediaPath;
 		}
 		wdfpath[0] += "shape.wda";
 		wdfpath[1] += "shape.wdb";
@@ -183,46 +183,46 @@ int PASCAL WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	g_WhitePen = CreatePen(PS_SOLID, 1, RGB(255, 255, 255));
 	g_BWhitePen = CreatePen(PS_SOLID, 4, RGB(255, 255, 255));
-	
+
 	//设置文本的混合模式
 	SetBkMode(g_DC2, TRANSPARENT);
 	//SetBkColor(g_DC2, RGB(8, 0, 0));
 
 	g_MemBitmap = CreateCompatibleBitmap(g_ShowDC, 640, 480);
 	HBITMAP oldmap = (HBITMAP)SelectObject(g_DC, g_MemBitmap);
-	g_StateType =  STATE_MAIN; //STATE_MENU;//
+	g_StateType = STATE_MAIN; //STATE_MENU;//
 
 	////产生字体
 	if (1)
 	{
 		string path;
 		wstring path2;
-		path = g_strMediaPath;
+		path = gStrMediaPath;
 		path += "font\\hyh1gjm.ttf";
 		StringToWString(path, path2);
 		AddFontResourceEx(path2.c_str(), FR_PRIVATE, 0);
-		path = g_strMediaPath;
+		path = gStrMediaPath;
 		path += "font\\hyb1gjm.ttf";
 		StringToWString(path, path2);
 		AddFontResourceEx(path2.c_str(), FR_PRIVATE, 0);
-		path = g_strMediaPath;
+		path = gStrMediaPath;
 		path += "font\\hyj4gjm.ttf";
 		StringToWString(path, path2);
 		AddFontResourceEx(path2.c_str(), FR_PRIVATE, 0);
-		path = g_strMediaPath;
+		path = gStrMediaPath;
 		path += "font\\hksnt.ttf";
 		StringToWString(path, path2);
 		AddFontResourceEx(path2.c_str(), FR_PRIVATE, 0);
-		path = g_strMediaPath;
+		path = gStrMediaPath;
 		path += "font\\方正胖头鱼简体.ttf";
 		StringToWString(path, path2);
 		AddFontResourceEx(path2.c_str(), FR_PRIVATE, 0);
 	}
-	
+
 	MainState->m_pFightState = &FightState;
 	MainState->m_SkillManager.m_pFightState = &FightState;
 
-	int addtime =1000 / g_FPS;
+	int addtime = 1000 / g_FPS;
 
 	ShowCursor(false);
 	SetBkMode(g_DC, TRANSPARENT);//设置文本的混合模式
@@ -232,7 +232,7 @@ int PASCAL WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	for (;;)
 	{
 		if (PeekMessage(&Msg, 0, 0, 0, PM_REMOVE))
-		{	
+		{
 			if (Msg.message == WM_QUIT)break;
 			TranslateMessage(&Msg);
 			DispatchMessage(&Msg);
@@ -272,30 +272,30 @@ int PASCAL WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	{
 		string path;
 		wstring path2;
-		path = g_strMediaPath;
+		path = gStrMediaPath;
 		path += "font\\hyh1gjm.ttf";
 		StringToWString(path, path2);
 		RemoveFontResourceEx(path2.c_str(), FR_PRIVATE, 0);
-		path = g_strMediaPath;
+		path = gStrMediaPath;
 		path += "font\\hyb1gjm.ttf";
 		StringToWString(path, path2);
 		RemoveFontResourceEx(path2.c_str(), FR_PRIVATE, 0);
-		path = g_strMediaPath;
+		path = gStrMediaPath;
 		path += "font\\hyj4gjm.ttf";
 		StringToWString(path, path2);
 		RemoveFontResourceEx(path2.c_str(), FR_PRIVATE, 0);
-		path = g_strMediaPath;
+		path = gStrMediaPath;
 		path += "font\\hksnt.ttf";
 		StringToWString(path, path2);
 		RemoveFontResourceEx(path2.c_str(), FR_PRIVATE, 0);
-		path = g_strMediaPath;
+		path = gStrMediaPath;
 		path += "font\\方正胖头鱼简体.ttf";
 		StringToWString(path, path2);
 		RemoveFontResourceEx(path2.c_str(), FR_PRIVATE, 0);
 	}
 	m_File.CloseWDF();
 	m_File.Free();
-	
+
 	SelectObject(g_DC2, oldpen);
 	DeleteObject(g_WhitePen);
 	DeleteObject(g_BWhitePen);
@@ -305,7 +305,7 @@ int PASCAL WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	free(g_pBmpinfo);
 	SelectObject(g_DC, oldmap);
 	DeleteObject(g_MemBitmap);
-	
+
 	DeleteDC(g_DC);
 	//DeleteDC(g_DC2);
 	//DeleteCriticalSection(&g_cs);
@@ -350,7 +350,7 @@ void SetFullScreen(BOOL bFill)
 
 	if (bFill)												// 全屏模式
 	{
-		
+
 		DEVMODE dmScreenSettings;								// 设备模式
 		memset(&dmScreenSettings, 0, sizeof(dmScreenSettings));	// 确保内存清空为零
 
@@ -370,7 +370,7 @@ void SetFullScreen(BOOL bFill)
 		styleValue &= ~WS_CAPTION;
 		::SetWindowLong(g_hWnd, GWL_STYLE, styleValue | WS_CLIPSIBLINGS | WS_CLIPCHILDREN);
 
-		SetWindowPos(g_hWnd, 0, 0,0,640,480, SWP_FRAMECHANGED);
+		SetWindowPos(g_hWnd, 0, 0, 0, 640, 480, SWP_FRAMECHANGED);
 	}
 	else
 	{//窗口化
@@ -389,9 +389,9 @@ void SetFullScreen(BOOL bFill)
 
 		::SetWindowLong(g_hWnd, GWL_STYLE, GetWindowLong(g_hWnd, GWL_STYLE)
 			| WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX);
-		::SetWindowPos(g_hWnd, NULL, (nScreenWidth >> 1) - 320, (nScreenHeight >> 1) - 240, 640, 480,  SWP_FRAMECHANGED);
+		::SetWindowPos(g_hWnd, NULL, (nScreenWidth >> 1) - 320, (nScreenHeight >> 1) - 240, 640, 480, SWP_FRAMECHANGED);
 		Resize(640, 480);
 	}
-	
-	
+
+
 }
