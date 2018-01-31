@@ -1,0 +1,13 @@
+﻿<Window x:Class="mhxy.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:mhxy"
+        mc:Ignorable="d"
+        Title="SharpGL" Height="600" Width="800"
+        xmlns:sharpgl="clr-namespace:SharpGL.WPF;assembly=SharpGL.WPF">
+    <Grid>
+        <sharpgl:OpenGLControl x:Name="SharpglCtrl" OpenGLDraw="SharpglCtrl_OnOpenGLDraw" OpenGLInitialized="SharpglCtrl_OnOpenGLInitialized" Resized="SharpglCtrl_OnResized"></sharpgl:OpenGLControl>
+    </Grid>
+</Window>
