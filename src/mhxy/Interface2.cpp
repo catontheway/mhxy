@@ -5087,11 +5087,7 @@ BOOL cWorldMap::Show4(cCanvas* pCanvas)
 }
 
 void cWorldMap::OnOff(BOOL bShow)
-{
-#ifndef TESTDEBU
-	return;
-#endif
-	
+{	
 	if (m_NeedShow == bShow)return;
 	g_pMainState->InterfaceSetShow(this, bShow);
 	

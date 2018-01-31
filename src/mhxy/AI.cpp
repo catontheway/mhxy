@@ -172,11 +172,6 @@ int cAI::GetNear(int ID, int Num,int bLive)
 
 void cAttackAI::Escape(int userID)
 {
-#ifdef TESTDEBU
-	 g_pMainState->m_pFightState->m_bEscape = TRUE;
-	return ;
-#endif
-
 	sFightList& list = g_pMainState->m_FightList[userID];
 	list.m_WorkType = WORKTYPE_MAGIC;
 	list.m_SkillSelect.Lv = 0;

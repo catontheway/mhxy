@@ -156,7 +156,7 @@
     <None Include="ClassDiagram.cd" />
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\favicon.ico" />
+    <Image Include="favicon.ico" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />

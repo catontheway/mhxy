@@ -18,10 +18,8 @@
 #include <math.h>
 #include "MyMath.h"
 
-//#define  TESTDEBU
-#ifdef TESTDEBU
-#include <vld.h>
-#endif
+#define  TESTDEBU
+
 #include "ChangeColor.h"
 #include "mysound.h"
 #include "MyScript.h"

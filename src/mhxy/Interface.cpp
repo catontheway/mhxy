@@ -9126,10 +9126,6 @@ BOOL cInterfaceSmallMap::ProcessInput()
 
 
 			PrePareFindPath(g_xMouse, g_yMouse);
-#ifdef TESTDEBU
-			g_pMainState->m_Map.LoadMap(m_xTarget / 20, (g_pMainState->m_Map.m_pMap->m_Height - m_yTarget) / 20, g_pMainState->m_Map.m_MapName.c_str(), 0);
-			return TRUE;
-#endif		
 			g_pMainState->m_FindPt.FindPath(g_pMainState->m_FightList[g_pMainState->m_HeroID].m_pData, m_xTarget, m_yTarget);
 			g_pMainState->m_Cursor.m_FollowMode = FALSE;
 		}

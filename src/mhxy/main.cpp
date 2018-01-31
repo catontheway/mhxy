@@ -51,9 +51,9 @@ void SetFullScreen(BOOL bFill);
 int PASCAL WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nShowCmd)
 {
 #ifdef TESTDEBU
-	g_strMediaPath = "..\\..\\Media\\";
+	g_strMediaPath = "..\\..\\data\\Media\\";
 #else
-	g_strMediaPath = "D:\\Develop\\Media\\";
+	g_strMediaPath = ".\\Media\\";
 #endif
 	g_ScriptPath = g_strMediaPath;
 	g_MapPath = g_strMediaPath;
@@ -104,7 +104,7 @@ int PASCAL WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//产生窗口
 		g_hWnd = CreateWindow(
 			g_wcex.lpszClassName,  //类名
-			L"梦幻群侠传伍白泽夜谭.新春贺岁",
+			L"梦幻",
 			WS_CAPTION | WS_SYSMENU|WS_MINIMIZEBOX,//, //窗口的类型，有标题和菜单
 			0, 0, 640, 480,  //窗口的大小
 			0, 0,          //父窗口的句柄  菜单的句柄

@@ -110,12 +110,6 @@ BOOL cTaskZhuXian::Process0(int stage)
 			TalkList(15, 21, 7, 38, 101); //ÃÎ»Ã¾«Áé
 			AddChannel(m_Textlist[38]);
 			g_pMainState->m_ZhiXian2.Process(0);
-#ifndef TESTDEBU
-			g_pMainState->LockLv(10);			
-			LockMap(59);
-			LockMap(60);
-			LockMap(61);
-#endif
 		}
 		return TRUE;
 	case 36:
