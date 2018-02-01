@@ -1,11 +1,12 @@
-﻿using mhxy.Core.Maps;
+﻿using mhxy.Common;
+using mhxy.Resource.Maps;
 
-namespace mhxy.Core {
+namespace mhxy.Resource {
 
     /// <summary>
     /// Map 资源管理器
     /// </summary>
-    public interface IMapManager {
+    public interface IMapManager : IService {
 
         /// <summary>
         /// 获取地图对象

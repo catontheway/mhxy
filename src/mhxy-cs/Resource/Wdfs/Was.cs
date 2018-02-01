@@ -1,4 +1,4 @@
-﻿namespace mhxy.Core.Wdfs {
+﻿namespace mhxy.Resource.Wdfs {
 
     /// <summary>
     /// Was资源对象

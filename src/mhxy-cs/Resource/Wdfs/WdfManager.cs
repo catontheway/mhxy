@@ -1,10 +1,12 @@
-﻿namespace mhxy.Core.Wdfs {
+﻿using mhxy.Common;
+
+namespace mhxy.Resource.Wdfs {
 
 
     /// <summary>
     /// Wdf 资源管理器
     /// </summary>
-    public class WdfManager: IWdfManager {
+    public class WdfManager : ServiceBase, IWdfManager {
 
         /// <summary>
         /// Wdf 资源管理器

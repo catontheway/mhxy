@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
-using mhxy.Core.Maps;
 using mhxy.Logging;
+using mhxy.Resource.Maps;
 using SharpGL;
 using SharpGL.Enumerations;
 using SharpGL.SceneGraph;
@@ -18,7 +18,7 @@ namespace mhxy {
             InitializeComponent();
             _logger = LogManager.GetLogger(this);
             _logger.Info("Create Main Window");
-            ServiceLocator.MapManager.TryGetMap("1501_t", out Map map);
+            ServiceLocator.MapManager.TryGetMap("1501", out Map map);
         }
 
         private readonly ILogger _logger;

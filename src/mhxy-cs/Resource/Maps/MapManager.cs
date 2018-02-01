@@ -1,15 +1,16 @@
 ﻿using System;
 using System.IO;
+using mhxy.Common;
 using mhxy.Extensions;
 using mhxy.Logging;
 
-namespace mhxy.Core.Maps {
+namespace mhxy.Resource.Maps {
 
 
     /// <summary>
     /// Map 资源管理器
     /// </summary>
-    public class MapManager : IMapManager {
+    public class MapManager : ServiceBase, IMapManager {
 
         /// <summary>
         /// Map 资源管理器

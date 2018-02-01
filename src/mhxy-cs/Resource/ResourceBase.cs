@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace mhxy.Core {
+namespace mhxy.Resource {
 
     /// <summary>
     /// Base类

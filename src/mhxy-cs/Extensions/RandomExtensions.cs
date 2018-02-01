@@ -49,7 +49,7 @@ namespace mhxy.Extensions {
                 throw new InvalidOperationException();
             Array array = Enum.GetValues(type);
             int index = random.Next(array.GetLowerBound(0), array.GetUpperBound(0) + 1);
-            return (T) array.GetValue(index);
+            return (T)array.GetValue(index);
         }
 
         /// <summary>
@@ -85,7 +85,7 @@ namespace mhxy.Extensions {
         /// <param name="maxValue">时间范围的最大值</param>
         /// <returns>指定时间段内的随机时间值</returns>
         public static DateTime NextDateTime(this Random random, DateTime minValue, DateTime maxValue) {
-            long ticks = minValue.Ticks + (long) ((maxValue.Ticks - minValue.Ticks) * random.NextDouble());
+            long ticks = minValue.Ticks + (long)((maxValue.Ticks - minValue.Ticks) * random.NextDouble());
             return new DateTime(ticks);
         }
 
@@ -107,7 +107,7 @@ namespace mhxy.Extensions {
         public static string NextNumberString(this Random random, int length) {
             if (length < 0)
                 throw new ArgumentOutOfRangeException(nameof(length));
-            char[] pattern = {'0', '1', '2', '3', '4', '5', '6', '7', '8', '9'};
+            char[] pattern = { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9' };
             var result = "";
             int n = pattern.Length;
             for (var i = 0; i < length; i++) {
@@ -209,8 +209,9 @@ namespace mhxy.Extensions {
         /// <param name="areaCodes">指定的地区码</param>
         /// <returns></returns>
         public static string NextIdentityCardId(this Random random, params string[] areaCodes) {
-            if (areaCodes.Length == 0)
+            if (areaCodes.Length == 0) {
                 areaCodes = AreaCodes;
+            }
             //地区码
             string areaCode = random.NextItem(areaCodes);
             //生日
@@ -220,7 +221,7 @@ namespace mhxy.Extensions {
             //顺序号
             string order = random.Next(0, 999).ToString("D3");
             //校验码，根据前面17位号码，计算最后一个校验位，也可用于身份证校验，乘以权重之后求和，最后除以11求余，根据余数映射字符
-            int[] weights = {7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2};
+            int[] weights = { 7, 9, 10, 5, 8, 4, 2, 1, 6, 3, 7, 9, 10, 5, 8, 4, 2 };
             string id17 = $"{areaCode}{birthday}{order}";
             string[] chars = id17.ToCharArray().Select(m => m.ToString()).ToArray();
             var sum = 0;

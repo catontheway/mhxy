@@ -18,7 +18,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Output\mhxy-cs\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -33,6 +33,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="fastjson, Version=2.1.0.0, Culture=neutral, PublicKeyToken=6b75a806b86095cd, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\fastJSON.2.1.28\lib\net40\fastjson.dll</HintPath>
+    </Reference>
     <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
       <HintPath>..\..\packages\log4net.2.0.8\lib\net40-full\log4net.dll</HintPath>
     </Reference>
@@ -64,9 +67,33 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Core\Game.cs" />
+    <Compile Include="Engine\ClientEngine.cs" />
+    <Compile Include="Engine\IClientEngine.cs" />
+    <Compile Include="Common\IService.cs" />
+    <Compile Include="Common\ServiceBase.cs" />
+    <Compile Include="Control\Button.cs" />
+    <Compile Include="Control\ControlBase.cs" />
+    <Compile Include="Control\Panel.cs" />
+    <Compile Include="Control\Text.cs" />
+    <Compile Include="Core\Battle.cs" />
+    <Compile Include="Core\Skill.cs" />
+    <Compile Include="Core\Task.cs" />
+    <Compile Include="Core\Team.cs" />
+    <Compile Include="Display\DrawPriority.cs" />
+    <Compile Include="Resource\IProfileService.cs" />
+    <Compile Include="Core\Item.cs" />
+    <Compile Include="Core\Npc.cs" />
+    <Compile Include="Core\Pet.cs" />
     <Compile Include="Core\Player.cs" />
-    <Compile Include="Core\ResourceBase.cs" />
+    <Compile Include="Resource\Maps\Mask.cs" />
+    <Compile Include="Resource\Maps\Unit.cs" />
+    <Compile Include="Resource\Maps\UnitData.cs" />
+    <Compile Include="Resource\Profile\Profile.cs" />
+    <Compile Include="Resource\Profile\ProfileService.cs" />
+    <Compile Include="Display\DrawingService.cs" />
+    <Compile Include="Display\IDrawable.cs" />
+    <Compile Include="Display\IDrawingService.cs" />
+    <Compile Include="Resource\ResourceBase.cs" />
     <Compile Include="Environment.cs" />
     <Compile Include="Extensions\ArrayExtensions.cs" />
     <Compile Include="Extensions\AssemblyExtensions.cs" />
@@ -93,22 +120,22 @@
     <Compile Include="Logging\LoggerAdapterBase.cs" />
     <Compile Include="Logging\LogLevel.cs" />
     <Compile Include="Logging\LogManager.cs" />
-    <Compile Include="Core\Configs\ConfigManager.cs" />
-    <Compile Include="Core\IConfigManager.cs" />
-    <Compile Include="Core\IMapManager.cs" />
-    <Compile Include="Core\IResource.cs" />
-    <Compile Include="Core\IWasManager.cs" />
-    <Compile Include="Core\IWdfManager.cs" />
-    <Compile Include="Core\Maps\MapManager.cs" />
-    <Compile Include="Core\Maps\Map.cs" />
-    <Compile Include="Core\Wdfs\WasManager.cs" />
-    <Compile Include="Core\Wdfs\WdfManager.cs" />
+    <Compile Include="Resource\Configs\ConfigManager.cs" />
+    <Compile Include="Resource\IConfigManager.cs" />
+    <Compile Include="Resource\IMapManager.cs" />
+    <Compile Include="Resource\IResource.cs" />
+    <Compile Include="Resource\IWasManager.cs" />
+    <Compile Include="Resource\IWdfManager.cs" />
+    <Compile Include="Resource\Maps\MapManager.cs" />
+    <Compile Include="Resource\Maps\Map.cs" />
+    <Compile Include="Resource\Wdfs\WasManager.cs" />
+    <Compile Include="Resource\Wdfs\WdfManager.cs" />
     <Compile Include="SampleWindow.xaml.cs">
       <DependentUpon>SampleWindow.xaml</DependentUpon>
     </Compile>
     <Compile Include="Core\Scene.cs" />
-    <Compile Include="Core\Wdfs\Was.cs" />
-    <Compile Include="Core\Wdfs\Wdf.cs" />
+    <Compile Include="Resource\Wdfs\Was.cs" />
+    <Compile Include="Resource\Wdfs\Wdf.cs" />
     <Compile Include="ServiceLocator.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

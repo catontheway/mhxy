@@ -6,7 +6,7 @@ using mhxy.Logging;
 
 #endregion
 
-namespace mhxy.Core.Maps {
+namespace mhxy.Resource.Maps {
 
     /// <summary>
     ///     地图对象
@@ -244,124 +244,6 @@ namespace mhxy.Core.Maps {
         #endregion
 
         #endregion
-
-    }
-
-    /// <summary>
-    ///     Unit 对象
-    /// </summary>
-    public class Unit {
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public uint Begin { get; }
-
-        /// <summary>
-        ///     Unit 对象
-        /// </summary>
-        public Unit(uint begin, UnitData jpeg, UnitData cell, UnitData brig) {
-            Begin = begin;
-            Jpeg = jpeg;
-            Cell = cell;
-            Brig = brig;
-        }
-
-        /// <summary>
-        ///     Jpeg 数据
-        /// </summary>
-        public UnitData Jpeg { get; }
-
-        /// <summary>
-        ///     Cell 数据
-        /// </summary>
-        public UnitData Cell { get; set; }
-
-        /// <summary>
-        ///     Brig 数据
-        /// </summary>
-        public UnitData Brig { get; set; }
-
-    }
-
-    /// <summary>
-    ///     Unit 数据
-    /// </summary>
-    public class UnitData {
-
-        /// <summary>
-        ///     Unit 数据
-        /// </summary>
-        /// <param name="flag">标志位</param>
-        /// <param name="size">大小</param>
-        public UnitData(string flag, int size) {
-            Flag = flag;
-            Size = size;
-            Data = new byte[Size];
-        }
-
-        /// <summary>
-        ///     标志位
-        /// </summary>
-        public string Flag { get; set; }
-
-        /// <summary>
-        ///     大小
-        /// </summary>
-        public int Size { get; set; }
-
-        /// <summary>
-        ///     数据
-        /// </summary>
-        public byte[] Data { get; set; }
-
-    }
-
-    /// <summary>
-    ///     Mask 对象
-    /// </summary>
-    public class Mask {
-
-        /// <summary>
-        /// </summary>
-        public Mask(int startX, int startY, int width, int height, int size) {
-            StartX = startX;
-            StartY = startY;
-            Width = width;
-            Height = height;
-            Size = size;
-            Data = new int[size];
-        }
-
-        /// <summary>
-        ///     X
-        /// </summary>
-        public int StartX { get; set; }
-
-        /// <summary>
-        ///     Y
-        /// </summary>
-        public int StartY { get; set; }
-
-        /// <summary>
-        ///     宽度
-        /// </summary>
-        public int Width { get; set; }
-
-        /// <summary>
-        ///     高度
-        /// </summary>
-        public int Height { get; set; }
-
-        /// <summary>
-        ///     大小
-        /// </summary>
-        public int Size { get; set; }
-
-        /// <summary>
-        ///     数据
-        /// </summary>
-        public int[] Data { get; set; }
 
     }
 

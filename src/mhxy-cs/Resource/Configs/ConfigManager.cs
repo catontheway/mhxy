@@ -1,12 +1,12 @@
-﻿namespace mhxy.Core.Configs {
+﻿namespace mhxy.Resource.Configs {
 
     /// <summary>
-    /// 注解配置管理器
+    /// 配置管理器
     /// </summary>
     public class ConfigManager : IConfigManager {
 
         /// <summary>
-        /// 注解配置管理器
+        /// 配置管理器
         /// </summary>
         public ConfigManager(string configPath) {
             _configPath = configPath;

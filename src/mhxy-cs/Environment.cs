@@ -10,39 +10,38 @@ namespace mhxy {
 #if DEBUG
 
         /// <summary>
-        /// WDF MAP文件注解文件存放目录
+        /// 当前路径
         /// </summary>
-        public static string ConfigPath = @"C:\Users\guodp\Source\mhxy\data\config";
-
-        /// <summary>
-        /// WDF文件存放目录
-        /// </summary>
-        public static string WdfPath = @"C:\Users\guodp\Source\mhxy\data\wdf";
-
-        /// <summary>
-        /// MAP文件存放目录
-        /// </summary>
-        public static string MapPath = @"C:\Users\guodp\Source\mhxy\data\map";
+        public static string CurrentDirectory = @"C:\Users\guodp\Source\mhxy";
 
 #else
 
         /// <summary>
+        /// 当前路径
+        /// </summary>
+        public static string CurrentDirectory = System.Environment.CurrentDirectory;
+
+#endif
+
+        /// <summary>
         /// WDF MAP文件注解文件存放目录
         /// </summary>
-        public static string ConfigPath = Path.Combine(System.Environment.CurrentDirectory, @"data\config");
+        public static string ConfigPath = Path.Combine(CurrentDirectory, @"data\config");
 
         /// <summary>
         /// WDF文件存放目录
         /// </summary>
-        public static string WdfPath = Path.Combine(System.Environment.CurrentDirectory, @"data\wdf");
+        public static string WdfPath = Path.Combine(CurrentDirectory, @"data\wdf");
 
         /// <summary>
         /// MAP文件存放目录
         /// </summary>
-        public static string MapPath = Path.Combine(System.Environment.CurrentDirectory, @"data\map");
+        public static string MapPath = Path.Combine(CurrentDirectory, @"data\map");
 
-#endif
-
+        /// <summary>
+        /// 存档目录
+        /// </summary>
+        public static string ProfilePath = Path.Combine(CurrentDirectory, @"data\saved");
     }
 
 }

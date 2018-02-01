@@ -5,13 +5,6 @@
     /// </summary>
     public class Scene {
 
-        /// <summary>
-        /// 
-        /// </summary>
-        public Scene() {
-                
-        }
-
     }
 
 }
