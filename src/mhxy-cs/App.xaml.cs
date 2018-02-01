@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using mhxy.Client;
 using mhxy.Log4Net;
 using mhxy.Logging;
 
@@ -14,17 +15,13 @@ namespace mhxy {
             base.OnStartup(e);
             LogManager.AddLoggerAdapter(new Log4NetLoggerAdapter());
             _logger = LogManager.GetLogger(this);
-            _logger.Debug("App Startup");
-            InitializeServices();
+            _logger.Info("App Startup");
+            ServiceLocator.ClientEngine.Start();
         }
 
         protected override void OnExit(ExitEventArgs e) {
             base.OnExit(e);
-            _logger.Debug("App Exit");
-        }
-
-        private void InitializeServices() {
-            
+            _logger.Info("App Exit");
         }
 
     }

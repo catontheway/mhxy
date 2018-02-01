@@ -28,6 +28,9 @@ namespace mhxy.Display {
 
         }
 
+        public void RemoveAll() {
+
+        }
     }
 
 }

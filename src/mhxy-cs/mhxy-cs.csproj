@@ -70,8 +70,16 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Engine\ClientEngine.cs" />
-    <Compile Include="Engine\IClientEngine.cs" />
+    <Compile Include="Client\InterfaceBase.cs" />
+    <Compile Include="Client\UI\CreateInterface.cs" />
+    <Compile Include="Client\UI\MainInterface.cs" />
+    <Compile Include="Client\UI\ProfileInterface.cs" />
+    <Compile Include="Client\UI\SignInInterface.cs" />
+    <Compile Include="Client\UI\SignUpInterface.cs" />
+    <Compile Include="Client\UI\StartInterface.cs" />
+    <Compile Include="Core\CurrentPlayer.cs" />
+    <Compile Include="Client\ClientEngine.cs" />
+    <Compile Include="Client\IClientEngine.cs" />
     <Compile Include="Common\IService.cs" />
     <Compile Include="Common\ServiceBase.cs" />
     <Compile Include="Control\Button.cs" />
@@ -83,6 +91,9 @@
     <Compile Include="Core\Task.cs" />
     <Compile Include="Core\Team.cs" />
     <Compile Include="Display\DrawPriority.cs" />
+    <Compile Include="Client\InterfaceType.cs" />
+    <Compile Include="Resource\Profiles\ProfileBreif.cs" />
+    <Compile Include="Resource\Profiles\ProfileList.cs" />
     <Compile Include="Utils\EncryptUtil.cs" />
     <Compile Include="Resource\IProfileService.cs" />
     <Compile Include="Core\Item.cs" />
@@ -92,8 +103,8 @@
     <Compile Include="Resource\Maps\Mask.cs" />
     <Compile Include="Resource\Maps\Unit.cs" />
     <Compile Include="Resource\Maps\UnitData.cs" />
-    <Compile Include="Resource\Profile\Profile.cs" />
-    <Compile Include="Resource\Profile\ProfileService.cs" />
+    <Compile Include="Resource\Profiles\Profile.cs" />
+    <Compile Include="Resource\Profiles\ProfileService.cs" />
     <Compile Include="Display\DrawingService.cs" />
     <Compile Include="Display\IDrawable.cs" />
     <Compile Include="Display\IDrawingService.cs" />
@@ -141,6 +152,7 @@
     <Compile Include="Resource\Wdfs\Was.cs" />
     <Compile Include="Resource\Wdfs\Wdf.cs" />
     <Compile Include="ServiceLocator.cs" />
+    <Compile Include="Utils\JsonUtil.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

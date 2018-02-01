@@ -1,9 +1,10 @@
-﻿using mhxy.Display;
-using mhxy.Engine;
+﻿using mhxy.Client;
+using mhxy.Display;
+using mhxy.Logging;
 using mhxy.Resource;
 using mhxy.Resource.Configs;
 using mhxy.Resource.Maps;
-using mhxy.Resource.Profile;
+using mhxy.Resource.Profiles;
 using mhxy.Resource.Wdfs;
 
 namespace mhxy {
@@ -14,9 +15,15 @@ namespace mhxy {
     public static class ServiceLocator {
 
         /// <summary>
+        /// 全局日志功能
+        /// </summary>
+        public static ILogger AppLogger { get; }
+
+        /// <summary>
         /// 
         /// </summary>
         static ServiceLocator() {
+            AppLogger = LogManager.GetLogger(typeof(ServiceLocator));
             ConfigManager = new ConfigManager(Environment.ConfigPath);
             ProfileService = new ProfileService(Environment.ProfilePath);
             MapManager = new MapManager(Environment.MapPath);

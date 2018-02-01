@@ -1,5 +1,5 @@
-﻿using mhxy.Logging;
-using SharpGL;
+﻿using mhxy.Client;
+using mhxy.Logging;
 using SharpGL.SceneGraph;
 
 namespace mhxy {
@@ -17,17 +17,16 @@ namespace mhxy {
         }
 
         private void SharpglCtrl_OnOpenGLDraw(object sender, OpenGLEventArgs args) {
-            _logger.Info("SharpglCtrl_OnOpenGLDraw");
+            _logger.Trace("SharpglCtrl_OnOpenGLDraw");
         }
 
         private void SharpglCtrl_OnOpenGLInitialized(object sender, OpenGLEventArgs args) {
-            _logger.Info("SharpglCtrl_OnOpenGLInitialized");
-         
+            _logger.Trace("SharpglCtrl_OnOpenGLInitialized");
         }
 
         private void SharpglCtrl_OnResized(object sender, OpenGLEventArgs args) {
-            _logger.Info("SharpglCtrl_OnResized");
-           
+            _logger.Trace("SharpglCtrl_OnResized");
+
         }
 
     }
