@@ -1,0 +1,161 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{6D1E1846-B44C-487B-89C6-11DEAF646018}</ProjectGuid>
+    <OutputType>Exe</OutputType>
+    <RootNamespace>mhxy</RootNamespace>
+    <AssemblyName>mhxy</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="fastjson, Version=2.1.0.0, Culture=neutral, PublicKeyToken=6b75a806b86095cd, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\fastJSON.2.1.28\lib\net40\fastjson.dll</HintPath>
+    </Reference>
+    <Reference Include="ImageProcessor, Version=2.5.6.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\ImageProcessor.2.5.6\lib\net40\ImageProcessor.dll</HintPath>
+    </Reference>
+    <Reference Include="log4net, Version=2.0.8.0, Culture=neutral, PublicKeyToken=669e0ddf0bb1aa2a, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\log4net.2.0.8\lib\net40-full\log4net.dll</HintPath>
+    </Reference>
+    <Reference Include="OpenTK, Version=2.0.0.0, Culture=neutral, PublicKeyToken=bad199fe84eb3df4, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\OpenTK.2.0.0\lib\net20\OpenTK.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Client\ClientEngine.cs" />
+    <Compile Include="Client\IClientEngine.cs" />
+    <Compile Include="Client\InterfaceBase.cs" />
+    <Compile Include="Client\InterfaceType.cs" />
+    <Compile Include="Client\Interfaces\CreateInterface.cs" />
+    <Compile Include="Client\Interfaces\MainInterface.cs" />
+    <Compile Include="Client\Interfaces\ProfileInterface.cs" />
+    <Compile Include="Client\Interfaces\SignInInterface.cs" />
+    <Compile Include="Client\Interfaces\SignUpInterface.cs" />
+    <Compile Include="Client\Interfaces\StartInterface.cs" />
+    <Compile Include="Common\IService.cs" />
+    <Compile Include="Common\ServiceBase.cs" />
+    <Compile Include="Drawable\Button.cs" />
+    <Compile Include="Drawable\ControlBase.cs" />
+    <Compile Include="Drawable\Panel.cs" />
+    <Compile Include="Drawable\Text.cs" />
+    <Compile Include="Drawable\TextBox.cs" />
+    <Compile Include="Core\Battle.cs" />
+    <Compile Include="Core\CurrentPlayer.cs" />
+    <Compile Include="Core\Item.cs" />
+    <Compile Include="Core\Npc.cs" />
+    <Compile Include="Core\Pet.cs" />
+    <Compile Include="Core\Player.cs" />
+    <Compile Include="Core\RoleType.cs" />
+    <Compile Include="Core\Scene.cs" />
+    <Compile Include="Core\Skill.cs" />
+    <Compile Include="Core\Task.cs" />
+    <Compile Include="Core\Team.cs" />
+    <Compile Include="Display\DrawingService.cs" />
+    <Compile Include="Display\DrawPriority.cs" />
+    <Compile Include="Display\IDrawable.cs" />
+    <Compile Include="Display\IDrawingService.cs" />
+    <Compile Include="Environment.cs" />
+    <Compile Include="Utils\ArrayExtensions.cs" />
+    <Compile Include="Utils\AssemblyExtensions.cs" />
+    <Compile Include="Utils\BooleanExtensions.cs" />
+    <Compile Include="Utils\DateTimeExtensions.cs" />
+    <Compile Include="Utils\ExceptionExtensions.cs" />
+    <Compile Include="Utils\ExpressionExtensions.cs" />
+    <Compile Include="Utils\ObjectExtensions.cs" />
+    <Compile Include="Utils\ParamterCheckExtensions.cs" />
+    <Compile Include="Utils\RandomExtensions.cs" />
+    <Compile Include="Utils\StringBuilderExtensions.cs" />
+    <Compile Include="Utils\StringExtensions.cs" />
+    <Compile Include="Utils\ThreadExtensions.cs" />
+    <Compile Include="Utils\TryCatchExtensions.cs" />
+    <Compile Include="Utils\TypeExtensions.cs" />
+    <Compile Include="Log4Net\Log4NetLog.cs" />
+    <Compile Include="Log4Net\Log4NetLoggerAdapter.cs" />
+    <Compile Include="Logging\ILog.cs" />
+    <Compile Include="Logging\ILogger.cs" />
+    <Compile Include="Logging\ILoggerAdapter.cs" />
+    <Compile Include="Logging\InternalLogger.cs" />
+    <Compile Include="Logging\LogBase.cs" />
+    <Compile Include="Logging\LoggerAdapterBase.cs" />
+    <Compile Include="Logging\LogLevel.cs" />
+    <Compile Include="Logging\LogManager.cs" />
+    <Compile Include="Display\MhxyGameWindow.cs" />
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Properties\Resources.Designer.cs">
+      <DependentUpon>Resources.resx</DependentUpon>
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+    </Compile>
+    <Compile Include="Resource\Configs\ConfigManager.cs" />
+    <Compile Include="Resource\IConfigManager.cs" />
+    <Compile Include="Resource\IMapManager.cs" />
+    <Compile Include="Resource\IProfileService.cs" />
+    <Compile Include="Resource\IResource.cs" />
+    <Compile Include="Resource\IWasManager.cs" />
+    <Compile Include="Resource\IWdfManager.cs" />
+    <Compile Include="Resource\Maps\Map.cs" />
+    <Compile Include="Resource\Maps\MapManager.cs" />
+    <Compile Include="Resource\Maps\Mask.cs" />
+    <Compile Include="Resource\Maps\Unit.cs" />
+    <Compile Include="Resource\Maps\UnitData.cs" />
+    <Compile Include="Resource\Profiles\Profile.cs" />
+    <Compile Include="Resource\Profiles\ProfileBrief.cs" />
+    <Compile Include="Resource\Profiles\ProfileList.cs" />
+    <Compile Include="Resource\Profiles\ProfileService.cs" />
+    <Compile Include="Resource\ResourceBase.cs" />
+    <Compile Include="Resource\Wdfs\Was.cs" />
+    <Compile Include="Resource\Wdfs\WasManager.cs" />
+    <Compile Include="Resource\Wdfs\Wdf.cs" />
+    <Compile Include="Resource\Wdfs\WdfManager.cs" />
+    <Compile Include="ServiceLocator.cs" />
+    <Compile Include="Utils\EncryptUtil.cs" />
+    <Compile Include="Utils\JSONUtil.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="log4net.config">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="OpenTK.dll.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>mhxy.client</CustomToolNamespace>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
