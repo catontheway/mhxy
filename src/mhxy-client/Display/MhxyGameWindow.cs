@@ -5,6 +5,7 @@
 
 #region
 
+using mhxy.Logging;
 using OpenTK;
 using OpenTK.Graphics;
 
@@ -55,6 +56,9 @@ namespace mhxy.Display {
 
         #endregion
 
+
+        private readonly ILogger _logger = ServiceLocator.AppLogger;
+
         /// <summary>
         /// 
         /// </summary>
@@ -63,6 +67,7 @@ namespace mhxy.Display {
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e) {
+            //_logger.Debug($"OnUpdateFrame {e.Time}");
             ServiceLocator.DrawingService.UpdateFrame();
             ServiceLocator.DrawingService.Draw();
             base.OnUpdateFrame(e);
