@@ -1,14 +1,14 @@
-﻿// FileName:  Button.cs
+﻿// FileName:  Text.cs
 // Author:  guodp <guodp9u0@gmail.com>
 // Create Date:  20180202 08:53
 // Description:   
 
-namespace mhxy.Drawable {
+namespace mhxy.Controls {
 
     /// <summary>
-    ///     按钮
+    ///     文本
     /// </summary>
-    public class Button : ControlBase {
+    public class Text : ControlBase {
 
     }
 

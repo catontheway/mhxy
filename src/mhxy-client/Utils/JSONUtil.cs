@@ -30,7 +30,7 @@ namespace mhxy.Utils {
                 result = JSON.ToJSON(obj);
                 return true;
             } catch (Exception e) {
-                ServiceLocator.AppLogger.Error(e);
+                ServiceLocator.GlobalLogger.Error(e);
                 return false;
             }
         }
@@ -48,7 +48,7 @@ namespace mhxy.Utils {
                 result = JSON.ToObject<T>(json);
                 return true;
             } catch (Exception e) {
-                ServiceLocator.AppLogger.Error(e);
+                ServiceLocator.GlobalLogger.Error(e);
                 return false;
             }
         }

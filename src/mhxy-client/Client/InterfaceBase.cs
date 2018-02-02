@@ -30,29 +30,29 @@ namespace mhxy.Client {
         /// <summary>
         ///     开始绘制
         /// </summary>
-        public void StartDraw() {
-            Logger.Info($"{Type} Start Draw");
-            StartDrawCore();
+        public void Show() {
+            Logger.Info($"{Type} Show");
+            ShowCore();
         }
 
         /// <summary>
         ///     停止绘制
         /// </summary>
-        public void StopDraw() {
-            Logger.Info($"{Type} Stop Draw");
-            StopDrawCore();
+        public void Close() {
+            Logger.Info($"{Type} Close");
+            CloseCore();
         }
 
         /// <summary>
         ///     虚方法 供派生类调用
         /// </summary>
-        protected virtual void StartDrawCore() {
+        protected virtual void ShowCore() {
         }
 
         /// <summary>
         ///     虚方法 供派生类调用
         /// </summary>
-        protected virtual void StopDrawCore() {
+        protected virtual void CloseCore() {
         }
 
     }

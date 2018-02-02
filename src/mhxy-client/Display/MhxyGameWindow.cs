@@ -8,6 +8,7 @@
 using mhxy.Logging;
 using OpenTK;
 using OpenTK.Graphics;
+using OpenTK.Graphics.OpenGL4;
 
 #endregion
 
@@ -56,8 +57,7 @@ namespace mhxy.Display {
 
         #endregion
 
-
-        private readonly ILogger _logger = ServiceLocator.AppLogger;
+        private readonly ILogger _logger = ServiceLocator.GlobalLogger;
 
         /// <summary>
         /// 
@@ -69,8 +69,16 @@ namespace mhxy.Display {
         protected override void OnUpdateFrame(FrameEventArgs e) {
             //_logger.Debug($"OnUpdateFrame {e.Time}");
             ServiceLocator.DrawingService.UpdateFrame();
-            ServiceLocator.DrawingService.Draw();
             base.OnUpdateFrame(e);
+        }
+
+        protected override void OnRenderFrame(FrameEventArgs e) {
+             //_logger.Debug($"OnUpdateFrame {e.Time}");
+            Title = $"(Vsync: {VSync}) FPS: {1f / e.Time:0}";
+            ServiceLocator.DrawingService.Draw();
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            SwapBuffers();
+            base.OnRenderFrame(e);
         }
 
     }

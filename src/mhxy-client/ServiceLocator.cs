@@ -30,7 +30,7 @@ namespace mhxy {
         /// </summary>
         static ServiceLocator() {
             LogManager.AddLoggerAdapter(new Log4NetLoggerAdapter());
-            AppLogger = LogManager.GetLogger(typeof(ServiceLocator));
+            GlobalLogger = LogManager.GetLogger(typeof(ServiceLocator));
             ConfigManager = new ConfigManager(Environment.ConfigPath);
             ProfileService = new ProfileService(Environment.ProfilePath);
             MapManager = new MapManager(Environment.MapPath);
@@ -45,7 +45,7 @@ namespace mhxy {
         /// <summary>
         ///     全局日志功能
         /// </summary>
-        public static ILogger AppLogger { get; }
+        public static ILogger GlobalLogger { get; }
 
         /// <summary>
         ///     地图管理器

@@ -45,6 +45,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -64,11 +65,12 @@
     <Compile Include="Client\Interfaces\StartInterface.cs" />
     <Compile Include="Common\IService.cs" />
     <Compile Include="Common\ServiceBase.cs" />
-    <Compile Include="Drawable\Button.cs" />
-    <Compile Include="Drawable\ControlBase.cs" />
-    <Compile Include="Drawable\Panel.cs" />
-    <Compile Include="Drawable\Text.cs" />
-    <Compile Include="Drawable\TextBox.cs" />
+    <Compile Include="Controls\Button.cs" />
+    <Compile Include="Controls\ControlBase.cs" />
+    <Compile Include="Controls\Panel.cs" />
+    <Compile Include="Client\Drawable\DrawableScene.cs" />
+    <Compile Include="Controls\Text.cs" />
+    <Compile Include="Controls\TextBox.cs" />
     <Compile Include="Core\Battle.cs" />
     <Compile Include="Core\CurrentPlayer.cs" />
     <Compile Include="Core\Item.cs" />
@@ -85,6 +87,7 @@
     <Compile Include="Display\IDrawable.cs" />
     <Compile Include="Display\IDrawingService.cs" />
     <Compile Include="Environment.cs" />
+    <Compile Include="Global.cs" />
     <Compile Include="Utils\ArrayExtensions.cs" />
     <Compile Include="Utils\AssemblyExtensions.cs" />
     <Compile Include="Utils\BooleanExtensions.cs" />

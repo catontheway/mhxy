@@ -6,6 +6,7 @@
 #region
 
 using mhxy.Common;
+using mhxy.Core;
 
 #endregion
 
@@ -55,6 +56,12 @@ namespace mhxy.Client {
         /// </summary>
         /// <returns></returns>
         bool SaveProfile();
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        Scene GetCurrentScene();
 
     }
 

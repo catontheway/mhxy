@@ -8,6 +8,7 @@
 using System.Collections.Generic;
 using mhxy.Client.Interfaces;
 using mhxy.Common;
+using mhxy.Core;
 using mhxy.Resource.Profiles;
 using mhxy.Utils;
 
@@ -32,8 +33,9 @@ namespace mhxy.Client {
         private string _currentName;
         private string _currentPwd;
         private int _currentProfilId;
-        private Profile _currentProfile = new Profile {InitCreate = true};
+        private Profile _currentProfile = new Profile { InitCreate = true };
         private InterfaceBase _currentInterface;
+        private readonly Scene _currentScene = new Scene();
 
         /// <summary>
         ///     前往某个界面
@@ -41,9 +43,9 @@ namespace mhxy.Client {
         /// <param name="interType"></param>
         public void Goto(InterfaceType interType) {
             Logger.Info($"Goto : {interType}");
-            _currentInterface?.StopDraw();
+            _currentInterface?.Close();
             _currentInterface = _interfaces[interType];
-            _currentInterface?.StartDraw();
+            _currentInterface?.Show();
         }
 
         /// <summary>
@@ -61,10 +63,12 @@ namespace mhxy.Client {
             if (ServiceLocator.ProfileService.TryReadProfile(_currentName, _currentPwd, id, out Profile profile)) {
                 _currentProfilId = id;
                 _currentProfile = profile;
+                _currentScene.MapId = _currentProfile.MapId;
+                _currentScene.PlayerX = _currentProfile.PlayerX;
+                _currentScene.PlayerY = _currentProfile.PlayerY;
                 //_profilLoaded = true;
                 return true;
             }
-
             return false;
         }
 
@@ -123,6 +127,9 @@ namespace mhxy.Client {
             _interfaces[InterfaceType.Main] = new MainInterface();
         }
 
+        public Scene GetCurrentScene() {
+            return _currentScene;
+        }
     }
 
     public static class Externtions {
@@ -140,7 +147,6 @@ namespace mhxy.Client {
                     engine.SaveProfile();
                     engine.LoadProfile(Environment.DevelopProfileId);
                 }
-
                 engine.Goto(InterfaceType.Main);
             }
         }

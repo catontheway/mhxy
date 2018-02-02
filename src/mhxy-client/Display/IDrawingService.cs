@@ -34,15 +34,9 @@ namespace mhxy.Display {
         void RemoveAll();
 
         /// <summary>
-        ///     更新可绘制对象(移除并重新添加)
-        /// </summary>
-        /// <param name="drawableObj"></param>
-        void Update(IDrawable drawableObj);
-
-        /// <summary>
         ///     绘制
         /// </summary>
-        void Draw();
+        byte[] Draw();
 
         /// <summary>
         ///     更新一帧绘制内容

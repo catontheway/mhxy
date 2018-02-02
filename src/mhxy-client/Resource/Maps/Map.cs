@@ -7,6 +7,8 @@
 
 using System;
 using System.IO;
+using ImageProcessor;
+using ImageProcessor.Imaging.Formats;
 
 #endregion
 
@@ -37,7 +39,6 @@ namespace mhxy.Resource.Maps {
             if (_loaded) {
                 return;
             }
-
             Logger.Info($"Begin Load Map:{_fileName}");
             try {
                 var buffer4 = new byte[4];
@@ -50,8 +51,8 @@ namespace mhxy.Resource.Maps {
                     _width = BitConverter.ToInt32(buffer4, 0);
                     fs.Read(buffer4, 0, 4);
                     _height = BitConverter.ToInt32(buffer4, 0);
-                    _unitColumns = _width / 320;
-                    _unitRows = _height / 240;
+                    _unitColumns = (int)Math.Ceiling(_width / 320.0);
+                    _unitRows = (int)Math.Ceiling(_height / 240.0);
                     _unitSize = _unitColumns * _unitRows;
                     _unitOffsets = new int[_unitSize];
                     _units = new Unit[_unitSize];
@@ -62,7 +63,7 @@ namespace mhxy.Resource.Maps {
                     for (var i = 0; i < _unitSize; i++) {
                         fs.Read(buffer4, 0, 4);
                         _unitOffsets[i] = BitConverter.ToInt32(buffer4, 0);
-                        Logger.Debug($"Unit:{i},Offset:{_unitOffsets[i]}");
+                        //Logger.Debug($"Unit:{i},Offset:{_unitOffsets[i]}");
                     }
 
                     //1.3.Read Mask Header
@@ -76,18 +77,18 @@ namespace mhxy.Resource.Maps {
                     for (var i = 0; i < _maskSize; i++) {
                         fs.Read(buffer4, 0, 4);
                         _maskOffsets[i] = BitConverter.ToInt32(buffer4, 0);
-                        Logger.Debug($"Mask:{i},Offset:{_maskOffsets[i]}");
+                        //Logger.Debug($"Mask:{i},Offset:{_maskOffsets[i]}");
                     }
 
                     fs.Seek(0, SeekOrigin.Begin);
                     //2.Read Mask
                     for (int i = 0; i < _maskSize; i++) {
-                        _masks[i] = ReadMask(fs, i, _maskOffsets[i]);
+                        _masks[i] = ReadMask(fs, _maskOffsets[i]);
                     }
 
                     //3.Read Unit
                     for (int i = 0; i < _unitSize; i++) {
-                        _units[i] = ReadUnit(fs, i, _unitOffsets[i]);
+                        _units[i] = ReadUnit(fs, _unitOffsets[i]);
                     }
                 }
             } catch (Exception e) {
@@ -98,14 +99,35 @@ namespace mhxy.Resource.Maps {
             _loaded = true;
         }
 
+
+        public override void Save() {
+            int count = 0;
+            foreach (var unit in _units) {
+                if (!unit.Decoded) {
+                    continue;
+                }
+                var fileName = _fileName + "." + _unitOffsets[count] + ".bmp";
+                try {
+                    using (ImageFactory factory = new ImageFactory()) {
+                        factory.Load(unit.RealImage).Format(new JpegFormat())
+                            .Format(new BitmapFormat())
+                            //.Resize(new Size(_width, _height))
+                            .Save(fileName);
+                    }
+                } catch (Exception e) {
+                    Logger.Error($"Save : {fileName}", e);
+                }
+                count++;
+            }
+        }
+
         /// <summary>
         ///     从文件中读取Mask数据
         /// </summary>
         /// <param name="fs"></param>
-        /// <param name="index"></param>
         /// <param name="offSet"></param>
         /// <returns></returns>
-        private Mask ReadMask(FileStream fs, int index, int offSet) {
+        private Mask ReadMask(FileStream fs, int offSet) {
             var buffer4 = new byte[4];
             fs.Seek(offSet, SeekOrigin.Begin);
             fs.Read(buffer4, 0, 4);
@@ -119,8 +141,7 @@ namespace mhxy.Resource.Maps {
             fs.Read(buffer4, 0, 4);
             int size = BitConverter.ToInt32(buffer4, 0);
             var mask = new Mask(startX, startY, width, height, size);
-            Logger.Debug(
-                $"Read Mask({index}:{offSet}):StartX:{startX},StartY:{startY},Width:{width},Height:{height},Size:{size}");
+            //Logger.Debug($"Read Mask({index}:{offSet}):StartX:{startX},StartY:{startY},Width:{width},Height:{height},Size:{size}");
             for (var i = 0; i < size; i++) {
                 fs.Read(buffer4, 0, 4);
                 mask.Data[i] = BitConverter.ToInt32(buffer4, 0);
@@ -133,24 +154,144 @@ namespace mhxy.Resource.Maps {
         ///     从文件中读取unit数据
         /// </summary>
         /// <param name="fs"></param>
-        /// <param name="index"></param>
         /// <param name="offSet"></param>
         /// <returns></returns>
-        private Unit ReadUnit(FileStream fs, int index, int offSet) {
+        private Unit ReadUnit(FileStream fs, int offSet) {
             fs.Seek(offSet, SeekOrigin.Begin);
             var buffer4 = new byte[4];
             fs.Read(buffer4, 0, 4);
             uint realOffset = BitConverter.ToUInt32(buffer4, 0);
             fs.Seek(realOffset * 4, SeekOrigin.Current);
-            UnitData jpeg = ReadUnitData(fs);
+            UnitData img = ReadUnitData(fs);
             UnitData cell = ReadUnitData(fs);
             UnitData brig = ReadUnitData(fs);
-            var unit = new Unit(realOffset, jpeg, cell, brig);
-            Logger.Debug($"Read Unit({index}:{offSet}):RealOffset:{realOffset}");
-            Logger.Debug($"UnitData(jpeg):Flag(47-45-50-4A):{jpeg.Flag},Size:{jpeg.Size}"); //也可能是 32-47-50-4A,JPG
-            Logger.Debug($"UnitData(cell):Flag(4C-4C-45-43):{cell.Flag},Size:{cell.Size}");
-            Logger.Debug($"UnitData(brig):Flag(47-49-52-42):{brig.Flag},Size:{brig.Size}");
+            var unit = new Unit(realOffset, img, cell, brig);
+            if (string.Equals(img.Flag, "47-45-50-4A")) {// JPEG
+                unit.Decoded = DecodeJpeg(img.Data, out byte[] realImage);
+                unit.RealImage = realImage;
+            } else if (string.Equals(img.Flag, "32-47-50-4A")) {// SJPG
+                unit.Decoded = true;
+                unit.RealImage = img.Data;
+            }
+            //Logger.Debug($"Read Unit({index}:{offSet}):RealOffset:{realOffset}");
+            //Logger.Debug($"UnitData(jpeg):Flag(47-45-50-4A):{jpeg.Flag},Size:{jpeg.Size}"); //也可能是 32-47-50-4A,JPG
+            //Logger.Debug($"UnitData(cell):Flag(4C-4C-45-43):{cell.Flag},Size:{cell.Size}");
+            //Logger.Debug($"UnitData(brig):Flag(47-49-52-42):{brig.Flag},Size:{brig.Size}");
             return unit;
+        }
+
+        bool DecodeJpeg(byte[] origin, out byte[] result) {
+            int inSize = origin.Length;
+            int incrementSize = 0;
+            int originIndex = 0;
+            int resultIndex = 0;
+            int processedCount = 0;
+            var tempResult = new byte[inSize * 2];
+            byte[] byte2 = new byte[2];
+            result = null;
+            try {
+                // 当已读取数据的长度小于总长度时继续
+                while (processedCount < inSize && origin[originIndex++] == 0xFF) {
+                    tempResult[resultIndex++] = 0xFF;
+                    processedCount++;
+                    ushort tempTimes; // 临时变量，表示循环的次数
+                    switch (origin[originIndex]) {
+                        case 0xD8:
+                            tempResult[resultIndex++] = 0xD8;
+                            originIndex++;
+                            processedCount++;
+                            break;
+                        case 0xA0:
+                            originIndex++;
+                            resultIndex--;
+                            processedCount++;
+                            break;
+                        case 0xC0:
+                            tempResult[resultIndex++] = 0xC0;
+                            originIndex++;
+                            processedCount++;
+                            byte2[1] = origin[originIndex];
+                            byte2[0] = origin[originIndex + 1];
+                            tempTimes = BitConverter.ToUInt16(byte2, 0);
+                            for (int i = 0; i < tempTimes; i++) {
+                                tempResult[resultIndex++] = origin[originIndex++];
+                                processedCount++;
+                            }
+                            break;
+                        case 0xC4:
+                            tempResult[resultIndex++] = 0xC4;
+                            originIndex++;
+                            processedCount++;
+                            byte2[1] = origin[originIndex];
+                            byte2[0] = origin[originIndex + 1];
+                            tempTimes = BitConverter.ToUInt16(byte2, 0);
+                            for (int i = 0; i < tempTimes; i++) {
+                                tempResult[resultIndex++] = origin[originIndex++];
+                                processedCount++;
+                            }
+                            break;
+                        case 0xDB:
+                            tempResult[resultIndex++] = 0xDB;
+                            originIndex++;
+                            processedCount++;
+                            byte2[1] = origin[originIndex];
+                            byte2[0] = origin[originIndex + 1];
+                            tempTimes = BitConverter.ToUInt16(byte2, 0);
+                            for (int i = 0; i < tempTimes; i++) {
+                                tempResult[resultIndex++] = origin[originIndex++];
+                                processedCount++;
+                            }
+                            break;
+                        case 0xDA:
+                            tempResult[resultIndex++] = 0xDA;
+                            tempResult[resultIndex++] = 0x00;
+                            tempResult[resultIndex++] = 0x0C;
+                            originIndex++;
+                            processedCount++;
+                            byte2[1] = origin[originIndex];
+                            byte2[0] = origin[originIndex + 1];
+                            tempTimes = BitConverter.ToUInt16(byte2, 0);
+                            originIndex++;
+                            processedCount++;
+                            originIndex++;
+                            for (int i = 2; i < tempTimes; i++) {
+                                tempResult[resultIndex++] = origin[originIndex++];
+                                processedCount++;
+                            }
+                            tempResult[resultIndex++] = 0x00;
+                            tempResult[resultIndex++] = 0x3F;
+                            tempResult[resultIndex++] = 0x00;
+                            // 循环处理0xFFDA到0xFFD9之间所有的0xFF替换为0xFF00
+                            for (; processedCount < inSize - 2;) {
+                                if (origin[originIndex] == 0xFF) {
+                                    tempResult[resultIndex++] = 0xFF;
+                                    tempResult[resultIndex++] = 0x00;
+                                    originIndex++;
+                                    processedCount++;
+                                    incrementSize++;
+                                } else {
+                                    tempResult[resultIndex++] = origin[originIndex++];
+                                    processedCount++;
+                                }
+                            }
+                            // 直接在这里写上了0xFFD9结束Jpeg图片.
+                            incrementSize--; // 这里多了一个字节，所以减去。
+                            resultIndex--;
+                            tempResult[resultIndex--] = 0xD9;
+                            break;
+                        case 0xD9:
+                            // 算法问题，这里不会被执行，但结果一样。
+                            tempResult[resultIndex++] = 0xD9;
+                            processedCount++;
+                            break;
+                    }
+                }
+                result = new byte[incrementSize + inSize];
+                Array.Copy(tempResult, 0, result, 0, incrementSize + inSize);
+            } catch {
+                return false;
+            }
+            return true;
         }
 
         /// <summary>

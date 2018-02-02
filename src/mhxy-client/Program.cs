@@ -22,7 +22,7 @@ namespace mhxy {
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
         private static void Main() {
-            ServiceLocator.AppLogger.Info("Application Start");
+            ServiceLocator.GlobalLogger.Info("Application Start");
             IntPtr intptr = FindWindow("ConsoleWindowClass", Console.Title);
             if (intptr != IntPtr.Zero) {
                 ShowWindow(intptr, Environment.ShowConsole); //隐藏这个窗口
@@ -32,11 +32,11 @@ namespace mhxy {
             Console.Title = Guid.NewGuid().ToString();
             ServiceLocator.ClientEngine.Start();
             ServiceLocator.GameWindow.Run();
-            ServiceLocator.AppLogger.Info("Application Exit");
+            ServiceLocator.GlobalLogger.Info("Application Exit");
         }
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e) {
-            ServiceLocator.AppLogger.Error("Unhandled Exception", e.ExceptionObject ?? e);
+            ServiceLocator.GlobalLogger.Error("Unhandled Exception", e.ExceptionObject ?? e);
         }
 
     }

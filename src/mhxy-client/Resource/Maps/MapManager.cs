@@ -6,6 +6,7 @@
 #region
 
 using System;
+using System.Collections.Concurrent;
 using System.IO;
 using mhxy.Common;
 using mhxy.Utils;
@@ -33,6 +34,8 @@ namespace mhxy.Resource.Maps {
         /// </summary>
         private readonly string _mapPath;
 
+        private readonly ConcurrentDictionary<string, Map> _loadedMaps = new ConcurrentDictionary<string, Map>();
+
         /// <summary>
         ///     获取地图对象
         /// </summary>
@@ -40,11 +43,18 @@ namespace mhxy.Resource.Maps {
         /// <param name="map"></param>
         /// <returns>是否获取成功</returns>
         public bool TryGetMap(string mapId, out Map map) {
+            Logger.Info($"TryGetMap : {mapId}");
             try {
                 mapId.CheckNotNullOrEmpty("mapId");
+                if (_loadedMaps.ContainsKey(mapId)) {
+                    Logger.Info($"TryGetMap Hit: {mapId}");
+                    return _loadedMaps.TryGetValue(mapId, out map);
+                }
                 var mapFileName = Path.Combine(_mapPath, $"{mapId}.map");
                 map = new Map(mapFileName);
                 map.Load();
+                map.Save();
+                _loadedMaps[mapId] = map;
                 return true;
             } catch (Exception e) {
                 Logger.Error($"Error In Get Map:{mapId}", e);
@@ -52,7 +62,6 @@ namespace mhxy.Resource.Maps {
                 return false;
             }
         }
-
     }
 
 }

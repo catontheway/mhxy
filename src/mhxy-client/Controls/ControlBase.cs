@@ -10,7 +10,7 @@ using mhxy.Display;
 
 #endregion
 
-namespace mhxy.Drawable {
+namespace mhxy.Controls {
 
     /// <summary>
     ///     界面控件基类
@@ -24,6 +24,10 @@ namespace mhxy.Drawable {
         }
 
         public void Frame(int frame) {
+            throw new NotImplementedException();
+        }
+
+        public void Draw(byte[] cancas) {
             throw new NotImplementedException();
         }
 

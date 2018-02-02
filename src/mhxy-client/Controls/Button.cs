@@ -1,14 +1,14 @@
-﻿// FileName:  Panel.cs
+﻿// FileName:  Button.cs
 // Author:  guodp <guodp9u0@gmail.com>
 // Create Date:  20180202 08:53
 // Description:   
 
-namespace mhxy.Drawable {
+namespace mhxy.Controls {
 
     /// <summary>
-    ///     面板
+    ///     按钮
     /// </summary>
-    public class Panel : ControlBase {
+    public class Button : ControlBase {
 
     }
 

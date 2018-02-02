@@ -13,21 +13,22 @@ namespace mhxy.Resource.Maps {
         /// <summary>
         ///     Unit 对象
         /// </summary>
-        public Unit(uint begin, UnitData jpeg, UnitData cell, UnitData brig) {
+        public Unit(uint begin, UnitData img, UnitData cell, UnitData brig) {
             Begin = begin;
-            Jpeg = jpeg;
+            Image = img;
             Cell = cell;
             Brig = brig;
         }
 
         /// <summary>
+        /// 开始位置
         /// </summary>
         public uint Begin { get; }
 
         /// <summary>
-        ///     Jpeg 数据
+        ///     Img 数据
         /// </summary>
-        public UnitData Jpeg { get; }
+        public UnitData Image { get; }
 
         /// <summary>
         ///     Cell 数据
@@ -38,6 +39,16 @@ namespace mhxy.Resource.Maps {
         ///     Brig 数据
         /// </summary>
         public UnitData Brig { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public bool Decoded { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public byte[] RealImage { get; set; }
 
     }
 

@@ -1,14 +1,14 @@
-﻿// FileName:  Text.cs
+﻿// FileName:  Panel.cs
 // Author:  guodp <guodp9u0@gmail.com>
 // Create Date:  20180202 08:53
 // Description:   
 
-namespace mhxy.Drawable {
+namespace mhxy.Controls {
 
     /// <summary>
-    ///     文本
+    ///     面板
     /// </summary>
-    public class Text : ControlBase {
+    public class Panel : ControlBase {
 
     }
 

@@ -47,6 +47,10 @@ namespace mhxy.Resource {
             Dispose();
         }
 
+        public virtual void Save() {
+            throw new NotImplementedException();
+        }
+
         /// <summary>
         ///     Dispose Mode
         /// </summary>

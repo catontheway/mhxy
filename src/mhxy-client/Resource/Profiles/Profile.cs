@@ -19,7 +19,7 @@ namespace mhxy.Resource.Profiles {
         /// <summary>
         ///     默认构造Profile
         /// </summary>
-        public Profile() : this(RoleType.剑侠客.ToString(), RoleType.剑侠客) {
+        public Profile() : this(RoleType.剑侠客.ToString(), RoleType.剑侠客, "1001", 100, 100) {
         }
 
         /// <summary>
@@ -27,10 +27,16 @@ namespace mhxy.Resource.Profiles {
         /// </summary>
         /// <param name="name"></param>
         /// <param name="type"></param>
-        public Profile(string name, RoleType type) {
+        /// <param name="mapId"></param>
+        /// <param name="playerX"></param>
+        /// <param name="playerY"></param>
+        public Profile(string name, RoleType type, string mapId, int playerX, int playerY) {
             Level = 0;
             Role = type;
             Name = name;
+            MapId = mapId;
+            PlayerX = playerX;
+            PlayerY = playerY;
         }
 
         /// <summary>
@@ -51,6 +57,21 @@ namespace mhxy.Resource.Profiles {
         /// <summary>
         /// </summary>
         public RoleType Role { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public string MapId { get; set; }
+
+        /// <summary>
+        /// 主角所在位置
+        /// </summary>
+        public int PlayerX { get; set; }
+
+        /// <summary>
+        /// 主角所在位置
+        /// </summary>
+        public int PlayerY { get; set; }
 
     }
 

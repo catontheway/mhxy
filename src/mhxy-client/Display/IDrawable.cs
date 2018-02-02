@@ -3,6 +3,8 @@
 // Create Date:  20180202 08:53
 // Description:   
 
+using System;
+
 namespace mhxy.Display {
 
     /// <summary>
@@ -24,6 +26,12 @@ namespace mhxy.Display {
         ///     刷新特定帧
         /// </summary>
         void Frame(int frame);
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="cancas"></param>
+        void Draw(byte[] cancas);
 
     }
 
