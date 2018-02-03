@@ -53,13 +53,28 @@ namespace mhxy.Resource.Maps {
                 var mapFileName = Path.Combine(_mapPath, $"{mapId}.map");
                 map = new Map(mapFileName);
                 map.Load();
-                map.Save();
                 _loadedMaps[mapId] = map;
                 return true;
             } catch (Exception e) {
                 Logger.Error($"Error In Get Map:{mapId}", e);
                 map = null;
                 return false;
+            }
+        }
+
+        /// <summary>
+        /// 解析并保存所有地图
+        /// </summary>
+        public void ParseAllMaps() {
+            var files = Directory.GetFiles(_mapPath);
+            foreach (var file in files) {
+                var fileInfo = new FileInfo(file);
+                if (string.Equals(fileInfo.Extension, ".map")) {
+                    bool result = TryGetMap(fileInfo.Name.Replace(".map", ""), out Map map);
+                    if (result) {
+                        map.Save();
+                    }
+                }
             }
         }
     }

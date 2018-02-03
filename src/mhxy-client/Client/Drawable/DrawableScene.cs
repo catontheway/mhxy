@@ -27,6 +27,7 @@ namespace mhxy.Client.Drawable {
             if (!string.Equals(_currentMapId, currentScene.MapId)) {
                 _currentMapId = currentScene.MapId;
                 ServiceLocator.MapManager.TryGetMap(_currentMapId, out _currentMap);
+                _currentMap.Save();
             }
         }
 

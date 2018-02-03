@@ -6,6 +6,7 @@
 #region
 
 using System;
+using System.Drawing;
 using System.IO;
 using ImageProcessor;
 using ImageProcessor.Imaging.Formats;
@@ -39,7 +40,7 @@ namespace mhxy.Resource.Maps {
             if (_loaded) {
                 return;
             }
-            Logger.Info($"Begin Load Map:{_fileName}");
+            Logger.Info($"Begin Load Map : {_fileName}");
             try {
                 var buffer4 = new byte[4];
                 using (var fs = new FileStream(_fileName, FileMode.Open)) {
@@ -85,40 +86,62 @@ namespace mhxy.Resource.Maps {
                     for (int i = 0; i < _maskSize; i++) {
                         _masks[i] = ReadMask(fs, _maskOffsets[i]);
                     }
-
                     //3.Read Unit
                     for (int i = 0; i < _unitSize; i++) {
                         _units[i] = ReadUnit(fs, _unitOffsets[i]);
                     }
-                }
-            } catch (Exception e) {
-                Logger.Error($"Error In Load Map:{_fileName}", e);
-            }
+                    //4.Process Mask
 
-            Logger.Info($"End Load Map:{_fileName}");
-            _loaded = true;
+                    //5.Create BitMap
+                    _bitmap = new Bitmap(_width, _height);
+                    using (Graphics g = Graphics.FromImage(_bitmap)) {
+                        for (var rowIndex = 0; rowIndex < _unitRows; rowIndex++) {
+                            for (var colIndex = 0; colIndex < _unitColumns; colIndex++) {
+                                var index = colIndex + _unitColumns * rowIndex;
+                                var unit = _units[index];
+                                if (!unit.Decoded) {
+                                    continue;
+                                }
+                                using (ImageFactory factory = new ImageFactory()) {
+                                    var unitBitmap = factory.Load(unit.RealImage)
+                                        .Format(new JpegFormat())
+                                        //.Format(new BitmapFormat())
+                                        .Image;
+                                    g.DrawImage(unitBitmap, colIndex * 320, rowIndex * 240, unitBitmap.Width, unitBitmap.Height);
+                                }
+                            }
+                        }
+                    }
+
+                }
+                _loaded = true;
+            } catch (Exception e) {
+                Logger.Error($"Error In Load Map : {_fileName}", e);
+            }
+            Logger.Info($"End Load Map : {_fileName}");
         }
 
-
+        /// <summary>
+        /// 将map文件另存为jpg图像
+        /// </summary>
         public override void Save() {
-            int count = 0;
-            foreach (var unit in _units) {
-                if (!unit.Decoded) {
-                    continue;
-                }
-                var fileName = _fileName + "." + _unitOffsets[count] + ".bmp";
-                try {
-                    using (ImageFactory factory = new ImageFactory()) {
-                        factory.Load(unit.RealImage).Format(new JpegFormat())
-                            .Format(new BitmapFormat())
-                            //.Resize(new Size(_width, _height))
-                            .Save(fileName);
-                    }
-                } catch (Exception e) {
-                    Logger.Error($"Save : {fileName}", e);
-                }
-                count++;
+            if (!_loaded) {
+                return;
             }
+            Logger.Info($"Begin Save Map : {_fileName}");
+            var fileName = _fileName + ".jpg";
+            try {
+                using (ImageFactory factory = new ImageFactory()) {
+                    factory.Load(_bitmap)
+                        .Format(new JpegFormat())
+                        //.Crop(new Rectangle(0, 0, 500, 700))
+                        //.Format(new BitmapFormat())
+                        .Save(fileName);
+                }
+            } catch (Exception e) {
+                Logger.Error($"Save Map : {fileName}", e);
+            }
+            Logger.Info($"End Save Map : {_fileName}");
         }
 
         /// <summary>
@@ -388,6 +411,11 @@ namespace mhxy.Resource.Maps {
         ///     Mask 信息
         /// </summary>
         private Mask[] _masks;
+
+        /// <summary>
+        /// 
+        /// </summary>
+        private Bitmap _bitmap;
 
         #endregion
 

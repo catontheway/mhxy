@@ -21,17 +21,33 @@ namespace mhxy {
         [DllImport("user32.dll", EntryPoint = "FindWindow", SetLastError = true)]
         public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
 
-        private static void Main() {
+        private static void Main(string[] args) {
+            if (args == null || args.Length == 0) {
+                args = new[] { "n" };
+                //args = new[] { "m" };
+            }
             ServiceLocator.GlobalLogger.Info("Application Start");
+            Console.Title = Guid.NewGuid().ToString();
             IntPtr intptr = FindWindow("ConsoleWindowClass", Console.Title);
             if (intptr != IntPtr.Zero) {
                 ShowWindow(intptr, Environment.ShowConsole); //隐藏这个窗口
             }
-
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            Console.Title = Guid.NewGuid().ToString();
-            ServiceLocator.ClientEngine.Start();
-            ServiceLocator.GameWindow.Run();
+
+            switch (args[0]) {
+                case "n":
+                    ServiceLocator.GlobalLogger.Info("Start Mode : Normal.");
+                    ServiceLocator.ClientEngine.Start();
+                    ServiceLocator.GameWindow.Run();
+                    break;
+                case "m":
+                    ServiceLocator.GlobalLogger.Info("Start Mode : ParseAllMaps.");
+                    ServiceLocator.MapManager.ParseAllMaps();
+                    break;
+                default:
+                    ServiceLocator.GlobalLogger.Info("Start Mode : No Hit.");
+                    break;
+            }
             ServiceLocator.GlobalLogger.Info("Application Exit");
         }
 

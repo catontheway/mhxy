@@ -25,6 +25,12 @@ namespace mhxy.Resource {
         /// <returns>是否获取成功</returns>
         bool TryGetMap(string mapId, out Map map);
 
+        /// <summary>
+        /// 解析并保存所有地图
+        /// </summary>
+        /// <returns></returns>
+        void ParseAllMaps();
+
     }
 
 }
