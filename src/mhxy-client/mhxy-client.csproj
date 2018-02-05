@@ -98,6 +98,7 @@
     <Compile Include="Environment.cs" />
     <Compile Include="FastBitmap.cs" />
     <Compile Include="Global.cs" />
+    <Compile Include="IResourceManager.cs" />
     <Compile Include="Schedule\IJob.cs" />
     <Compile Include="Schedule\IScheduleService.cs" />
     <Compile Include="Schedule\JobBase.cs" />
