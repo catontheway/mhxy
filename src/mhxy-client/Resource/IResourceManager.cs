@@ -9,7 +9,7 @@ using mhxy.Common;
 
 #endregion
 
-namespace mhxy {
+namespace mhxy.Resource {
 
     public interface IResourceManager : IService {
 
