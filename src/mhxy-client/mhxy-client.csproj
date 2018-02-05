@@ -20,6 +20,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -68,7 +69,7 @@
     <Compile Include="Controls\Button.cs" />
     <Compile Include="Controls\ControlBase.cs" />
     <Compile Include="Controls\Panel.cs" />
-    <Compile Include="Client\Drawable\DrawableScene.cs" />
+    <Compile Include="Client\Drawable\DrawableMap.cs" />
     <Compile Include="Controls\Text.cs" />
     <Compile Include="Controls\TextBox.cs" />
     <Compile Include="Core\Battle.cs" />
@@ -82,11 +83,13 @@
     <Compile Include="Core\Skill.cs" />
     <Compile Include="Core\Task.cs" />
     <Compile Include="Core\Team.cs" />
+    <Compile Include="Display\Canvas.cs" />
     <Compile Include="Display\DrawingService.cs" />
     <Compile Include="Display\DrawPriority.cs" />
     <Compile Include="Display\IDrawable.cs" />
     <Compile Include="Display\IDrawingService.cs" />
     <Compile Include="Environment.cs" />
+    <Compile Include="FastBitmap.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Utils\ArrayExtensions.cs" />
     <Compile Include="Utils\AssemblyExtensions.cs" />

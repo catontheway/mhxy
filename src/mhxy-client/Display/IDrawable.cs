@@ -4,6 +4,7 @@
 // Description:   
 
 using System;
+using System.Drawing;
 
 namespace mhxy.Display {
 
@@ -31,7 +32,7 @@ namespace mhxy.Display {
         /// 
         /// </summary>
         /// <param name="cancas"></param>
-        void Draw(byte[] cancas);
+        void Draw(Canvas cancas);
 
     }
 

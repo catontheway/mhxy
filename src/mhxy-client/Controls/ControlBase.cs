@@ -6,6 +6,7 @@
 #region
 
 using System;
+using System.Drawing;
 using mhxy.Display;
 
 #endregion
@@ -27,7 +28,7 @@ namespace mhxy.Controls {
             throw new NotImplementedException();
         }
 
-        public void Draw(byte[] cancas) {
+        public void Draw(Canvas cancas) {
             throw new NotImplementedException();
         }
 

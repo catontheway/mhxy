@@ -5,10 +5,12 @@
 
 #region
 
-using mhxy.Logging;
+using System;
+using System.Drawing;
+using System.Drawing.Imaging;
 using OpenTK;
 using OpenTK.Graphics;
-using OpenTK.Graphics.OpenGL4;
+using OpenTK.Graphics.OpenGL;
 
 #endregion
 
@@ -57,13 +59,13 @@ namespace mhxy.Display {
 
         #endregion
 
-        private readonly ILogger _logger = ServiceLocator.GlobalLogger;
+        // private readonly ILogger _logger = ServiceLocator.GlobalLogger;
 
         /// <summary>
         /// 
         /// </summary>
         public new void Run() {
-            Run(Environment.FramePerSecond);
+            Run(Global.FramePerSecond);
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e) {
@@ -72,15 +74,53 @@ namespace mhxy.Display {
             base.OnUpdateFrame(e);
         }
 
+        private int _texture;
+
         protected override void OnRenderFrame(FrameEventArgs e) {
-             //_logger.Debug($"OnUpdateFrame {e.Time}");
+            //_logger.Debug($"OnRenderFrame {e.Time}");
             Title = $"(Vsync: {VSync}) FPS: {1f / e.Time:0}";
-            ServiceLocator.DrawingService.Draw();
-            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            if (_texture != 0) {
+                GL.DeleteTexture(_texture);
+            }
+            var canvas = ServiceLocator.DrawingService.Draw();
+            _texture = LoadTexture(canvas.Bitmap);
+            DrawImage(_texture);
             SwapBuffers();
             base.OnRenderFrame(e);
         }
 
-    }
+        private static void DrawImage(int texture) {
+            GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
+            GL.MatrixMode(MatrixMode.Projection);
+            GL.LoadIdentity();
+            GL.Ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0);
+            GL.MatrixMode(MatrixMode.Modelview);
+            GL.LoadIdentity();
+            GL.Enable(EnableCap.Texture2D);
+            GL.BindTexture(TextureTarget.Texture2D, texture);
+            GL.Begin(PrimitiveType.Quads);
+            GL.TexCoord2(0.0f, 1.0f); GL.Vertex2(-1.0f, -1.0f);
+            GL.TexCoord2(1.0f, 1.0f); GL.Vertex2(1.0f, -1.0f);
+            GL.TexCoord2(1.0f, 0.0f); GL.Vertex2(1.0f, 1.0f);
+            GL.TexCoord2(0.0f, 0.0f); GL.Vertex2(-1.0f, 1.0f);
+            GL.End();
+        }
 
+        private int LoadTexture(Bitmap bitmap) {
+            GL.Hint(HintTarget.PerspectiveCorrectionHint, HintMode.Nicest);
+            GL.GenTextures(1, out int texture);
+            GL.BindTexture(TextureTarget.Texture2D, texture);
+            BitmapData data = bitmap.LockBits(new Rectangle(0, 0, bitmap.Width, bitmap.Height),
+                ImageLockMode.ReadOnly, System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, data.Width, data.Height, 0,
+                OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
+            bitmap.UnlockBits(data);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+            return texture;
+        }
+
+    }
 }

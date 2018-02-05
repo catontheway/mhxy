@@ -16,7 +16,29 @@ namespace mhxy {
 
     /// <summary>
     /// </summary>
-    public static class Environment {
+    public static class Global {
+
+        /// <summary>
+        ///     Map Cell 宽度
+        /// </summary>
+        public const int WidthPerMapCell = 320;
+
+        /// <summary>
+        ///     Map Cell 高度
+        /// </summary>
+        public const int HeightPerMapCell = 240;
+
+        // 非正常情况下：地图到达边缘 需要保持地图不变 移动主角到屏幕边缘
+
+        /// <summary>
+        /// 主角在屏幕上的位置(正常情况下)
+        /// </summary>
+        public const int PlayX = 400;
+
+        /// <summary>
+        /// 主角在屏幕上的位置(正常情况下)
+        /// </summary>
+        public const int PlayY = 300;
 
         /// <summary>
         ///     是否正常登录
@@ -88,11 +110,11 @@ namespace mhxy {
         public static string Title = @"梦幻西游";
 
         /// <summary>
-        /// 帧
+        ///     帧
         /// </summary>
         public static int FramePerSecond = 60;
 
-        static Environment() {
+        static Global() {
 #if Develop
             Encrypt = false;
             Profile = false;

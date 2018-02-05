@@ -34,6 +34,17 @@ namespace mhxy.Resource.Maps {
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="rect"></param>
+        /// <returns></returns>
+        public Image GetParialImage(Rectangle rect) {
+            using (var imageFactory = new ImageFactory()) {
+                return imageFactory.Load(_bitmap).Format(new JpegFormat()).Format(new BitmapFormat()).Crop(rect).Image.Clone() as Image;
+            }
+        }
+
+        /// <summary>
         ///     加载资源
         /// </summary>
         public override void Load() {
@@ -52,8 +63,8 @@ namespace mhxy.Resource.Maps {
                     _width = BitConverter.ToInt32(buffer4, 0);
                     fs.Read(buffer4, 0, 4);
                     _height = BitConverter.ToInt32(buffer4, 0);
-                    _unitColumns = (int)Math.Ceiling(_width / 320.0);
-                    _unitRows = (int)Math.Ceiling(_height / 240.0);
+                    _unitColumns = (int)Math.Ceiling((double)_width / Global.WidthPerMapCell);
+                    _unitRows = (int)Math.Ceiling((double)_height / Global.HeightPerMapCell);
                     _unitSize = _unitColumns * _unitRows;
                     _unitOffsets = new int[_unitSize];
                     _units = new Unit[_unitSize];
@@ -94,7 +105,7 @@ namespace mhxy.Resource.Maps {
 
                     //5.Create BitMap
                     _bitmap = new Bitmap(_width, _height);
-                    using (Graphics g = Graphics.FromImage(_bitmap)) {
+                    using (ImageFactory factory = new ImageFactory()) {
                         for (var rowIndex = 0; rowIndex < _unitRows; rowIndex++) {
                             for (var colIndex = 0; colIndex < _unitColumns; colIndex++) {
                                 var index = colIndex + _unitColumns * rowIndex;
@@ -102,17 +113,17 @@ namespace mhxy.Resource.Maps {
                                 if (!unit.Decoded) {
                                     continue;
                                 }
-                                using (ImageFactory factory = new ImageFactory()) {
-                                    var unitBitmap = factory.Load(unit.RealImage)
-                                        .Format(new JpegFormat())
-                                        //.Format(new BitmapFormat())
-                                        .Image;
-                                    g.DrawImage(unitBitmap, colIndex * 320, rowIndex * 240, unitBitmap.Width, unitBitmap.Height);
+                                if (factory.Load(unit.RealImage)
+                                    .Format(new JpegFormat())
+                                    .Format(new BitmapFormat())
+                                    .Image is Bitmap unitBitmap) {
+                                    FastBitmap.CopyRegion(unitBitmap, _bitmap,
+                                        new Rectangle(0, 0, unitBitmap.Width, unitBitmap.Height),
+                                        new Rectangle(colIndex * 320, rowIndex * 240, unitBitmap.Width, unitBitmap.Height));
                                 }
                             }
                         }
                     }
-
                 }
                 _loaded = true;
             } catch (Exception e) {
@@ -131,12 +142,8 @@ namespace mhxy.Resource.Maps {
             Logger.Info($"Begin Save Map : {_fileName}");
             var fileName = _fileName + ".jpg";
             try {
-                using (ImageFactory factory = new ImageFactory()) {
-                    factory.Load(_bitmap)
-                        .Format(new JpegFormat())
-                        //.Crop(new Rectangle(0, 0, 500, 700))
-                        //.Format(new BitmapFormat())
-                        .Save(fileName);
+                using (var imageFactory = new ImageFactory()) {
+                    imageFactory.Load(_bitmap).Format(new JpegFormat()).Save(fileName);
                 }
             } catch (Exception e) {
                 Logger.Error($"Save Map : {fileName}", e);
@@ -413,7 +420,12 @@ namespace mhxy.Resource.Maps {
         private Mask[] _masks;
 
         /// <summary>
-        /// 
+        /// 地图图像
+        /// </summary>
+        public Bitmap Bitmap => _bitmap;
+
+        /// <summary>
+        /// 地图图像
         /// </summary>
         private Bitmap _bitmap;
 

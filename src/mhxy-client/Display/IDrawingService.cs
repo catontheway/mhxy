@@ -5,6 +5,7 @@
 
 #region
 
+using System.Drawing;
 using mhxy.Common;
 
 #endregion
@@ -36,7 +37,7 @@ namespace mhxy.Display {
         /// <summary>
         ///     绘制
         /// </summary>
-        byte[] Draw();
+        Canvas Draw();
 
         /// <summary>
         ///     更新一帧绘制内容

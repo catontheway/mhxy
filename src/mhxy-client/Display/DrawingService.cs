@@ -5,7 +5,11 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using ImageProcessor;
 using mhxy.Common;
 
 #endregion
@@ -17,8 +21,11 @@ namespace mhxy.Display {
     public class DrawingService : ServiceBase, IDrawingService {
 
         private readonly List<IDrawable> _drawables = new List<IDrawable>();
+        private readonly Canvas _canvas;
 
-        private readonly byte[] _canvas = new byte[Environment.Width * Environment.Height];
+        public DrawingService() {
+            _canvas = new Canvas(Global.Width, Global.Height);
+        }
 
         public void Add(IDrawable drawableObj) {
             _drawables.Add(drawableObj);
@@ -28,7 +35,7 @@ namespace mhxy.Display {
             _drawables.Remove(drawableObj);
         }
 
-        public byte[] Draw() {
+        public Canvas Draw() {
             _drawables.ForEach(drawable => drawable.Draw(_canvas));
             return _canvas;
         }

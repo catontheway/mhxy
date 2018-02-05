@@ -121,7 +121,7 @@ namespace mhxy.Resource.Profiles {
                 }
 
                 var profileStr = File.ReadAllText(fileName);
-                if (Environment.Encrypt) {
+                if (Global.Encrypt) {
                     profileStr = profileStr.AesDecrypt(name, pwd);
                 }
 
@@ -147,7 +147,7 @@ namespace mhxy.Resource.Profiles {
             if (JsonUtil.TryToJson(profile, out string profileStr)) {
                 Logger.Debug($"SaveProfile : {name} \n {profileStr}");
                 try {
-                    if (Environment.Encrypt) {
+                    if (Global.Encrypt) {
                         profileStr = profileStr.AesEncrypt(name, pwd);
                     }
 

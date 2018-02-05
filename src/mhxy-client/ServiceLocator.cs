@@ -31,15 +31,15 @@ namespace mhxy {
         static ServiceLocator() {
             LogManager.AddLoggerAdapter(new Log4NetLoggerAdapter());
             GlobalLogger = LogManager.GetLogger(typeof(ServiceLocator));
-            ConfigManager = new ConfigManager(Environment.ConfigPath);
-            ProfileService = new ProfileService(Environment.ProfilePath);
-            MapManager = new MapManager(Environment.MapPath);
-            WdfManager = new WdfManager(Environment.WdfPath);
+            ConfigManager = new ConfigManager(Global.ConfigPath);
+            ProfileService = new ProfileService(Global.ProfilePath);
+            MapManager = new MapManager(Global.MapPath);
+            WdfManager = new WdfManager(Global.WdfPath);
             WasManager = new WasManager();
             DrawingService = new DrawingService();
             ClientEngine = new ClientEngine();
-            GameWindow = new MhxyGameWindow(Environment.Width, Environment.Height, GraphicsMode.Default
-                , Environment.Title, GameWindowFlags.FixedWindow);
+            GameWindow = new MhxyGameWindow(Global.Width, Global.Height, GraphicsMode.Default
+                , Global.Title, GameWindowFlags.FixedWindow);
         }
 
         /// <summary>

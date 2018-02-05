@@ -138,14 +138,14 @@ namespace mhxy.Client {
         /// </summary>
         /// <param name="engine"></param>
         public static void Start(this IClientEngine engine) {
-            if (Environment.Profile) {
+            if (Global.Profile) {
                 engine.Goto(InterfaceType.Start);
             } else {
-                engine.SignUp(Environment.DevelopName, Environment.DevelopPwd.Md532());
-                engine.SignIn(Environment.DevelopName, Environment.DevelopPwd.Md532());
-                if (!engine.LoadProfile(Environment.DevelopProfileId)) {
+                engine.SignUp(Global.DevelopName, Global.DevelopPwd.Md532());
+                engine.SignIn(Global.DevelopName, Global.DevelopPwd.Md532());
+                if (!engine.LoadProfile(Global.DevelopProfileId)) {
                     engine.SaveProfile();
-                    engine.LoadProfile(Environment.DevelopProfileId);
+                    engine.LoadProfile(Global.DevelopProfileId);
                 }
                 engine.Goto(InterfaceType.Main);
             }

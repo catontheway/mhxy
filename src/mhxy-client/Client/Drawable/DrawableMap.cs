@@ -3,6 +3,8 @@
 // Create Date:  20180202 13:54
 // Description:   
 
+using System;
+using System.Drawing;
 using mhxy.Display;
 using mhxy.Logging;
 using mhxy.Resource.Maps;
@@ -14,13 +16,14 @@ namespace mhxy.Client.Drawable {
     /// </summary>
     public class DrawableMap : IDrawable {
 
+        private readonly ILogger _logger = ServiceLocator.GlobalLogger;
+        private Rectangle _currentRectangle = new Rectangle(0, 0, Global.Width, Global.Height);
         private string _currentMapId;
         private Map _currentMap;
-        //private int _centerX;
-        //private int _centerY;
-        private readonly ILogger _logger = ServiceLocator.GlobalLogger;
 
         public bool Static { get; set; }
+
+        private static readonly Random Rand = new Random();
 
         public void NextFrame() {
             var currentScene = ServiceLocator.ClientEngine.GetCurrentScene();
@@ -29,16 +32,22 @@ namespace mhxy.Client.Drawable {
                 ServiceLocator.MapManager.TryGetMap(_currentMapId, out _currentMap);
                 _currentMap.Save();
             }
+            _currentRectangle.X = currentScene.PlayerX;
+            _currentRectangle.Y = currentScene.PlayerY;
         }
 
         public void Frame(int frame) {
-            throw new System.NotImplementedException();
-        }
-
-        public void Draw(byte[] cancas) {
 
         }
 
+        public void Draw(Canvas canvas) {
+            if (_currentMap == null) {
+                return;
+            }
+            FastBitmap.CopyRegion(_currentMap.Bitmap, canvas.Bitmap,
+                _currentRectangle,
+                new Rectangle(0, 0, canvas.Width, canvas.Height));
+        }
     }
 
 }

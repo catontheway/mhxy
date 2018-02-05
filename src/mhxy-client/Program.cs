@@ -30,7 +30,7 @@ namespace mhxy {
             Console.Title = Guid.NewGuid().ToString();
             IntPtr intptr = FindWindow("ConsoleWindowClass", Console.Title);
             if (intptr != IntPtr.Zero) {
-                ShowWindow(intptr, Environment.ShowConsole); //隐藏这个窗口
+                ShowWindow(intptr, Global.ShowConsole); //隐藏这个窗口
             }
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
