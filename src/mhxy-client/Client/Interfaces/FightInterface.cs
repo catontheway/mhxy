@@ -5,14 +5,13 @@
 
 namespace mhxy.Client.Interfaces {
 
-
     /// <summary>
-    /// 战斗画面
+    ///     战斗画面
     /// </summary>
     public class FightInterface : InterfaceBase {
 
         public override InterfaceType Type => InterfaceType.Fight;
 
     }
-}
 
+}

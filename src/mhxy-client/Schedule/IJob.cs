@@ -7,8 +7,6 @@ namespace mhxy.Schedule {
 
     public interface IJob {
 
-        
-
     }
 
 }

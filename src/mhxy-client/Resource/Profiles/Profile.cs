@@ -59,17 +59,16 @@ namespace mhxy.Resource.Profiles {
         public RoleType Role { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         public string MapId { get; set; }
 
         /// <summary>
-        /// 主角所在位置
+        ///     主角所在位置
         /// </summary>
         public int PlayerX { get; set; }
 
         /// <summary>
-        /// 主角所在位置
+        ///     主角所在位置
         /// </summary>
         public int PlayerY { get; set; }
 

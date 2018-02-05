@@ -6,14 +6,13 @@
 namespace mhxy.Client.Interfaces {
 
     /// <summary>
-    /// 加载画面
+    ///     加载画面
     /// </summary>
     public class LoadingInterface : InterfaceBase {
 
         /// <summary>
         /// </summary>
         public override InterfaceType Type => InterfaceType.Loading;
-
 
     }
 

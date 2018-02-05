@@ -27,7 +27,6 @@ namespace mhxy.Resource {
         void Unload();
 
         /// <summary>
-        /// 
         /// </summary>
         void Save();
 

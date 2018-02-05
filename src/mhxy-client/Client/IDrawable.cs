@@ -1,6 +1,6 @@
 ﻿// FileName:  IDrawable.cs
 // Author:  guodp <guodp9u0@gmail.com>
-// Create Date:  20180202 08:53
+// Create Date:  20180205 13:58
 // Description:   
 
 namespace mhxy.Client {
@@ -26,7 +26,6 @@ namespace mhxy.Client {
         void Frame(int frame);
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="cancas"></param>
         void Draw(Canvas cancas);

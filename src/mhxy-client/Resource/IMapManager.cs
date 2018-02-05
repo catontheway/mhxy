@@ -5,7 +5,6 @@
 
 #region
 
-using mhxy.Common;
 using mhxy.Resource.Maps;
 
 #endregion
@@ -26,7 +25,7 @@ namespace mhxy.Resource {
         bool TryGetMap(string mapId, out Map map);
 
         /// <summary>
-        /// 解析并保存所有地图
+        ///     解析并保存所有地图
         /// </summary>
         /// <returns></returns>
         void ParseAllMaps();

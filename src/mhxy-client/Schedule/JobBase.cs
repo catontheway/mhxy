@@ -6,11 +6,8 @@
 namespace mhxy.Schedule {
 
     /// <summary>
-    /// 
     /// </summary>
     public class JobBase : IJob {
-
-
 
     }
 

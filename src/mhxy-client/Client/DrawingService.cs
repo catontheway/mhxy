@@ -1,6 +1,6 @@
 ﻿// FileName:  DrawingService.cs
 // Author:  guodp <guodp9u0@gmail.com>
-// Create Date:  20180202 08:53
+// Create Date:  20180205 13:58
 // Description:   
 
 #region
@@ -16,12 +16,12 @@ namespace mhxy.Client {
     /// </summary>
     public class DrawingService : ServiceBase, IDrawingService {
 
-        private readonly List<IDrawable> _drawables = new List<IDrawable>();
-        private readonly Canvas _canvas;
-
         public DrawingService() {
             _canvas = new Canvas(Global.Width, Global.Height);
         }
+
+        private readonly List<IDrawable> _drawables = new List<IDrawable>();
+        private readonly Canvas _canvas;
 
         public void Add(IDrawable drawableObj) {
             _drawables.Add(drawableObj);

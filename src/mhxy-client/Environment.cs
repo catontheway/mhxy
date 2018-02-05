@@ -31,12 +31,12 @@ namespace mhxy {
         // 非正常情况下：地图到达边缘 需要保持地图不变 移动主角到屏幕边缘
 
         /// <summary>
-        /// 主角在屏幕上的位置(正常情况下)
+        ///     主角在屏幕上的位置(正常情况下)
         /// </summary>
         public const int PlayX = 400;
 
         /// <summary>
-        /// 主角在屏幕上的位置(正常情况下)
+        ///     主角在屏幕上的位置(正常情况下)
         /// </summary>
         public const int PlayY = 300;
 

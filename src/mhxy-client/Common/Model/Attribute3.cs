@@ -6,7 +6,7 @@
 namespace mhxy.Common.Model {
 
     /// <summary>
-    /// 效果属性(必杀几率等)
+    ///     效果属性(必杀几率等)
     /// </summary>
     public class Attribute3 {
 

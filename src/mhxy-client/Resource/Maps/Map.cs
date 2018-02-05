@@ -34,13 +34,13 @@ namespace mhxy.Resource.Maps {
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <param name="rect"></param>
         /// <returns></returns>
         public Image GetParialImage(Rectangle rect) {
             using (var imageFactory = new ImageFactory()) {
-                return imageFactory.Load(_bitmap).Format(new JpegFormat()).Format(new BitmapFormat()).Crop(rect).Image.Clone() as Image;
+                return imageFactory.Load(_bitmap).Format(new JpegFormat()).Format(new BitmapFormat()).Crop(rect).Image
+                    .Clone() as Image;
             }
         }
 
@@ -51,6 +51,7 @@ namespace mhxy.Resource.Maps {
             if (_loaded) {
                 return;
             }
+
             Logger.Info($"Begin Load Map : {_fileName}");
             try {
                 var buffer4 = new byte[4];
@@ -63,8 +64,8 @@ namespace mhxy.Resource.Maps {
                     _width = BitConverter.ToInt32(buffer4, 0);
                     fs.Read(buffer4, 0, 4);
                     _height = BitConverter.ToInt32(buffer4, 0);
-                    _unitColumns = (int)Math.Ceiling((double)_width / Global.WidthPerMapCell);
-                    _unitRows = (int)Math.Ceiling((double)_height / Global.HeightPerMapCell);
+                    _unitColumns = (int) Math.Ceiling((double) _width / Global.WidthPerMapCell);
+                    _unitRows = (int) Math.Ceiling((double) _height / Global.HeightPerMapCell);
                     _unitSize = _unitColumns * _unitRows;
                     _unitOffsets = new int[_unitSize];
                     _units = new Unit[_unitSize];
@@ -97,6 +98,7 @@ namespace mhxy.Resource.Maps {
                     for (int i = 0; i < _maskSize; i++) {
                         _masks[i] = ReadMask(fs, _maskOffsets[i]);
                     }
+
                     //3.Read Unit
                     for (int i = 0; i < _unitSize; i++) {
                         _units[i] = ReadUnit(fs, _unitOffsets[i]);
@@ -113,32 +115,37 @@ namespace mhxy.Resource.Maps {
                                 if (!unit.Decoded) {
                                     continue;
                                 }
+
                                 if (factory.Load(unit.RealImage)
                                     .Format(new JpegFormat())
                                     .Format(new BitmapFormat())
                                     .Image is Bitmap unitBitmap) {
                                     FastBitmap.CopyRegion(unitBitmap, _bitmap,
                                         new Rectangle(0, 0, unitBitmap.Width, unitBitmap.Height),
-                                        new Rectangle(colIndex * 320, rowIndex * 240, unitBitmap.Width, unitBitmap.Height));
+                                        new Rectangle(colIndex * 320, rowIndex * 240, unitBitmap.Width
+                                            , unitBitmap.Height));
                                 }
                             }
                         }
                     }
                 }
+
                 _loaded = true;
             } catch (Exception e) {
                 Logger.Error($"Error In Load Map : {_fileName}", e);
             }
+
             Logger.Info($"End Load Map : {_fileName}");
         }
 
         /// <summary>
-        /// 将map文件另存为jpg图像
+        ///     将map文件另存为jpg图像
         /// </summary>
         public override void Save() {
             if (!_loaded) {
                 return;
             }
+
             Logger.Info($"Begin Save Map : {_fileName}");
             var fileName = _fileName + ".jpg";
             try {
@@ -148,6 +155,7 @@ namespace mhxy.Resource.Maps {
             } catch (Exception e) {
                 Logger.Error($"Save Map : {fileName}", e);
             }
+
             Logger.Info($"End Save Map : {_fileName}");
         }
 
@@ -196,13 +204,16 @@ namespace mhxy.Resource.Maps {
             UnitData cell = ReadUnitData(fs);
             UnitData brig = ReadUnitData(fs);
             var unit = new Unit(realOffset, img, cell, brig);
-            if (string.Equals(img.Flag, "47-45-50-4A")) {// JPEG
+            if (string.Equals(img.Flag, "47-45-50-4A")) {
+                // JPEG
                 unit.Decoded = DecodeJpeg(img.Data, out byte[] realImage);
                 unit.RealImage = realImage;
-            } else if (string.Equals(img.Flag, "32-47-50-4A")) {// SJPG
+            } else if (string.Equals(img.Flag, "32-47-50-4A")) {
+                // SJPG
                 unit.Decoded = true;
                 unit.RealImage = img.Data;
             }
+
             //Logger.Debug($"Read Unit({index}:{offSet}):RealOffset:{realOffset}");
             //Logger.Debug($"UnitData(jpeg):Flag(47-45-50-4A):{jpeg.Flag},Size:{jpeg.Size}"); //也可能是 32-47-50-4A,JPG
             //Logger.Debug($"UnitData(cell):Flag(4C-4C-45-43):{cell.Flag},Size:{cell.Size}");
@@ -210,7 +221,7 @@ namespace mhxy.Resource.Maps {
             return unit;
         }
 
-        bool DecodeJpeg(byte[] origin, out byte[] result) {
+        private bool DecodeJpeg(byte[] origin, out byte[] result) {
             int inSize = origin.Length;
             int incrementSize = 0;
             int originIndex = 0;
@@ -247,6 +258,7 @@ namespace mhxy.Resource.Maps {
                                 tempResult[resultIndex++] = origin[originIndex++];
                                 processedCount++;
                             }
+
                             break;
                         case 0xC4:
                             tempResult[resultIndex++] = 0xC4;
@@ -259,6 +271,7 @@ namespace mhxy.Resource.Maps {
                                 tempResult[resultIndex++] = origin[originIndex++];
                                 processedCount++;
                             }
+
                             break;
                         case 0xDB:
                             tempResult[resultIndex++] = 0xDB;
@@ -271,6 +284,7 @@ namespace mhxy.Resource.Maps {
                                 tempResult[resultIndex++] = origin[originIndex++];
                                 processedCount++;
                             }
+
                             break;
                         case 0xDA:
                             tempResult[resultIndex++] = 0xDA;
@@ -288,6 +302,7 @@ namespace mhxy.Resource.Maps {
                                 tempResult[resultIndex++] = origin[originIndex++];
                                 processedCount++;
                             }
+
                             tempResult[resultIndex++] = 0x00;
                             tempResult[resultIndex++] = 0x3F;
                             tempResult[resultIndex++] = 0x00;
@@ -304,6 +319,7 @@ namespace mhxy.Resource.Maps {
                                     processedCount++;
                                 }
                             }
+
                             // 直接在这里写上了0xFFD9结束Jpeg图片.
                             incrementSize--; // 这里多了一个字节，所以减去。
                             resultIndex--;
@@ -316,11 +332,13 @@ namespace mhxy.Resource.Maps {
                             break;
                     }
                 }
+
                 result = new byte[incrementSize + inSize];
                 Array.Copy(tempResult, 0, result, 0, incrementSize + inSize);
             } catch {
                 return false;
             }
+
             return true;
         }
 
@@ -420,12 +438,12 @@ namespace mhxy.Resource.Maps {
         private Mask[] _masks;
 
         /// <summary>
-        /// 地图图像
+        ///     地图图像
         /// </summary>
         public Bitmap Bitmap => _bitmap;
 
         /// <summary>
-        /// 地图图像
+        ///     地图图像
         /// </summary>
         private Bitmap _bitmap;
 

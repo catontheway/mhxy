@@ -23,15 +23,17 @@ namespace mhxy {
 
         private static void Main(string[] args) {
             if (args == null || args.Length == 0) {
-                args = new[] { "n" };
+                args = new[] {"n"};
                 //args = new[] { "m" };
             }
+
             ServiceLocator.GlobalLogger.Info("Application Start");
             Console.Title = Guid.NewGuid().ToString();
             IntPtr intptr = FindWindow("ConsoleWindowClass", Console.Title);
             if (intptr != IntPtr.Zero) {
                 ShowWindow(intptr, Global.ShowConsole); //隐藏这个窗口
             }
+
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
 
             switch (args[0]) {
@@ -48,6 +50,7 @@ namespace mhxy {
                     ServiceLocator.GlobalLogger.Info("Start Mode : No Hit.");
                     break;
             }
+
             ServiceLocator.GlobalLogger.Info("Application Exit");
         }
 

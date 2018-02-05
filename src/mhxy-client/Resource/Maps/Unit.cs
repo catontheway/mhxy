@@ -21,7 +21,7 @@ namespace mhxy.Resource.Maps {
         }
 
         /// <summary>
-        /// 开始位置
+        ///     开始位置
         /// </summary>
         public uint Begin { get; }
 
@@ -41,12 +41,10 @@ namespace mhxy.Resource.Maps {
         public UnitData Brig { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         public bool Decoded { get; set; }
 
         /// <summary>
-        /// 
         /// </summary>
         public byte[] RealImage { get; set; }
 

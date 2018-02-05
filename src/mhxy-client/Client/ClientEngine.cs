@@ -67,6 +67,7 @@ namespace mhxy.Client {
                 _currentScene.PlayerY = _currentProfile.PlayerY;
                 return true;
             }
+
             return false;
         }
 
@@ -149,6 +150,7 @@ namespace mhxy.Client {
                     engine.SaveProfile();
                     engine.LoadProfile(Global.DevelopProfileId);
                 }
+
                 engine.Goto(InterfaceType.Main);
             }
         }

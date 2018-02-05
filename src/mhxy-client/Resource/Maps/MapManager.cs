@@ -50,6 +50,7 @@ namespace mhxy.Resource.Maps {
                     Logger.Info($"TryGetMap Hit: {mapId}");
                     return _loadedMaps.TryGetValue(mapId, out map);
                 }
+
                 var mapFileName = Path.Combine(_mapPath, $"{mapId}.map");
                 map = new Map(mapFileName);
                 map.Load();
@@ -63,7 +64,7 @@ namespace mhxy.Resource.Maps {
         }
 
         /// <summary>
-        /// 解析并保存所有地图
+        ///     解析并保存所有地图
         /// </summary>
         public void ParseAllMaps() {
             var files = Directory.GetFiles(_mapPath);
@@ -77,6 +78,7 @@ namespace mhxy.Resource.Maps {
                 }
             }
         }
+
     }
 
 }

@@ -58,7 +58,6 @@ namespace mhxy.Client {
         bool SaveProfile();
 
         /// <summary>
-        /// 
         /// </summary>
         /// <returns></returns>
         Scene GetCurrentScene();

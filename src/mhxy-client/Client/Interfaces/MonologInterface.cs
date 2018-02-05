@@ -5,9 +5,8 @@
 
 namespace mhxy.Client.Interfaces {
 
-
     /// <summary>
-    /// 独白画面
+    ///     独白画面
     /// </summary>
     public class MonologInterface : InterfaceBase {
 

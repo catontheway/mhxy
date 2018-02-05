@@ -5,8 +5,6 @@
 
 #region
 
-using mhxy.Common;
-
 #endregion
 
 namespace mhxy.Resource {
