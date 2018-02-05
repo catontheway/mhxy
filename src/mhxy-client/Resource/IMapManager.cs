@@ -15,7 +15,7 @@ namespace mhxy.Resource {
     /// <summary>
     ///     Map 资源管理器
     /// </summary>
-    public interface IMapManager : IService {
+    public interface IMapManager : IResourceManager {
 
         /// <summary>
         ///     获取地图对象
