@@ -5,7 +5,6 @@
 
 using System;
 using System.Drawing;
-using mhxy.Display;
 using mhxy.Logging;
 using mhxy.Resource.Maps;
 

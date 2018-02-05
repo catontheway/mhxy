@@ -48,7 +48,7 @@ namespace mhxy {
         /// <summary>
         ///     开发用户名
         /// </summary>
-        public static string DevelopName = Guid.NewGuid().ToString();
+        public static string DevelopName = DateTime.Now.ToString("yyyyMMddHHmmss");
 
         /// <summary>
         ///     开发密码
@@ -56,7 +56,7 @@ namespace mhxy {
         public static string DevelopPwd = "guodp9u0";
 
         /// <summary>
-        ///     开发密码
+        ///     开发存档编号
         /// </summary>
         public static int DevelopProfileId = 0;
 

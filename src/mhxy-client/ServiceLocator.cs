@@ -6,8 +6,6 @@
 #region
 
 using mhxy.Client;
-using mhxy.Display;
-using mhxy.Log4Net;
 using mhxy.Logging;
 using mhxy.Resource;
 using mhxy.Resource.Configs;

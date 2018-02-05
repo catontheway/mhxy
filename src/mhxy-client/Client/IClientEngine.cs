@@ -6,7 +6,7 @@
 #region
 
 using mhxy.Common;
-using mhxy.Core;
+using mhxy.Common.Model;
 
 #endregion
 

@@ -8,7 +8,7 @@
 using System.Collections.Generic;
 using mhxy.Client.Interfaces;
 using mhxy.Common;
-using mhxy.Core;
+using mhxy.Common.Model;
 using mhxy.Resource.Profiles;
 using mhxy.Utils;
 
@@ -27,15 +27,14 @@ namespace mhxy.Client {
         private readonly Dictionary<InterfaceType, InterfaceBase> _interfaces =
             new Dictionary<InterfaceType, InterfaceBase>();
 
-        private bool _signedIn;
+        private readonly Scene _currentScene = new Scene();
 
-        // private bool _profilLoaded = true;
+        private bool _signedIn;
         private string _currentName;
         private string _currentPwd;
         private int _currentProfilId;
-        private Profile _currentProfile = new Profile { InitCreate = true };
+        private Profile _currentProfile = new Profile {InitCreate = true};
         private InterfaceBase _currentInterface;
-        private readonly Scene _currentScene = new Scene();
 
         /// <summary>
         ///     前往某个界面
@@ -66,7 +65,6 @@ namespace mhxy.Client {
                 _currentScene.MapId = _currentProfile.MapId;
                 _currentScene.PlayerX = _currentProfile.PlayerX;
                 _currentScene.PlayerY = _currentProfile.PlayerY;
-                //_profilLoaded = true;
                 return true;
             }
             return false;
@@ -118,6 +116,10 @@ namespace mhxy.Client {
             return true;
         }
 
+        public Scene GetCurrentScene() {
+            return _currentScene;
+        }
+
         private void InitializeInterfaces() {
             _interfaces[InterfaceType.Start] = new StartInterface();
             _interfaces[InterfaceType.SignIn] = new SignInInterface();
@@ -125,11 +127,11 @@ namespace mhxy.Client {
             _interfaces[InterfaceType.Profile] = new ProfileInterface();
             _interfaces[InterfaceType.Create] = new CreateInterface();
             _interfaces[InterfaceType.Main] = new MainInterface();
+            _interfaces[InterfaceType.Fight] = new FightInterface();
+            _interfaces[InterfaceType.Loading] = new LoadingInterface();
+            _interfaces[InterfaceType.Monolog] = new MonologInterface();
         }
 
-        public Scene GetCurrentScene() {
-            return _currentScene;
-        }
     }
 
     public static class Externtions {
