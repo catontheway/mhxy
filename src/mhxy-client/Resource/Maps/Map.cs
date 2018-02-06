@@ -10,6 +10,7 @@ using System.Drawing;
 using System.IO;
 using ImageProcessor;
 using ImageProcessor.Imaging.Formats;
+using mhxy.Utils;
 
 #endregion
 

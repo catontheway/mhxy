@@ -6,8 +6,8 @@
 #region
 
 using System;
-using System.Runtime.InteropServices;
 using mhxy.Client;
+using mhxy.Utils;
 
 #endregion
 
@@ -15,11 +15,7 @@ namespace mhxy {
 
     internal class Program {
 
-        [DllImport("user32.dll", EntryPoint = "ShowWindow", SetLastError = true)]
-        private static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
-
-        [DllImport("user32.dll", EntryPoint = "FindWindow", SetLastError = true)]
-        public static extern IntPtr FindWindow(string lpClassName, string lpWindowName);
+      
 
         private static void Main(string[] args) {
             if (args == null || args.Length == 0) {
@@ -29,9 +25,9 @@ namespace mhxy {
 
             ServiceLocator.GlobalLogger.Info("Application Start");
             Console.Title = Guid.NewGuid().ToString();
-            IntPtr intptr = FindWindow("ConsoleWindowClass", Console.Title);
+            IntPtr intptr = NativeMethod.FindWindow("ConsoleWindowClass", Console.Title);
             if (intptr != IntPtr.Zero) {
-                ShowWindow(intptr, Global.ShowConsole); //隐藏这个窗口
+                NativeMethod.ShowWindow(intptr, Global.ShowConsole); //隐藏这个窗口
             }
 
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;

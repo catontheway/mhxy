@@ -7,6 +7,7 @@
 
 using System.Drawing;
 using mhxy.Resource.Maps;
+using mhxy.Utils;
 
 #endregion
 

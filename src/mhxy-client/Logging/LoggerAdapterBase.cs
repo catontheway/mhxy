@@ -7,6 +7,7 @@
 
 using System;
 using System.Collections.Concurrent;
+using System.Globalization;
 using mhxy.Utils;
 
 #endregion
@@ -51,9 +52,7 @@ namespace mhxy.Logging {
             if (_cacheLoggers.TryGetValue(name, out ILog log))
                 return log;
             log = CreateLogger(name);
-            _cacheLoggers[name] = log ?? throw new NotSupportedException(
-                                      Resources.Logging_CreateLogInstanceReturnNull.FormatWith(name
-                                          , GetType().FullName));
+            _cacheLoggers[name] = log ?? throw new NotSupportedException(string.Format(Resources.Logging_CreateLogInstanceReturnNull, name));
             return log;
         }
 
