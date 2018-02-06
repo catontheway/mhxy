@@ -33,14 +33,15 @@ namespace mhxy.Resource.Maps {
         /// <summary>
         ///     Cell 数据
         /// </summary>
-        public UnitData Cell { get; set; }
+        public UnitData Cell { get; }
 
         /// <summary>
         ///     Brig 数据
         /// </summary>
-        public UnitData Brig { get; set; }
+        public UnitData Brig { get; }
 
         /// <summary>
+        /// 是否已经解码
         /// </summary>
         public bool Decoded { get; set; }
 
