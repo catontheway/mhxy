@@ -135,6 +135,7 @@ namespace mhxy.Resource.Maps {
                 _loaded = true;
             } catch (Exception e) {
                 Logger.Error($"Error In Load Map : {_fileName}", e);
+                throw;
             }
 
             Logger.Info($"End Load Map : {_fileName}");

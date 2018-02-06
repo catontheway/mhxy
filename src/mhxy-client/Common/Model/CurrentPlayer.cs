@@ -12,6 +12,7 @@ using System.Drawing;
 namespace mhxy.Common.Model {
 
     /// <summary>
+    ///     主角
     /// </summary>
     public class CurrentPlayer : Player {
 
@@ -23,6 +24,26 @@ namespace mhxy.Common.Model {
         ///     主角所在位置
         /// </summary>
         public Point At { get; set; }
+
+        /// <summary>
+        ///     朝向
+        /// </summary>
+        public Direction FaceTo { get; set; }
+
+        /// <summary>
+        ///     角色类型
+        /// </summary>
+        public RoleType Role { get; set; }
+
+        /// <summary>
+        ///     等级
+        /// </summary>
+        public int Level { get; set; }
+
+        /// <summary>
+        ///     名字
+        /// </summary>
+        public string Name { get; set; }
 
     }
 

@@ -13,44 +13,44 @@ namespace mhxy.Client {
         /// <summary>
         ///     开始界面
         /// </summary>
-        Start
+        Start,
 
-        , /// <summary>
+        /// <summary>
         ///     登录界面
         /// </summary>
-        SignIn
+        SignIn,
 
-        , /// <summary>
+        /// <summary>
         ///     注册界面
         /// </summary>
-        SignUp
+        SignUp,
 
-        , /// <summary>
+        /// <summary>
         ///     角色选择画面
         /// </summary>
-        Profile
+        Profile,
 
-        , /// <summary>
+        /// <summary>
         ///     角色创建画面
         /// </summary>
-        Create
+        Create,
 
-        , /// <summary>
+        /// <summary>
         ///     游戏界面
         /// </summary>
-        Main
+        Main,
 
-        , /// <summary>
+        /// <summary>
         ///     战斗界面
         /// </summary>
-        Fight
+        Fight,
 
-        , /// <summary>
+        /// <summary>
         ///     加载画面
         /// </summary>
-        Loading
+        Loading,
 
-        , /// <summary>
+        /// <summary>
         ///     独白画面剧情使用
         /// </summary>
         Monolog

@@ -13,39 +13,39 @@ namespace mhxy.Logging {
         /// <summary>
         ///     输出所有级别的日志
         /// </summary>
-        All = 0
+        All = 0,
 
-        , /// <summary>
+        /// <summary>
         ///     表示跟踪的日志级别
         /// </summary>
-        Trace = 1
+        Trace = 1,
 
-        , /// <summary>
+        /// <summary>
         ///     表示调试的日志级别
         /// </summary>
-        Debug = 2
+        Debug = 2,
 
-        , /// <summary>
+        /// <summary>
         ///     表示消息的日志级别
         /// </summary>
-        Info = 3
+        Info = 3,
 
-        , /// <summary>
+        /// <summary>
         ///     表示警告的日志级别
         /// </summary>
-        Warn = 4
+        Warn = 4,
 
-        , /// <summary>
+        /// <summary>
         ///     表示错误的日志级别
         /// </summary>
-        Error = 5
+        Error = 5,
 
-        , /// <summary>
+        /// <summary>
         ///     表示严重错误的日志级别
         /// </summary>
-        Fatal = 6
+        Fatal = 6,
 
-        , /// <summary>
+        /// <summary>
         ///     关闭所有日志，不输出日志
         /// </summary>
         Off = 7

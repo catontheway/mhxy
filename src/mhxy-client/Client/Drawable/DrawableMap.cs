@@ -5,9 +5,7 @@
 
 #region
 
-using System;
 using System.Drawing;
-using mhxy.Logging;
 using mhxy.Resource.Maps;
 
 #endregion
@@ -19,9 +17,9 @@ namespace mhxy.Client.Drawable {
     /// </summary>
     public class DrawableMap : IDrawable {
 
-        private static readonly Random Rand = new Random();
+        //private static readonly Random Rand = new Random();
+        //private readonly Logging.ILogger _logger = ServiceLocator.GlobalLogger;
 
-        private readonly ILogger _logger = ServiceLocator.GlobalLogger;
         private Rectangle _currentRectangle = new Rectangle(0, 0, Global.Width, Global.Height);
         private string _currentMapId;
         private Map _currentMap;

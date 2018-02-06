@@ -160,10 +160,10 @@ namespace mhxy.Utils {
             //mStream.Write( encryptedBytes, 0, encryptedBytes.Length );  
             //mStream.Seek( 0, SeekOrigin.Begin );  
             RijndaelManaged aes = new RijndaelManaged {
-                Mode = CipherMode.ECB
-                , Padding = PaddingMode.PKCS7
-                , KeySize = 128
-                , Key = bKey
+                Mode = CipherMode.ECB,
+                Padding = PaddingMode.PKCS7,
+                KeySize = 128,
+                Key = bKey
             };
             //aes.IV = _iV;  
             CryptoStream cryptoStream = new CryptoStream(mStream, aes.CreateDecryptor(), CryptoStreamMode.Read);

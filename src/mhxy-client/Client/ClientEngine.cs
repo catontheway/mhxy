@@ -64,7 +64,10 @@ namespace mhxy.Client {
                     MapId = _currentProfile.MapId
                 };
                 var player = new CurrentPlayer {
-                    At = _currentProfile.PlayerAt
+                    At = _currentProfile.PlayerAt,
+                    FaceTo = Direction.Down,
+                    Role = _currentProfile.Role,
+                    Level = _currentPlayer.Level
                 };
                 _currentScene = scene;
                 _currentPlayer = player;

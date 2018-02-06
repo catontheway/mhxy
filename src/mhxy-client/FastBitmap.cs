@@ -1,28 +1,7 @@
-﻿/*
-    FastBitmapLib
-
-    The MIT License (MIT)
-
-    Copyright (c) 2014 Luiz Fernando
-
-    Permission is hereby granted, free of charge, to any person obtaining a copy
-    of this software and associated documentation files (the "Software"), to deal
-    in the Software without restriction, including without limitation the rights
-    to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
-    copies of the Software, and to permit persons to whom the Software is
-    furnished to do so, subject to the following conditions:
-
-    The above copyright notice and this permission notice shall be included in all
-    copies or substantial portions of the Software.
-
-    THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
-    IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
-    FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
-    AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
-    LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
-    OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
-    SOFTWARE.
-*/
+﻿// FileName:  FastBitmap.cs
+// Author:  guodp <guodp9u0@gmail.com>
+// Create Date:  20180205 09:51
+// Description:   
 
 #region
 
@@ -34,7 +13,6 @@ using System.Runtime.InteropServices;
 #endregion
 
 namespace mhxy {
-
 
     /// <summary>
     ///     Encapsulates a Bitmap for fast bitmap pixel operations using 32bpp images
@@ -56,6 +34,7 @@ namespace mhxy {
             if (Image.GetPixelFormatSize(bitmap.PixelFormat) != 32) {
                 throw new ArgumentException(@"The provided bitmap must have a 32bpp depth", nameof(bitmap));
             }
+
             _bitmap = bitmap;
             Width = bitmap.Width;
             Height = bitmap.Height;
@@ -181,7 +160,7 @@ namespace mhxy {
             // Lock the bitmap's bits
             _bitmapData = _bitmap.LockBits(rect, lockMode, _bitmap.PixelFormat);
 
-            _scan0 = (int*)_bitmapData.Scan0;
+            _scan0 = (int*) _bitmapData.Scan0;
             Stride = _bitmapData.Stride / BytesPerPixel;
 
             Locked = true;
@@ -228,7 +207,7 @@ namespace mhxy {
         /// <exception cref="InvalidOperationException">The fast bitmap is not locked</exception>
         /// <exception cref="ArgumentOutOfRangeException">The provided coordinates are out of bounds of the bitmap</exception>
         public void SetPixel(int x, int y, int color) {
-            SetPixel(x, y, unchecked((uint)color));
+            SetPixel(x, y, unchecked((uint) color));
         }
 
         /// <summary>
@@ -254,7 +233,7 @@ namespace mhxy {
                 throw new ArgumentOutOfRangeException(nameof(y), @"The Y component must be >= 0 and < height");
             }
 
-            *(uint*)(_scan0 + x + y * Stride) = color;
+            *(uint*) (_scan0 + x + y * Stride) = color;
         }
 
         /// <summary>
@@ -316,7 +295,7 @@ namespace mhxy {
                 throw new ArgumentOutOfRangeException(nameof(y), @"The Y component must be >= 0 and < height");
             }
 
-            return *((uint*)_scan0 + x + y * Stride);
+            return *((uint*) _scan0 + x + y * Stride);
         }
 
         /// <summary>
@@ -335,7 +314,7 @@ namespace mhxy {
             // ReSharper disable once InconsistentNaming
             int* s0t = _scan0;
 
-            fixed (int* source = colors) {
+            fixed(int* source = colors) {
                 // ReSharper disable once InconsistentNaming
                 int* s0s = source;
 
@@ -404,7 +383,7 @@ namespace mhxy {
             int component = color & 0xFF;
             if (component == ((color >> 8) & 0xFF) && component == ((color >> 16) & 0xFF) &&
                 component == ((color >> 24) & 0xFF)) {
-                memset(_scan0, component, (ulong)(Height * Stride * BytesPerPixel));
+                memset(_scan0, component, (ulong) (Height * Stride * BytesPerPixel));
             } else {
                 // Defines the ammount of assignments that the main while() loop is performing per loop.
                 // The value specified here must match the number of assignment statements inside that loop
@@ -477,7 +456,7 @@ namespace mhxy {
                 return;
             }
 
-            ulong strideWidth = (ulong)region.Width * BytesPerPixel;
+            ulong strideWidth = (ulong) region.Width * BytesPerPixel;
 
             // Uniform color pixel values can be mem-set straight away
             int component = color & 0xFF;
@@ -490,7 +469,7 @@ namespace mhxy {
                 // Prepare a horizontal slice of pixels that will be copied over each horizontal row down.
                 int[] row = new int[region.Width];
 
-                fixed (int* pRow = row) {
+                fixed(int* pRow = row) {
                     int count = region.Width;
                     int rem = count % 8;
                     count /= 8;
@@ -568,7 +547,7 @@ namespace mhxy {
             int destStartY = destBitmapRect.Top;
 
             using (var fastSource = source.FastLock()) {
-                ulong strideWidth = (ulong)copyWidth * BytesPerPixel;
+                ulong strideWidth = (ulong) copyWidth * BytesPerPixel;
 
                 // Perform copies of whole pixel rows
                 for (int y = 0; y < copyHeight; y++) {
@@ -605,7 +584,7 @@ namespace mhxy {
 
             using (FastBitmap fastSource = source.FastLock(), fastTarget = target.FastLock()) {
                 memcpy(fastTarget.Scan0, fastSource.Scan0
-                    , (ulong)(fastSource.Height * fastSource.Stride * BytesPerPixel));
+                    , (ulong) (fastSource.Height * fastSource.Stride * BytesPerPixel));
             }
 
             return true;

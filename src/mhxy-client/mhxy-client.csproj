@@ -59,6 +59,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Client\ClientEngine.cs" />
+    <Compile Include="Client\Drawable\DrawableCurrentPlayer.cs" />
     <Compile Include="Client\IClientEngine.cs" />
     <Compile Include="Client\InterfaceBase.cs" />
     <Compile Include="Client\Interfaces\FightInterface.cs" />
@@ -75,6 +76,7 @@
     <Compile Include="Common\Model\Attribute.cs" />
     <Compile Include="Common\Model\Attribute3.cs" />
     <Compile Include="Common\Model\Attribute2.cs" />
+    <Compile Include="Common\Model\Direction.cs" />
     <Compile Include="Common\Model\Tuple3.cs" />
     <Compile Include="Common\ServiceBase.cs" />
     <Compile Include="Client\Controls\Button.cs" />
@@ -105,6 +107,10 @@
     <Compile Include="Resource\IResourceManager.cs" />
     <Compile Include="Job\IScheduleService.cs" />
     <Compile Include="Job\ScheduleService.cs" />
+    <Compile Include="Resource\Wass\FrameHeader.cs" />
+    <Compile Include="Resource\Wass\SpHeader.cs" />
+    <Compile Include="Resource\Wass\WasInfo.cs" />
+    <Compile Include="Resource\Wass\Wdf.cs" />
     <Compile Include="Utils\ArrayExtensions.cs" />
     <Compile Include="Utils\AssemblyExtensions.cs" />
     <Compile Include="Utils\BooleanExtensions.cs" />

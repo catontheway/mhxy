@@ -6,13 +6,14 @@
 namespace mhxy.Common.Model {
 
     /// <summary>
+    /// 角色类型
     /// </summary>
     public enum RoleType {
 
-        剑侠客
-        , 逍遥生
-        , 飞燕女
-        , 英女侠
+        剑侠客,
+        逍遥生,
+        飞燕女,
+        英女侠
 
     }
 

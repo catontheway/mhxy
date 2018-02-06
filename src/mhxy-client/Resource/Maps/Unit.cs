@@ -45,6 +45,7 @@ namespace mhxy.Resource.Maps {
         public bool Decoded { get; set; }
 
         /// <summary>
+        /// 真实的Image数据
         /// </summary>
         public byte[] RealImage { get; set; }
 

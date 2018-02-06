@@ -24,32 +24,32 @@ namespace mhxy.Resource.Maps {
         /// <summary>
         ///     X
         /// </summary>
-        public int StartX { get; set; }
+        public int StartX { get; private set; }
 
         /// <summary>
         ///     Y
         /// </summary>
-        public int StartY { get; set; }
+        public int StartY { get; private set; }
 
         /// <summary>
         ///     宽度
         /// </summary>
-        public int Width { get; set; }
+        public int Width { get; private set; }
 
         /// <summary>
         ///     高度
         /// </summary>
-        public int Height { get; set; }
+        public int Height { get; private set; }
 
         /// <summary>
         ///     大小
         /// </summary>
-        public int Size { get; set; }
+        public int Size { get; private set; }
 
         /// <summary>
         ///     数据
         /// </summary>
-        public int[] Data { get; set; }
+        public int[] Data { get; private set; }
 
     }
 

@@ -34,15 +34,15 @@ namespace mhxy.Logging {
             }
 
             var appender = new RollingFileAppender {
-                Name = "root"
-                , File = "logs\\log_"
-                , AppendToFile = true
-                , LockingModel = new FileAppender.MinimalLock()
-                , RollingStyle = RollingFileAppender.RollingMode.Date
-                , DatePattern = "yyyyMMdd\".log\""
-                , StaticLogFileName = false
-                , MaxSizeRollBackups = 10
-                , Layout = new PatternLayout("[%d{yyyy-MM-dd HH:mm:ss.fff}] %-5p %c.%M %t %w %n%m%n")
+                Name = "root",
+                File = "logs\\log_",
+                AppendToFile = true,
+                LockingModel = new FileAppender.MinimalLock(),
+                RollingStyle = RollingFileAppender.RollingMode.Date,
+                DatePattern = "yyyyMMdd\".log\"",
+                StaticLogFileName = false,
+                MaxSizeRollBackups = 10,
+                Layout = new PatternLayout("[%d{yyyy-MM-dd HH:mm:ss.fff}] %-5p %c.%M %t %w %n%m%n")
                 //Layout = new PatternLayout("[%d [%t] %-5p %c [%x] - %m%n]")
             };
             appender.ClearFilters();

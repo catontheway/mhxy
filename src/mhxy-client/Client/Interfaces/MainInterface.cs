@@ -17,20 +17,26 @@ namespace mhxy.Client.Interfaces {
     public class MainInterface : InterfaceBase {
 
         private readonly DrawableMap _map = new DrawableMap();
+        private readonly DrawableCurrentPlayer _currentUser = new DrawableCurrentPlayer();
 
         /// <summary>
+        /// 主界面
         /// </summary>
         public override InterfaceType Type => InterfaceType.Main;
 
         /// <summary>
+        /// 显示
         /// </summary>
         protected override void ShowCore() {
             ServiceLocator.DrawingService.Add(_map);
+            ServiceLocator.DrawingService.Add(_currentUser);
         }
 
         /// <summary>
+        /// 关闭
         /// </summary>
         protected override void CloseCore() {
+            ServiceLocator.DrawingService.Remove(_currentUser);
             ServiceLocator.DrawingService.Remove(_map);
         }
 

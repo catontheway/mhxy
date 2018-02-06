@@ -44,6 +44,11 @@ namespace mhxy.Resource.Profiles {
         public bool InitCreate { get; set; }
 
         /// <summary>
+        ///     地图Id
+        /// </summary>
+        public string MapId { get; set; }
+
+        /// <summary>
         ///     角色名称
         /// </summary>
         public string Name { get; set; }
@@ -54,12 +59,9 @@ namespace mhxy.Resource.Profiles {
         public int Level { get; set; }
 
         /// <summary>
+        ///     角色类型
         /// </summary>
         public RoleType Role { get; set; }
-
-        /// <summary>
-        /// </summary>
-        public string MapId { get; set; }
 
         /// <summary>
         ///     主角所在位置

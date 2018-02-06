@@ -13,24 +13,24 @@ namespace mhxy.Client {
         /// <summary>
         ///     最底层(例如,场景图)
         /// </summary>
-        Lowest = 1
+        Lowest = 1,
 
-        , /// <summary>
+        /// <summary>
         ///     稍底层(例如,Player)
         /// </summary>
-        Lower = 2
+        Lower = 2,
 
-        , /// <summary>
+        /// <summary>
         ///     正常层(例如,系统界面,属性窗口等)
         /// </summary>
-        Normal = 3
+        Normal = 3,
 
-        , /// <summary>
+        /// <summary>
         ///     稍高层(正在显示的窗口)
         /// </summary>
-        Higher = 4
+        Higher = 4,
 
-        , /// <summary>
+        /// <summary>
         ///     最高层(消息)
         /// </summary>
         Highest = 5

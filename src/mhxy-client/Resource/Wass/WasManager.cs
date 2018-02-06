@@ -6,6 +6,8 @@
 #region
 
 using System;
+using System.Collections.Concurrent;
+using System.IO;
 using mhxy.Common;
 
 #endregion
@@ -22,10 +24,36 @@ namespace mhxy.Resource.Wass {
             Logger.Debug($"Create MapManager : {wdfPath}");
         }
 
-        private string _wdfPath;
+        private readonly string _wdfPath;
+        private readonly ConcurrentDictionary<string, Wdf> _wdfs = new ConcurrentDictionary<string, Wdf>();
+        private readonly ConcurrentDictionary<int, Was> _wass = new ConcurrentDictionary<int, Was>();
 
-        public bool TryGetWas(string fileId, int wasId, out Was wds) {
-            throw new NotImplementedException();
+        /// <summary>
+        ///     获取Was
+        /// </summary>
+        /// <param name="wdfFileId"></param>
+        /// <param name="wasId"></param>
+        /// <param name="was"></param>
+        /// <returns></returns>
+        public bool TryGetWas(string wdfFileId, int wasId, out Was was) {
+            try {
+                if (!_wass.TryGetValue(wasId, out was)) {
+                    if (!_wdfs.TryGetValue(wdfFileId, out Wdf wdf)) {
+                        wdf = new Wdf(wdfFileId, Path.Combine(_wdfPath, wdfFileId));
+                        wdf.Load();
+                        _wdfs[wdfFileId] = wdf;
+                    }
+                    if (!wdf.TryGetWas(wasId, out was)) {
+                        Logger.Warn($"Not Fount Was: {wasId}@{wdfFileId}");
+                        return false;
+                    }
+                    _wass[wasId] = was;
+                }
+            } catch (Exception e) {
+                Logger.Error($"Error In Get Was: {wasId}@{wdfFileId}", e);
+                was = null;
+            }
+            return true;
         }
 
     }
