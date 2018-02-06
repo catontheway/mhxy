@@ -54,7 +54,21 @@ namespace mhxy.Resource.Wass {
                         Logger.Error($"Error In Load Was : Not A SP File {flag}");
                         return;
                     }
-                    SpHeader= new SpHeader();
+                    SpHeader = new SpHeader { Flag = flag };
+                    fs.Read(buffer2, 0, 2);
+                    SpHeader.Length = BitConverter.ToUInt16(buffer2, 0);
+                    fs.Read(buffer2, 0, 2);
+                    SpHeader.Group = BitConverter.ToUInt16(buffer2, 0);
+                    fs.Read(buffer2, 0, 2);
+                    SpHeader.Frame = BitConverter.ToUInt16(buffer2, 0);
+                    fs.Read(buffer2, 0, 2);
+                    SpHeader.Width = BitConverter.ToUInt16(buffer2, 0);
+                    fs.Read(buffer2, 0, 2);
+                    SpHeader.Height = BitConverter.ToUInt16(buffer2, 0);
+                    fs.Read(buffer2, 0, 2);
+                    SpHeader.KeyX = BitConverter.ToUInt16(buffer2, 0);
+                    fs.Read(buffer2, 0, 2);
+                    SpHeader.KeyY = BitConverter.ToUInt16(buffer2, 0);
                 }
                 _loaded = true;
             } catch (Exception e) {

@@ -13,10 +13,10 @@ namespace mhxy.Resource.Wass {
         /// <summary>
         /// 
         /// </summary>
-        public WasInfo(int uid,  int size, int offset, int space) {
+        public WasInfo(int uid,   int offset, int size, int space) {
             Uid = uid;
-            Size = size;
             Offset = offset;
+            Size = size;
             Space = space;
         }
 

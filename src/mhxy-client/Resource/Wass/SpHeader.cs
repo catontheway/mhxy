@@ -20,37 +20,37 @@ namespace mhxy.Resource.Wass {
         /// <summary>
         /// 文件头的长度 默认为 12
         /// </summary>
-        public int Length { get; set; }
+        public UInt16 Length { get; set; }
 
         /// <summary>
         ///  精灵图片的组数，即方向数
         /// </summary>
-        public int Group { get; set; }
+        public UInt16 Group { get; set; }
 
         /// <summary>
         /// 每组的图片数，即帧数
         /// </summary>
-        public int Frame { get; set; }
+        public UInt16 Frame { get; set; }
 
         /// <summary>
         /// 精灵动画的宽度，单位像素
         /// </summary>
-        public int Width { get; set; }
+        public UInt16 Width { get; set; }
 
         /// <summary>
         /// 精灵动画的高度，单位像素
         /// </summary>
-        public int Height { get; set; }
+        public UInt16 Height { get; set; }
 
         /// <summary>
         /// 精灵动画的关键位X
         /// </summary>
-        public int KeyX { get; set; }
+        public UInt16 KeyX { get; set; }
 
         /// <summary>
         ///  精灵动画的关键位Y
         /// </summary>
-        public int KeyY { get; set; }
+        public UInt16 KeyY { get; set; }
     }
 
 }

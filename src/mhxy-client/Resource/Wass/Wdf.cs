@@ -45,7 +45,6 @@ namespace mhxy.Resource.Wass {
         /// </summary>
         public string FileId { get; }
 
-
         private readonly Dictionary<int, WasInfo> _wasInfos = new Dictionary<int, WasInfo>();
 
         /// <summary>
@@ -73,13 +72,13 @@ namespace mhxy.Resource.Wass {
                             fs.Read(buffer4, 0, 4);
                             int uid = BitConverter.ToInt32(buffer4, 0);
                             fs.Read(buffer4, 0, 4);
-                            int size = BitConverter.ToInt32(buffer4, 0);
-                            fs.Read(buffer4, 0, 4);
                             int offset = BitConverter.ToInt32(buffer4, 0);
                             fs.Read(buffer4, 0, 4);
+                            int size = BitConverter.ToInt32(buffer4, 0);
+                            fs.Read(buffer4, 0, 4);
                             int space = BitConverter.ToInt32(buffer4, 0);
-                            var wasInfo = new WasInfo(uid, size, offset, space);
-                            Logger.Debug($"Was({uid}):Size:{size},Offset:{offset},Space:{space}");
+                            var wasInfo = new WasInfo(uid, offset, size, space);
+                            // Logger.Debug($"Was({uid}):Size:{size},Offset:{offset},Space:{space}");
                             _wasInfos[uid] = wasInfo;
                         }
                     } else {
@@ -103,8 +102,13 @@ namespace mhxy.Resource.Wass {
         public bool TryGetWas(int wasId, out Was was) {
             was = null;
             if (_wasInfos.TryGetValue(wasId, out WasInfo wasInfo)) {
-                was = new Was(FileName, wasInfo);
-                was.Load();
+                try {
+                    was = new Was(FileName, wasInfo);
+                    was.Load();
+                    return true;
+                } catch (Exception e) {
+                    Logger.Error("TryGetWas : {wasId}", e);
+                }
             }
             return false;
         }
