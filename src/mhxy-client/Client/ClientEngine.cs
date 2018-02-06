@@ -27,14 +27,14 @@ namespace mhxy.Client {
         private readonly Dictionary<InterfaceType, InterfaceBase> _interfaces =
             new Dictionary<InterfaceType, InterfaceBase>();
 
-        private readonly Scene _currentScene = new Scene();
-
+        private InterfaceBase _currentInterface;
         private bool _signedIn;
         private string _currentName;
         private string _currentPwd;
         private int _currentProfilId;
-        private Profile _currentProfile = new Profile {InitCreate = true};
-        private InterfaceBase _currentInterface;
+        private Profile _currentProfile = new Profile { InitCreate = true };
+        private Scene _currentScene = new Scene();
+        private CurrentPlayer _currentPlayer = CurrentPlayer.None;
 
         /// <summary>
         ///     前往某个界面
@@ -60,11 +60,16 @@ namespace mhxy.Client {
         public bool LoadProfile(int id) {
             Logger.Info($"LoadProfile : {_currentName} {id}");
             if (ServiceLocator.ProfileService.TryReadProfile(_currentName, _currentPwd, id, out Profile profile)) {
+                var scene = new Scene {
+                    MapId = _currentProfile.MapId
+                };
+                var player = new CurrentPlayer {
+                    At = _currentProfile.PlayerAt
+                };
+                _currentScene = scene;
+                _currentPlayer = player;
                 _currentProfilId = id;
                 _currentProfile = profile;
-                _currentScene.MapId = _currentProfile.MapId;
-                _currentScene.PlayerX = _currentProfile.PlayerX;
-                _currentScene.PlayerY = _currentProfile.PlayerY;
                 return true;
             }
 
@@ -117,8 +122,21 @@ namespace mhxy.Client {
             return true;
         }
 
+
+        /// <summary>
+        ///     当前场景
+        /// </summary>
+        /// <returns></returns>
         public Scene GetCurrentScene() {
             return _currentScene;
+        }
+
+        /// <summary>
+        ///     当前玩家
+        /// </summary>
+        /// <returns></returns>
+        public CurrentPlayer GetCurrentPlayer() {
+            return _currentPlayer;
         }
 
         private void InitializeInterfaces() {
@@ -153,6 +171,14 @@ namespace mhxy.Client {
 
                 engine.Goto(InterfaceType.Main);
             }
+
+            //ServiceLocator.ScheduleService.AddJob(() => {
+            //    var newPoint = new System.Drawing.Point {
+            //        X = ServiceLocator.ClientEngine.GetCurrentPlayer().At.X + 6,
+            //        Y = ServiceLocator.ClientEngine.GetCurrentPlayer().At.Y + 0
+            //    };
+            //    ServiceLocator.ClientEngine.GetCurrentPlayer().At = newPoint;
+            //}, schedule => schedule.ToRunEvery(20).Milliseconds());
         }
 
     }

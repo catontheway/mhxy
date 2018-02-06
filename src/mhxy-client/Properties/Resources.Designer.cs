@@ -8,8 +8,10 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace mhxy.Properties {
-
+namespace mhxy {
+    using System;
+    
+    
     /// <summary>
     ///   一个强类型的资源类，用于查找本地化的字符串等。
     /// </summary>
@@ -262,6 +264,15 @@ namespace mhxy.Properties {
         internal static string Security_RSA_Sign_HashType {
             get {
                 return ResourceManager.GetString("Security_RSA_Sign_HashType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   查找类似 初始化失败！ 的本地化字符串。
+        /// </summary>
+        internal static string ServiceLocator_ServiceLocator_Error {
+            get {
+                return ResourceManager.GetString("ServiceLocator_ServiceLocator_Error", resourceCulture);
             }
         }
     }

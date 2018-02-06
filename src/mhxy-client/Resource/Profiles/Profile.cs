@@ -5,6 +5,7 @@
 
 #region
 
+using System.Drawing;
 using mhxy.Common.Model;
 
 #endregion
@@ -19,7 +20,7 @@ namespace mhxy.Resource.Profiles {
         /// <summary>
         ///     默认构造Profile
         /// </summary>
-        public Profile() : this(RoleType.剑侠客.ToString(), RoleType.剑侠客, "1001", 100, 100) {
+        public Profile() : this(RoleType.剑侠客.ToString(), RoleType.剑侠客, "1001.map", new Point(100, 100)) {
         }
 
         /// <summary>
@@ -28,15 +29,13 @@ namespace mhxy.Resource.Profiles {
         /// <param name="name"></param>
         /// <param name="type"></param>
         /// <param name="mapId"></param>
-        /// <param name="playerX"></param>
-        /// <param name="playerY"></param>
-        public Profile(string name, RoleType type, string mapId, int playerX, int playerY) {
+        /// <param name="playerPoint"></param>
+        public Profile(string name, RoleType type, string mapId, Point playerPoint) {
             Level = 0;
             Role = type;
             Name = name;
             MapId = mapId;
-            PlayerX = playerX;
-            PlayerY = playerY;
+            PlayerAt = playerPoint;
         }
 
         /// <summary>
@@ -65,12 +64,7 @@ namespace mhxy.Resource.Profiles {
         /// <summary>
         ///     主角所在位置
         /// </summary>
-        public int PlayerX { get; set; }
-
-        /// <summary>
-        ///     主角所在位置
-        /// </summary>
-        public int PlayerY { get; set; }
+        public Point PlayerAt { get; set; }
 
     }
 

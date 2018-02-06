@@ -58,9 +58,16 @@ namespace mhxy.Client {
         bool SaveProfile();
 
         /// <summary>
+        ///     获取当前场景信息
         /// </summary>
         /// <returns></returns>
         Scene GetCurrentScene();
+
+        /// <summary>
+        ///     获取主角信息
+        /// </summary>
+        /// <returns></returns>
+        CurrentPlayer GetCurrentPlayer();
 
     }
 

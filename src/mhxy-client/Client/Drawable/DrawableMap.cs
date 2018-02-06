@@ -30,14 +30,19 @@ namespace mhxy.Client.Drawable {
 
         public void NextFrame() {
             var currentScene = ServiceLocator.ClientEngine.GetCurrentScene();
+            var currentPlayer = ServiceLocator.ClientEngine.GetCurrentPlayer();
             if (!string.Equals(_currentMapId, currentScene.MapId)) {
                 _currentMapId = currentScene.MapId;
                 ServiceLocator.MapManager.TryGetMap(_currentMapId, out _currentMap);
                 _currentMap.Save();
             }
 
-            _currentRectangle.X = currentScene.PlayerX;
-            _currentRectangle.Y = currentScene.PlayerY;
+            int x = currentPlayer.At.X - Global.PlayX;
+            x = x < 0 ? 0 : (x > _currentMap.MaxX ? _currentMap.MaxX : x);
+            _currentRectangle.X = x;
+            int y = currentPlayer.At.Y - Global.PlayY;
+            y = y < 0 ? 0 : (y > _currentMap.MaxY ? _currentMap.MaxY : y);
+            _currentRectangle.Y = y;
         }
 
         public void Frame(int frame) {
@@ -51,6 +56,7 @@ namespace mhxy.Client.Drawable {
             FastBitmap.CopyRegion(_currentMap.Bitmap, canvas.Bitmap,
                 _currentRectangle,
                 new Rectangle(0, 0, canvas.Width, canvas.Height));
+            canvas.WorldPoint = new Point(_currentRectangle.X, _currentRectangle.Y);
         }
 
     }

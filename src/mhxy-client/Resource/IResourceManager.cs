@@ -1,6 +1,6 @@
 ﻿// FileName:  IResourceManager.cs
 // Author:  guodp <guodp9u0@gmail.com>
-// Create Date:  20180205 14:26
+// Create Date:  20180205 18:00
 // Description:   
 
 #region

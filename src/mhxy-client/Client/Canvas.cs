@@ -39,20 +39,9 @@ namespace mhxy.Client {
         public int Height { get; }
 
         /// <summary>
-        ///     显示的世界左上角坐标X
+        ///     实际显示的世界区域(以左上角的世界坐标表示)
         /// </summary>
-        public int WorldPointX { get; set; }
-
-
-        /// <summary>
-        ///     显示的世界左上角坐标Y
-        /// </summary>
-        public int WorldPointY { get; set; }
-
-        ///// <summary>
-        ///// 
-        ///// </summary>
-        //public byte[] Data { get; }
+        public Point WorldPoint { get; set; }
 
         /// <summary>
         /// </summary>

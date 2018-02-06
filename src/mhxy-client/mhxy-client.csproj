@@ -35,6 +35,9 @@
     <Reference Include="fastjson, Version=2.1.0.0, Culture=neutral, PublicKeyToken=6b75a806b86095cd, processorArchitecture=MSIL">
       <HintPath>..\..\packages\fastJSON.2.1.28\lib\net40\fastjson.dll</HintPath>
     </Reference>
+    <Reference Include="FluentScheduler, Version=5.3.0.0, Culture=neutral, PublicKeyToken=b76503528a14ebd1, processorArchitecture=MSIL">
+      <HintPath>..\..\packages\FluentScheduler.5.3.0\lib\net40\FluentScheduler.dll</HintPath>
+    </Reference>
     <Reference Include="ImageProcessor, Version=2.5.6.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\..\packages\ImageProcessor.2.5.6\lib\net40\ImageProcessor.dll</HintPath>
     </Reference>
@@ -47,6 +50,7 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -99,10 +103,8 @@
     <Compile Include="FastBitmap.cs" />
     <Compile Include="Global.cs" />
     <Compile Include="Resource\IResourceManager.cs" />
-    <Compile Include="Schedule\IJob.cs" />
-    <Compile Include="Schedule\IScheduleService.cs" />
-    <Compile Include="Schedule\JobBase.cs" />
-    <Compile Include="Schedule\ScheduleService.cs" />
+    <Compile Include="Job\IScheduleService.cs" />
+    <Compile Include="Job\ScheduleService.cs" />
     <Compile Include="Utils\ArrayExtensions.cs" />
     <Compile Include="Utils\AssemblyExtensions.cs" />
     <Compile Include="Utils\BooleanExtensions.cs" />
@@ -141,7 +143,6 @@
     <Compile Include="Resource\IProfileService.cs" />
     <Compile Include="Resource\IResource.cs" />
     <Compile Include="Resource\IWasManager.cs" />
-    <Compile Include="Resource\IWdfManager.cs" />
     <Compile Include="Resource\Maps\Map.cs" />
     <Compile Include="Resource\Maps\MapManager.cs" />
     <Compile Include="Resource\Maps\Mask.cs" />
@@ -152,10 +153,8 @@
     <Compile Include="Resource\Profiles\ProfileList.cs" />
     <Compile Include="Resource\Profiles\ProfileService.cs" />
     <Compile Include="Resource\ResourceBase.cs" />
-    <Compile Include="Resource\Wdfs\Was.cs" />
-    <Compile Include="Resource\Wdfs\WasManager.cs" />
-    <Compile Include="Resource\Wdfs\Wdf.cs" />
-    <Compile Include="Resource\Wdfs\WdfManager.cs" />
+    <Compile Include="Resource\Wass\Was.cs" />
+    <Compile Include="Resource\Wass\WasManager.cs" />
     <Compile Include="ServiceLocator.cs" />
     <Compile Include="Utils\EncryptUtil.cs" />
     <Compile Include="Utils\JSONUtil.cs" />
@@ -171,7 +170,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
-      <CustomToolNamespace>mhxy.client</CustomToolNamespace>
+      <CustomToolNamespace>mhxy</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />

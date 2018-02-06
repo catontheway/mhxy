@@ -51,7 +51,7 @@ namespace mhxy.Resource.Maps {
                     return _loadedMaps.TryGetValue(mapId, out map);
                 }
 
-                var mapFileName = Path.Combine(_mapPath, $"{mapId}.map");
+                var mapFileName = Path.Combine(_mapPath, $"{mapId}");
                 map = new Map(mapFileName);
                 map.Load();
                 _loadedMaps[mapId] = map;
@@ -71,7 +71,7 @@ namespace mhxy.Resource.Maps {
             foreach (var file in files) {
                 var fileInfo = new FileInfo(file);
                 if (string.Equals(fileInfo.Extension, ".map")) {
-                    bool result = TryGetMap(fileInfo.Name.Replace(".map", ""), out Map map);
+                    bool result = TryGetMap(fileInfo.Name, out Map map);
                     if (result) {
                         map.Save();
                     }

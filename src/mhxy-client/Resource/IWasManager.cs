@@ -7,12 +7,26 @@
 
 #endregion
 
+#region
+
+using mhxy.Resource.Wass;
+
+#endregion
+
 namespace mhxy.Resource {
 
     /// <summary>
     ///     Was 资源管理器
     /// </summary>
     public interface IWasManager : IResourceManager {
+
+        /// <summary>
+        /// </summary>
+        /// <param name="fileId"></param>
+        /// <param name="wasId"></param>
+        /// <param name="wds"></param>
+        /// <returns></returns>
+        bool TryGetWas(string fileId, int wasId, out Was wds);
 
     }
 

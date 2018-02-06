@@ -62,15 +62,17 @@ namespace mhxy.Resource.Maps {
                     _flag = BitConverter.ToString(buffer4);
                     fs.Read(buffer4, 0, 4);
                     _width = BitConverter.ToInt32(buffer4, 0);
+                    MaxX = _width - Global.Width;
                     fs.Read(buffer4, 0, 4);
                     _height = BitConverter.ToInt32(buffer4, 0);
-                    _unitColumns = (int) Math.Ceiling((double) _width / Global.WidthPerMapCell);
-                    _unitRows = (int) Math.Ceiling((double) _height / Global.HeightPerMapCell);
+                    MaxY = _height - Global.Height;
+                    _unitColumns = (int) Math.Ceiling((double) Width / Global.WidthPerMapCell);
+                    _unitRows = (int) Math.Ceiling((double) Height / Global.HeightPerMapCell);
                     _unitSize = _unitColumns * _unitRows;
                     _unitOffsets = new int[_unitSize];
                     _units = new Unit[_unitSize];
-                    Logger.Info($"Flag(302E314D):{_flag},Width:{_width}" +
-                                $",Height:{_height},Unit Columns:{_unitColumns}" +
+                    Logger.Info($"Flag(302E314D):{_flag},Width:{Width}" +
+                                $",Height:{Height},Unit Columns:{_unitColumns}" +
                                 $",Unit Rows:{_unitRows},Unit Size:{_unitSize}");
                     //1.2.Read Unit Indexes
                     for (var i = 0; i < _unitSize; i++) {
@@ -106,7 +108,7 @@ namespace mhxy.Resource.Maps {
                     //4.Process Mask
 
                     //5.Create BitMap
-                    _bitmap = new Bitmap(_width, _height);
+                    _bitmap = new Bitmap(Width, Height);
                     using (ImageFactory factory = new ImageFactory()) {
                         for (var rowIndex = 0; rowIndex < _unitRows; rowIndex++) {
                             for (var colIndex = 0; colIndex < _unitColumns; colIndex++) {
@@ -441,6 +443,27 @@ namespace mhxy.Resource.Maps {
         ///     地图图像
         /// </summary>
         public Bitmap Bitmap => _bitmap;
+
+        /// <summary>
+        ///     宽度
+        /// </summary>
+        public int Width => _width;
+
+        /// <summary>
+        ///     高度
+        /// </summary>
+        public int Height => _height;
+
+        /// <summary>
+        ///     为了显示
+        /// </summary>
+        public int MaxX { get; private set; }
+
+        /// <summary>
+        ///     为了显示
+        /// </summary>
+        public int MaxY { get; private set; }
+
 
         /// <summary>
         ///     地图图像

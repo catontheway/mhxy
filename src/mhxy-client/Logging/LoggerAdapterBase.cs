@@ -7,7 +7,6 @@
 
 using System;
 using System.Collections.Concurrent;
-using mhxy.Properties;
 using mhxy.Utils;
 
 #endregion

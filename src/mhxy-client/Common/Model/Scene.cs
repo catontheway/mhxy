@@ -3,6 +3,12 @@
 // Create Date:  20180205 13:56
 // Description:   
 
+#region
+
+using System.Drawing;
+
+#endregion
+
 namespace mhxy.Common.Model {
 
     /// <summary>
@@ -16,14 +22,9 @@ namespace mhxy.Common.Model {
         public string MapId { get; set; }
 
         /// <summary>
-        ///     主角所在地图的位置
+        ///     主角所在位置
         /// </summary>
-        public int PlayerX { get; set; }
-
-        /// <summary>
-        ///     主角所在地图的位置
-        /// </summary>
-        public int PlayerY { get; set; }
+        public Point PlayerAt { get; set; }
 
     }
 
