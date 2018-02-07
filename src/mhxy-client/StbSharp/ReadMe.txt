@@ -1,0 +1,1 @@
+﻿This code had been borrowed from here: https://github.com/rds1983/StbSharp

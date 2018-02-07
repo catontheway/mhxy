@@ -99,11 +99,11 @@ namespace mhxy.Resource.Wass {
         /// <param name="wasId"></param>
         /// <param name="was"></param>
         /// <returns></returns>
-        public bool TryGetWas(int wasId, out Was was) {
+        public bool TryGetSpWas(int wasId, out SpWas was) {
             was = null;
             if (_wasInfos.TryGetValue(wasId, out WasInfo wasInfo)) {
                 try {
-                    was = new Was(FileName, wasInfo);
+                    was = new SpWas(FileName, wasInfo);
                     was.Load();
                     return true;
                 } catch (Exception e) {

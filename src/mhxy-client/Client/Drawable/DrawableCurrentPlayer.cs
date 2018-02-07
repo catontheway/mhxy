@@ -18,7 +18,7 @@ namespace mhxy.Client.Drawable {
     /// </summary>
     public class DrawableCurrentPlayer : IDrawable {
 
-        private Was _walk;
+        private SpWas _walk;
 
         private CurrentPlayer _currentPlayer;
 
@@ -33,7 +33,7 @@ namespace mhxy.Client.Drawable {
         public void NextFrame() {
             _currentPlayer = ServiceLocator.ClientEngine.GetCurrentPlayer();
             if (_walk == null) {
-                ServiceLocator.WasManager.TryGetWas("shape.wdf", 0X54F3FC94, out _walk);
+                ServiceLocator.WasManager.TryGetSpWas("shape.wdf", 1228435406, out _walk);
             }
         }
 

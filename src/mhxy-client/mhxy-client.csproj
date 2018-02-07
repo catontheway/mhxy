@@ -102,11 +102,30 @@
     <Compile Include="Client\IDrawable.cs" />
     <Compile Include="Client\IDrawingService.cs" />
     <Compile Include="Global.cs" />
+    <Compile Include="Resource\Wass\SpFrame.cs" />
+    <Compile Include="Resource\Wass\TgaHeader.cs" />
+    <Compile Include="StbSharp\CRuntime.cs" />
+    <Compile Include="StbSharp\Image.cs" />
+    <Compile Include="StbSharp\ImageReader.cs" />
+    <Compile Include="StbSharp\ImageWriter.cs" />
+    <Compile Include="StbSharp\Operations.cs" />
+    <Compile Include="StbSharp\PinnedArray.cs" />
+    <Compile Include="StbSharp\StbDxt.cs" />
+    <Compile Include="StbSharp\StbDxt.Generated.cs" />
+    <Compile Include="StbSharp\StbImage.cs" />
+    <Compile Include="StbSharp\StbImage.Generated.cs" />
+    <Compile Include="StbSharp\StbImageResize.cs" />
+    <Compile Include="StbSharp\StbImageResize.Generated.cs" />
+    <Compile Include="StbSharp\StbImageWrite.cs" />
+    <Compile Include="StbSharp\StbImageWrite.Generated.cs" />
+    <Compile Include="StbSharp\StbTrueType.cs" />
+    <Compile Include="StbSharp\StbTrueType.Generated.cs" />
+    <Compile Include="StbSharp\StbVorbis.cs" />
+    <Compile Include="StbSharp\StbVorbis.Generated.cs" />
     <Compile Include="Utils\FastBitmap.cs" />
     <Compile Include="Resource\IResourceManager.cs" />
     <Compile Include="Job\IScheduleService.cs" />
     <Compile Include="Job\ScheduleService.cs" />
-    <Compile Include="Resource\Wass\FrameHeader.cs" />
     <Compile Include="Resource\Wass\SpHeader.cs" />
     <Compile Include="Resource\Wass\WasInfo.cs" />
     <Compile Include="Resource\Wass\Wdf.cs" />
@@ -146,7 +165,7 @@
     <Compile Include="Resource\Profiles\ProfileList.cs" />
     <Compile Include="Resource\Profiles\ProfileService.cs" />
     <Compile Include="Resource\ResourceBase.cs" />
-    <Compile Include="Resource\Wass\Was.cs" />
+    <Compile Include="Resource\Wass\SpWas.cs" />
     <Compile Include="Resource\Wass\WasManager.cs" />
     <Compile Include="ServiceLocator.cs" />
     <Compile Include="Utils\EncryptUtil.cs" />
@@ -166,6 +185,8 @@
       <CustomToolNamespace>mhxy</CustomToolNamespace>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Content Include="StbSharp\ReadMe.txt" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

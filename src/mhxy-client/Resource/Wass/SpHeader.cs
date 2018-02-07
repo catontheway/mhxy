@@ -18,7 +18,7 @@ namespace mhxy.Resource.Wass {
         public string Flag { get; set; }
 
         /// <summary>
-        /// 文件头的长度 默认为 12
+        /// 文件头的长度 默认为 12 不包括Length字段
         /// </summary>
         public UInt16 Length { get; set; }
 

@@ -26,7 +26,7 @@ namespace mhxy.Resource {
         /// <param name="wasId"></param>
         /// <param name="wds"></param>
         /// <returns></returns>
-        bool TryGetWas(string fileId, int wasId, out Was wds);
+        bool TryGetSpWas(string fileId, int wasId, out SpWas wds);
 
     }
 

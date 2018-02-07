@@ -26,7 +26,7 @@ namespace mhxy.Resource.Wass {
 
         private readonly string _wdfPath;
         private readonly ConcurrentDictionary<string, Wdf> _wdfs = new ConcurrentDictionary<string, Wdf>();
-        private readonly ConcurrentDictionary<int, Was> _wass = new ConcurrentDictionary<int, Was>();
+        private readonly ConcurrentDictionary<int, SpWas> _wass = new ConcurrentDictionary<int, SpWas>();
 
         /// <summary>
         ///     获取Was
@@ -35,7 +35,7 @@ namespace mhxy.Resource.Wass {
         /// <param name="wasId"></param>
         /// <param name="was"></param>
         /// <returns></returns>
-        public bool TryGetWas(string wdfFileId, int wasId, out Was was) {
+        public bool TryGetSpWas(string wdfFileId, int wasId, out SpWas was) {
             try {
                 if (!_wass.TryGetValue(wasId, out was)) {
                     if (!_wdfs.TryGetValue(wdfFileId, out Wdf wdf)) {
@@ -43,7 +43,7 @@ namespace mhxy.Resource.Wass {
                         wdf.Load();
                         _wdfs[wdfFileId] = wdf;
                     }
-                    if (!wdf.TryGetWas(wasId, out was)) {
+                    if (!wdf.TryGetSpWas(wasId, out was)) {
                         Logger.Warn($"Not Fount Was: {wasId}@{wdfFileId}");
                         return false;
                     }

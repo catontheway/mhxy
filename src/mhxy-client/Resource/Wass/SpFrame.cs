@@ -1,14 +1,11 @@
-﻿// FileName:  FrameHeader.cs
-// Author:  guodp <guodp9u0@gmail.com>
-// Create Date:  20180206 16:33
-// Description:   
+﻿using System.Drawing;
 
 namespace mhxy.Resource.Wass {
 
     /// <summary>
-    /// 帧头部
+    /// 帧数据
     /// </summary>
-    public class FrameHeader {
+    public class SpFrame {
 
         /// <summary>
         /// 图片的关键位X
@@ -30,6 +27,19 @@ namespace mhxy.Resource.Wass {
         /// </summary>
         public int Height { get; set; }
 
-    }
+        /// <summary>
+        /// 原始数据
+        /// </summary>
+        public byte[] Data { get; set; }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        public TgaHeader TgaHeader { get; set; }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        public Bitmap Bitmap { get; set; }
+    }
 }
