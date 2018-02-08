@@ -1,6 +1,6 @@
-﻿// FileName:  Environment.cs
+﻿// FileName:  Global.cs
 // Author:  guodp <guodp9u0@gmail.com>
-// Create Date:  20180202 08:53
+// Create Date:  20180202 18:05
 // Description:   
 
 #define Develop
@@ -28,17 +28,27 @@ namespace mhxy {
         /// </summary>
         public const int HeightPerMapCell = 240;
 
+        /// <summary>
+        ///     主角在屏幕上的位置(正常情况下)
+        /// </summary>
+        public const int PlayY = Height / 2;
+
+        /// <summary>
+        ///     宽度
+        /// </summary>
+        public const int Width = 800;
+
+        /// <summary>
+        ///     高度
+        /// </summary>
+        public const int Height = 600;
+
         // 非正常情况下：地图到达边缘 需要保持地图不变 移动主角到屏幕边缘
 
         /// <summary>
         ///     主角在屏幕上的位置(正常情况下)
         /// </summary>
         public static int PlayX = Width / 2;
-
-        /// <summary>
-        ///     主角在屏幕上的位置(正常情况下)
-        /// </summary>
-        public const int PlayY = Height / 2;
 
         /// <summary>
         ///     是否正常登录
@@ -94,16 +104,6 @@ namespace mhxy {
         ///     存档目录
         /// </summary>
         public static string ProfilePath;
-
-        /// <summary>
-        ///     宽度
-        /// </summary>
-        public const int Width = 800;
-
-        /// <summary>
-        ///     高度
-        /// </summary>
-        public const int Height = 600;
 
         /// <summary>
         /// </summary>

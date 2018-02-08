@@ -67,8 +67,8 @@ namespace mhxy.Resource.Maps {
                     fs.Read(buffer4, 0, 4);
                     _height = BitConverter.ToInt32(buffer4, 0);
                     MaxY = _height - Global.Height;
-                    _unitColumns = (int)Math.Ceiling((double)Width / Global.WidthPerMapCell);
-                    _unitRows = (int)Math.Ceiling((double)Height / Global.HeightPerMapCell);
+                    _unitColumns = (int) Math.Ceiling((double) Width / Global.WidthPerMapCell);
+                    _unitRows = (int) Math.Ceiling((double) Height / Global.HeightPerMapCell);
                     _unitSize = _unitColumns * _unitRows;
                     _unitOffsets = new int[_unitSize];
                     _units = new Unit[_unitSize];
@@ -118,6 +118,7 @@ namespace mhxy.Resource.Maps {
                                 if (!unit.Decoded) {
                                     continue;
                                 }
+
                                 if (factory.Load(unit.RealImage)
                                     .Image is Bitmap unitBitmap) {
                                     FastBitmap.CopyRegion(unitBitmap, _bitmap,
@@ -129,6 +130,7 @@ namespace mhxy.Resource.Maps {
                         }
                     }
                 }
+
                 _loaded = true;
             } catch (Exception e) {
                 Logger.Error($"Error In Load Map : {_fileName}", e);
@@ -145,6 +147,7 @@ namespace mhxy.Resource.Maps {
             if (!_loaded) {
                 return;
             }
+
             Logger.Info($"Begin Save Map : {_fileName}");
             var fileName = _fileName + ".jpg";
             try {
@@ -212,6 +215,7 @@ namespace mhxy.Resource.Maps {
                 unit.Decoded = true;
                 unit.RealImage = img.Data;
             }
+
             //Logger.Debug($"Read Unit({index}:{offSet}):RealOffset:{realOffset}");
             //Logger.Debug($"UnitData(jpeg):Flag(47-45-50-4A):{jpeg.Flag},Size:{jpeg.Size}"); //也可能是 32-47-50-4A,JPG
             //Logger.Debug($"UnitData(cell):Flag(4C-4C-45-43):{cell.Flag},Size:{cell.Size}");

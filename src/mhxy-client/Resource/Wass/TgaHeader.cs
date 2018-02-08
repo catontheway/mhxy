@@ -4,12 +4,12 @@
 // Description:   
 
 namespace mhxy.Resource.Wass {
-    
 
     /// <summary>
-    /// Tga 文件头
+    ///     Tga 文件头
     /// </summary>
     public class TgaHeader {
+
         public byte IdLength;
         public byte ColorMapType;
         public byte ImageType;
@@ -22,6 +22,7 @@ namespace mhxy.Resource.Wass {
         public ushort ImageHeight;
         public byte PixelDepth;
         public byte ImageDescruptor;
+
     }
 
 }

@@ -30,6 +30,7 @@ namespace mhxy.Client {
         private int _fpsCount;
 
         #endregion
+
         /// <summary>
         /// </summary>
         public new void Run() {
@@ -59,6 +60,7 @@ namespace mhxy.Client {
             if (oldTexture != 0) {
                 GL.DeleteTexture(_texture);
             }
+
             base.OnRenderFrame(e);
         }
 
@@ -93,11 +95,11 @@ namespace mhxy.Client {
                 OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
             bitmap.UnlockBits(data);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter
-                , (int)TextureMinFilter.Linear);
+                , (int) TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter
-                , (int)TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+                , (int) TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int) TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int) TextureWrapMode.Repeat);
             return texture;
         }
 

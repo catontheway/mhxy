@@ -1,148 +1,139 @@
-﻿using System;
+﻿// FileName:  ImageReader.cs
+// Author:  guodp <guodp9u0@gmail.com>
+// Create Date:  20180207 13:45
+// Description:   
+
+#region
+
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace mhxy.StbSharp
-{
-	public unsafe class ImageReader
-	{
-		public class AnimatedGifFrame
-		{
-			public byte[] Data;
-			public int Delay;
-		}
+#endregion
 
-		private Stream _stream;
-		private byte[] _buffer = new byte[1024];
+namespace mhxy.StbSharp {
 
-		private readonly StbImage.stbi_io_callbacks _callbacks;
+    public unsafe class ImageReader {
 
-		public ImageReader()
-		{
-			_callbacks = new StbImage.stbi_io_callbacks
-			{
-				read = ReadCallback,
-				skip = SkipCallback,
-				eof = Eof
-			};
-		}
+        public ImageReader() {
+            _callbacks = new StbImage.stbi_io_callbacks {
+                read = ReadCallback,
+                skip = SkipCallback,
+                eof = Eof
+            };
+        }
 
-		private int SkipCallback(void* user, int i)
-		{
-			return (int) _stream.Seek(i, SeekOrigin.Current);
-		}
+        private readonly StbImage.stbi_io_callbacks _callbacks;
 
-		private int Eof(void* user)
-		{
-			return _stream.CanRead ? 1 : 0;
-		}
+        private Stream _stream;
+        private byte[] _buffer = new byte[1024];
 
-		private int ReadCallback(void* user, sbyte* data, int size)
-		{
-			if (size > _buffer.Length)
-			{
-				_buffer = new byte[size*2];
-			}
+        private int SkipCallback(void* user, int i) {
+            return (int) _stream.Seek(i, SeekOrigin.Current);
+        }
 
-			var res = _stream.Read(_buffer, 0, size);
-			Marshal.Copy(_buffer, 0, new IntPtr(data), size);
-			return res;
-		}
+        private int Eof(void* user) {
+            return _stream.CanRead ? 1 : 0;
+        }
 
-		public Image Read(Stream stream, int req_comp = StbImage.STBI_default)
-		{
-			_stream = stream;
+        private int ReadCallback(void* user, sbyte* data, int size) {
+            if (size > _buffer.Length) {
+                _buffer = new byte[size * 2];
+            }
 
-			try
-			{
-				int x, y, comp;
-				var result = StbImage.stbi_load_from_callbacks(_callbacks, null, &x, &y, &comp, req_comp);
+            var res = _stream.Read(_buffer, 0, size);
+            Marshal.Copy(_buffer, 0, new IntPtr(data), size);
+            return res;
+        }
 
-				var image = new Image
-				{
-					Width = x,
-					Height = y,
-					SourceComp = comp,
-					Comp = req_comp == StbImage.STBI_default ? comp : req_comp
-				};
+        public Image Read(Stream stream, int req_comp = StbImage.STBI_default) {
+            _stream = stream;
 
-				if (result == null)
-				{
-					throw new Exception(StbImage.LastError);
-				}
+            try {
+                int x, y, comp;
+                var result = StbImage.stbi_load_from_callbacks(_callbacks, null, &x, &y, &comp, req_comp);
 
-				// Convert to array
-				var data = new byte[x*y*image.Comp];
-				Marshal.Copy(new IntPtr(result), data, 0, data.Length);
-				Operations.Free(result);
+                var image = new Image {
+                    Width = x,
+                    Height = y,
+                    SourceComp = comp,
+                    Comp = req_comp == StbImage.STBI_default ? comp : req_comp
+                };
 
-				image.Data = data;
+                if (result == null) {
+                    throw new Exception(StbImage.LastError);
+                }
 
-				return image;
-			}
-			finally
-			{
-				_stream = null;
-			}
-		}
+                // Convert to array
+                var data = new byte[x * y * image.Comp];
+                Marshal.Copy(new IntPtr(result), data, 0, data.Length);
+                Operations.Free(result);
 
-		public AnimatedGifFrame[] ReadAnimatedGif(Stream stream, out int x, out int y, out int comp, int req_comp)
-		{
-			try
-			{
-				x = y = comp = 0;
+                image.Data = data;
 
-				var res = new List<AnimatedGifFrame>();
-				_stream = stream;
+                return image;
+            } finally {
+                _stream = null;
+            }
+        }
 
-				var context = new StbImage.stbi__context();
-				StbImage.stbi__start_callbacks(context, _callbacks, null);
+        public AnimatedGifFrame[] ReadAnimatedGif(Stream stream, out int x, out int y, out int comp, int req_comp) {
+            try {
+                x = y = comp = 0;
 
-				if (StbImage.stbi__gif_test(context) == 0)
-				{
-					throw new Exception("Input stream is not GIF file.");
-				}
+                var res = new List<AnimatedGifFrame>();
+                _stream = stream;
 
-				var g = new StbImage.stbi__gif();
+                var context = new StbImage.stbi__context();
+                StbImage.stbi__start_callbacks(context, _callbacks, null);
 
-				do
-				{
-					int ccomp;
-					var result = StbImage.stbi__gif_load_next(context, g, &ccomp, req_comp);
-					if (result == null)
-					{
-						break;
-					}
+                if (StbImage.stbi__gif_test(context) == 0) {
+                    throw new Exception("Input stream is not GIF file.");
+                }
 
-					comp = ccomp;
-					var c = req_comp != 0 ? req_comp : comp;
-					var data = new byte[g.w*g.h*c];
-					Marshal.Copy(new IntPtr(result), data, 0, data.Length);
-					Operations.Free(result);
+                var g = new StbImage.stbi__gif();
 
-					var frame = new AnimatedGifFrame
-					{
-						Data = data,
-						Delay = g.delay
-					};
-					res.Add(frame);
-				} while (true);
+                do {
+                    int ccomp;
+                    var result = StbImage.stbi__gif_load_next(context, g, &ccomp, req_comp);
+                    if (result == null) {
+                        break;
+                    }
 
-				Operations.Free(g._out_);
+                    comp = ccomp;
+                    var c = req_comp != 0 ? req_comp : comp;
+                    var data = new byte[g.w * g.h * c];
+                    Marshal.Copy(new IntPtr(result), data, 0, data.Length);
+                    Operations.Free(result);
 
-				if (res.Count > 0)
-				{
-					x = g.w;
-					y = g.h;
-				}
+                    var frame = new AnimatedGifFrame {
+                        Data = data,
+                        Delay = g.delay
+                    };
+                    res.Add(frame);
+                } while (true);
 
-				return res.ToArray();
-			}
-			finally
-			{
-				_stream = null;
-			}
-		}
-	}
+                Operations.Free(g._out_);
+
+                if (res.Count > 0) {
+                    x = g.w;
+                    y = g.h;
+                }
+
+                return res.ToArray();
+            } finally {
+                _stream = null;
+            }
+        }
+
+        public class AnimatedGifFrame {
+
+            public byte[] Data;
+            public int Delay;
+
+        }
+
+    }
+
 }

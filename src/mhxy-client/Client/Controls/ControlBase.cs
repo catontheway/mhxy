@@ -5,8 +5,6 @@
 
 #region
 
-using System;
-
 #endregion
 
 namespace mhxy.Client.Controls {
@@ -17,10 +15,11 @@ namespace mhxy.Client.Controls {
     public abstract class ControlBase : DrawableBase {
 
         /// <summary>
-        /// 通用构造方法
+        ///     通用构造方法
         /// </summary>
         protected ControlBase() : base(DrawPriority.Normal) {
         }
+
     }
 
 }

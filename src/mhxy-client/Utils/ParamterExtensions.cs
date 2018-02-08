@@ -1,4 +1,4 @@
-﻿// FileName:  ParamterCheckExtensions.cs
+﻿// FileName:  ParamterExtensions.cs
 // Author:  guodp <guodp9u0@gmail.com>
 // Create Date:  20180202 10:51
 // Description:   

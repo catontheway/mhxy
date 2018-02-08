@@ -1,128 +1,111 @@
-﻿using System;
+﻿// FileName:  ImageWriter.cs
+// Author:  guodp <guodp9u0@gmail.com>
+// Create Date:  20180207 13:45
+// Description:   
+
+#region
+
+using System;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace mhxy.StbSharp
-{
-	public unsafe class ImageWriter
-	{
-		private Stream _stream;
-		private byte[] _buffer = new byte[1024];
+#endregion
 
-		private int WriteCallback(void* context, void* data, int size)
-		{
-			if (data == null || size <= 0)
-			{
-				return 0;
-			}
+namespace mhxy.StbSharp {
 
-			if (_buffer.Length < size)
-			{
-				_buffer = new byte[size*2];
-			}
+    public unsafe class ImageWriter {
 
-			var bptr = (byte*) data;
+        private Stream _stream;
+        private byte[] _buffer = new byte[1024];
 
-			Marshal.Copy(new IntPtr(bptr), _buffer, 0, size);
+        private int WriteCallback(void* context, void* data, int size) {
+            if (data == null || size <= 0) {
+                return 0;
+            }
 
-			_stream.Write(_buffer, 0, size);
+            if (_buffer.Length < size) {
+                _buffer = new byte[size * 2];
+            }
 
-			return size;
-		}
+            var bptr = (byte*) data;
 
-		public void WriteBmp(Image image, Stream dest)
-		{
-			try
-			{
-				_stream = dest;
-				fixed (byte* b = &image.Data[0])
-				{
-					StbImageWrite.stbi_write_bmp_to_func(WriteCallback, null, image.Width, image.Height, image.Comp, b);
-				}
-			}
-			finally
-			{
-				_stream = null;
-			}
-		}
+            Marshal.Copy(new IntPtr(bptr), _buffer, 0, size);
 
-		public void WriteTga(Image image, Stream dest)
-		{
-			try
-			{
-				_stream = dest;
-				fixed (byte* b = &image.Data[0])
-				{
-					StbImageWrite.stbi_write_tga_to_func(WriteCallback, null, image.Width, image.Height, image.Comp, b);
-				}
-			}
-			finally
-			{
-				_stream = null;
-			}
-		}
+            _stream.Write(_buffer, 0, size);
 
-		public void WriteHdr(Image image, Stream dest)
-		{
-			try
-			{
-				_stream = dest;
-				var f = new float[image.Data.Length];
-				for (var i = 0; i < image.Data.Length; ++i)
-				{
-					f[i] = image.Data[i]/255.0f;
-				}
+            return size;
+        }
 
-				fixed (float* fptr = f)
-				{
-					StbImageWrite.stbi_write_hdr_to_func(WriteCallback, null, image.Width, image.Height, image.Comp, fptr);
-				}
-			}
-			finally
-			{
-				_stream = null;
-			}
-		}
+        public void WriteBmp(Image image, Stream dest) {
+            try {
+                _stream = dest;
+                fixed(byte* b = &image.Data[0]) {
+                    StbImageWrite.stbi_write_bmp_to_func(WriteCallback, null, image.Width, image.Height, image.Comp, b);
+                }
+            } finally {
+                _stream = null;
+            }
+        }
 
-		public void WritePng(Image image, Stream dest)
-		{
-			try
-			{
-				_stream = dest;
+        public void WriteTga(Image image, Stream dest) {
+            try {
+                _stream = dest;
+                fixed(byte* b = &image.Data[0]) {
+                    StbImageWrite.stbi_write_tga_to_func(WriteCallback, null, image.Width, image.Height, image.Comp, b);
+                }
+            } finally {
+                _stream = null;
+            }
+        }
 
-				fixed (byte* b = &image.Data[0])
-				{
-					StbImageWrite.stbi_write_png_to_func(WriteCallback, null, image.Width, image.Height, image.Comp, b,
-						image.Width*image.Comp);
-				}
-			}
-			finally
-			{
-				_stream = null;
-			}
-		}
+        public void WriteHdr(Image image, Stream dest) {
+            try {
+                _stream = dest;
+                var f = new float[image.Data.Length];
+                for (var i = 0; i < image.Data.Length; ++i) {
+                    f[i] = image.Data[i] / 255.0f;
+                }
 
-		/// <summary>
-		/// 
-		/// </summary>
-		/// <param name="image"></param>
-		/// <param name="dest"></param>
-		/// <param name="quality">Should be beetween 1 & 100</param>
-		public void WriteJpg(Image image, Stream dest, int quality)
-		{
-			try
-			{
-				_stream = dest;
+                fixed(float* fptr = f) {
+                    StbImageWrite.stbi_write_hdr_to_func(WriteCallback, null, image.Width, image.Height, image.Comp,
+                        fptr);
+                }
+            } finally {
+                _stream = null;
+            }
+        }
 
-				fixed (byte* b = &image.Data[0])
-				{
-					StbImageWrite.stbi_write_jpg_to_func(WriteCallback, null, image.Width, image.Height, image.Comp, b, quality);
-				}
-			}
-			finally
-			{
-				_stream = null;
-			}
-		}
-	}
+        public void WritePng(Image image, Stream dest) {
+            try {
+                _stream = dest;
+
+                fixed(byte* b = &image.Data[0]) {
+                    StbImageWrite.stbi_write_png_to_func(WriteCallback, null, image.Width, image.Height, image.Comp, b,
+                        image.Width * image.Comp);
+                }
+            } finally {
+                _stream = null;
+            }
+        }
+
+        /// <summary>
+        /// </summary>
+        /// <param name="image"></param>
+        /// <param name="dest"></param>
+        /// <param name="quality">Should be beetween 1 & 100</param>
+        public void WriteJpg(Image image, Stream dest, int quality) {
+            try {
+                _stream = dest;
+
+                fixed(byte* b = &image.Data[0]) {
+                    StbImageWrite.stbi_write_jpg_to_func(WriteCallback, null, image.Width, image.Height, image.Comp, b,
+                        quality);
+                }
+            } finally {
+                _stream = null;
+            }
+        }
+
+    }
+
 }

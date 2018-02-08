@@ -33,7 +33,7 @@ namespace mhxy.Client {
         private string _currentName;
         private string _currentPwd;
         private int _currentProfilId;
-        private Profile _currentProfile = new Profile { InitCreate = true };
+        private Profile _currentProfile = new Profile {InitCreate = true};
         private Scene _currentScene = new Scene();
         private CurrentPlayer _currentPlayer = CurrentPlayer.None;
 
@@ -171,10 +171,10 @@ namespace mhxy.Client {
                     engine.SaveProfile();
                     engine.LoadProfile(Global.DevelopProfileId);
                 }
+
                 ServiceLocator.ClientEngine.GetCurrentPlayer().At = new Point(2000, 1500);
                 engine.Goto(InterfaceType.Main);
             }
-           
         }
 
     }

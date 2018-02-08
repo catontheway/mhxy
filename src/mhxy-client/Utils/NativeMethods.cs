@@ -3,8 +3,12 @@
 // Create Date:  20180206 17:37
 // Description:   
 
+#region
+
 using System;
 using System.Runtime.InteropServices;
+
+#endregion
 
 namespace mhxy.Utils {
 
@@ -32,16 +36,16 @@ namespace mhxy.Utils {
         public static extern IntPtr memset(void* dest, int value, ulong count);
 
         /// <summary>
-        /// Set Window Visible Or Invisible
+        ///     Set Window Visible Or Invisible
         /// </summary>
         /// <param name="hWnd"></param>
         /// <param name="nCmdShow"></param>
         /// <returns></returns>
         [DllImport("user32.dll", EntryPoint = "ShowWindow", SetLastError = true)]
         public static extern bool ShowWindow(IntPtr hWnd, uint nCmdShow);
-        
+
         /// <summary>
-        /// Find Window By Title
+        ///     Find Window By Title
         /// </summary>
         /// <param name="lpClassName"></param>
         /// <param name="lpWindowName"></param>

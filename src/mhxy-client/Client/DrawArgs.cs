@@ -3,57 +3,20 @@
 // Create Date:  20180208 17:42
 // Description:   
 
-using mhxy.Utils;
+#region
+
 using System.Drawing;
+using mhxy.Utils;
+
+#endregion
 
 namespace mhxy.Client {
 
-
     /// <summary>
-    /// 
     /// </summary>
     public class DrawArgs {
 
         /// <summary>
-        /// 当前绘制的画布
-        /// </summary>
-        public Canvas CurrentCanvas { get; }
-
-        /// <summary>
-        /// 当前绘制优先级
-        /// </summary>
-        public DrawPriority Priority { get; }
-
-        /// <summary>
-        /// 当前绘制的bitmap
-        /// </summary>
-        public Bitmap Bitmap { get; }
-
-        /// <summary>
-        /// Bitmap 包装可以对Bitmap进行快速操作
-        /// </summary>
-        public FastBitmap FastBitmap { get; }
-
-        /// <summary>
-        ///     画布宽度
-        /// </summary>
-        public int Width => CurrentCanvas.Width;
-
-        /// <summary>
-        ///     画布高度
-        /// </summary>
-        public int Height => CurrentCanvas.Height;
-
-        /// <summary>
-        ///     实际显示的世界区域
-        /// </summary>
-        public Point WorldPoint {
-            get => CurrentCanvas.WorldPoint;
-            set => CurrentCanvas.WorldPoint = value;
-        }
-
-        /// <summary>
-        /// 
         /// </summary>
         /// <param name="canvas"></param>
         /// <param name="priority"></param>
@@ -77,8 +40,48 @@ namespace mhxy.Client {
                     Bitmap = canvas.Highest;
                     break;
             }
+
             FastBitmap = new FastBitmap(Bitmap);
         }
+
+        /// <summary>
+        ///     当前绘制的画布
+        /// </summary>
+        public Canvas CurrentCanvas { get; }
+
+        /// <summary>
+        ///     当前绘制优先级
+        /// </summary>
+        public DrawPriority Priority { get; }
+
+        /// <summary>
+        ///     当前绘制的bitmap
+        /// </summary>
+        public Bitmap Bitmap { get; }
+
+        /// <summary>
+        ///     Bitmap 包装可以对Bitmap进行快速操作
+        /// </summary>
+        public FastBitmap FastBitmap { get; }
+
+        /// <summary>
+        ///     画布宽度
+        /// </summary>
+        public int Width => CurrentCanvas.Width;
+
+        /// <summary>
+        ///     画布高度
+        /// </summary>
+        public int Height => CurrentCanvas.Height;
+
+        /// <summary>
+        ///     实际显示的世界区域
+        /// </summary>
+        public Point WorldPoint {
+            get => CurrentCanvas.WorldPoint;
+            set => CurrentCanvas.WorldPoint = value;
+        }
+
     }
 
 }

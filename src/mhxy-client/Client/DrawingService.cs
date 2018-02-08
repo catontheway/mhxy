@@ -6,7 +6,6 @@
 #region
 
 using System.Collections.Generic;
-using System.Linq;
 using mhxy.Common;
 
 #endregion
@@ -17,9 +16,7 @@ namespace mhxy.Client {
     /// </summary>
     public class DrawingService : ServiceBase, IDrawingService {
 
-
         /// <summary>
-        /// 
         /// </summary>
         public DrawingService() {
             _canvas = new Canvas(Global.Width, Global.Height);
@@ -30,7 +27,8 @@ namespace mhxy.Client {
             _drawables[DrawPriority.Highest] = new List<IDrawable>();
         }
 
-        private readonly Dictionary<DrawPriority, List<IDrawable>> _drawables = new Dictionary<DrawPriority, List<IDrawable>>();
+        private readonly Dictionary<DrawPriority, List<IDrawable>> _drawables =
+            new Dictionary<DrawPriority, List<IDrawable>>();
 
         private readonly Canvas _canvas;
 

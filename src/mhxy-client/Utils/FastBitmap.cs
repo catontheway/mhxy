@@ -1,6 +1,6 @@
 ﻿// FileName:  FastBitmap.cs
 // Author:  guodp <guodp9u0@gmail.com>
-// Create Date:  20180205 09:51
+// Create Date:  20180206 17:48
 // Description:   
 
 #region
@@ -160,7 +160,7 @@ namespace mhxy.Utils {
             // Lock the bitmap's bits
             _bitmapData = _bitmap.LockBits(rect, lockMode, _bitmap.PixelFormat);
 
-            _scan0 = (int*)_bitmapData.Scan0;
+            _scan0 = (int*) _bitmapData.Scan0;
             Stride = _bitmapData.Stride / BytesPerPixel;
 
             Locked = true;
@@ -207,7 +207,7 @@ namespace mhxy.Utils {
         /// <exception cref="InvalidOperationException">The fast bitmap is not locked</exception>
         /// <exception cref="ArgumentOutOfRangeException">The provided coordinates are out of bounds of the bitmap</exception>
         public void SetPixel(int x, int y, int color) {
-            SetPixel(x, y, unchecked((uint)color));
+            SetPixel(x, y, unchecked((uint) color));
         }
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace mhxy.Utils {
                 throw new ArgumentOutOfRangeException(nameof(y), @"The Y component must be >= 0 and < height");
             }
 
-            *(uint*)(_scan0 + x + y * Stride) = color;
+            *(uint*) (_scan0 + x + y * Stride) = color;
         }
 
         /// <summary>
@@ -295,7 +295,7 @@ namespace mhxy.Utils {
                 throw new ArgumentOutOfRangeException(nameof(y), @"The Y component must be >= 0 and < height");
             }
 
-            return *((uint*)_scan0 + x + y * Stride);
+            return *((uint*) _scan0 + x + y * Stride);
         }
 
         /// <summary>
@@ -314,7 +314,7 @@ namespace mhxy.Utils {
             // ReSharper disable once InconsistentNaming
             int* s0t = _scan0;
 
-            fixed (int* source = colors) {
+            fixed(int* source = colors) {
                 // ReSharper disable once InconsistentNaming
                 int* s0s = source;
 
@@ -383,7 +383,7 @@ namespace mhxy.Utils {
             int component = color & 0xFF;
             if (component == ((color >> 8) & 0xFF) && component == ((color >> 16) & 0xFF) &&
                 component == ((color >> 24) & 0xFF)) {
-                NativeMethod.memset(_scan0, component, (ulong)(Height * Stride * BytesPerPixel));
+                NativeMethod.memset(_scan0, component, (ulong) (Height * Stride * BytesPerPixel));
             } else {
                 // Defines the ammount of assignments that the main while() loop is performing per loop.
                 // The value specified here must match the number of assignment statements inside that loop
@@ -456,7 +456,7 @@ namespace mhxy.Utils {
                 return;
             }
 
-            ulong strideWidth = (ulong)region.Width * BytesPerPixel;
+            ulong strideWidth = (ulong) region.Width * BytesPerPixel;
 
             // Uniform color pixel values can be mem-set straight away
             int component = color & 0xFF;
@@ -469,7 +469,7 @@ namespace mhxy.Utils {
                 // Prepare a horizontal slice of pixels that will be copied over each horizontal row down.
                 int[] row = new int[region.Width];
 
-                fixed (int* pRow = row) {
+                fixed(int* pRow = row) {
                     int count = region.Width;
                     int rem = count % 8;
                     count /= 8;
@@ -547,7 +547,7 @@ namespace mhxy.Utils {
             int destStartY = destBitmapRect.Top;
 
             using (var fastSource = source.FastLock()) {
-                ulong strideWidth = (ulong)copyWidth * BytesPerPixel;
+                ulong strideWidth = (ulong) copyWidth * BytesPerPixel;
 
                 // Perform copies of whole pixel rows
                 for (int y = 0; y < copyHeight; y++) {
@@ -585,8 +585,9 @@ namespace mhxy.Utils {
 
             using (FastBitmap fastSource = source.FastLock(), fastTarget = target.FastLock()) {
                 NativeMethod.memcpy(fastTarget.Scan0, fastSource.Scan0
-                    , (ulong)(fastSource.Height * fastSource.Stride * BytesPerPixel));
+                    , (ulong) (fastSource.Height * fastSource.Stride * BytesPerPixel));
             }
+
             return true;
         }
 

@@ -48,7 +48,7 @@ namespace mhxy.Common.Model {
         /// <summary>
         ///     右
         /// </summary>
-        Right = 7,
+        Right = 7
 
     }
 

@@ -26,7 +26,6 @@ namespace mhxy.Resource.Maps {
         //    Cell = cell;
         //    Brig = brig;
         //}
-
         /// <summary>
         ///     开始位置
         /// </summary>
@@ -48,12 +47,12 @@ namespace mhxy.Resource.Maps {
         //public UnitData Brig { get; }
 
         /// <summary>
-        /// 是否已经解码
+        ///     是否已经解码
         /// </summary>
         public bool Decoded { get; set; }
 
         /// <summary>
-        /// 真实的Image数据
+        ///     真实的Image数据
         /// </summary>
         public byte[] RealImage { get; set; }
 

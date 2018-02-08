@@ -17,13 +17,12 @@ namespace mhxy.Client.MainDrawable {
     /// </summary>
     public class DrawableMap : DrawableBase {
 
+        public DrawableMap() : base(DrawPriority.Lowest) {
+        }
+
         private Rectangle _currentRectangle = new Rectangle(0, 0, Global.Width, Global.Height);
         private string _currentMapId;
         private Map _currentMap;
-
-        public DrawableMap() : base(DrawPriority.Lowest) {
-
-        }
 
         public override void NextFrame() {
             var currentScene = ServiceLocator.ClientEngine.GetCurrentScene();
@@ -32,6 +31,7 @@ namespace mhxy.Client.MainDrawable {
                 _currentMapId = currentScene.MapId;
                 ServiceLocator.MapManager.TryGetMap(_currentMapId, out _currentMap);
             }
+
             int x = currentPlayer.At.X - Global.PlayX;
             x = x < 0 ? 0 : (x > _currentMap.MaxX ? _currentMap.MaxX : x);
             _currentRectangle.X = x;
@@ -44,12 +44,14 @@ namespace mhxy.Client.MainDrawable {
             if (_currentMap == null) {
                 return;
             }
+
             args.FastBitmap.Lock();
             args.FastBitmap.CopyRegion(_currentMap.Bitmap, _currentRectangle,
                 new Rectangle(0, 0, args.Width, args.Height));
             args.FastBitmap.Unlock();
             args.WorldPoint = new Point(_currentRectangle.X, _currentRectangle.Y);
         }
+
     }
 
 }

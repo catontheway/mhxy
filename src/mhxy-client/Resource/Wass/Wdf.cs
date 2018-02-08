@@ -26,9 +26,12 @@ namespace mhxy.Resource.Wass {
             if (!File.Exists(fileName)) {
                 throw new FileNotFoundException(fileName);
             }
+
             FileId = id;
             FileName = fileName;
         }
+
+        private readonly Dictionary<int, WasInfo> _wasInfos = new Dictionary<int, WasInfo>();
 
         private bool _loaded;
         private string _flag;
@@ -45,8 +48,6 @@ namespace mhxy.Resource.Wass {
         /// </summary>
         public string FileId { get; }
 
-        private readonly Dictionary<int, WasInfo> _wasInfos = new Dictionary<int, WasInfo>();
-
         /// <summary>
         ///     加载wdf 资源
         /// </summary>
@@ -54,6 +55,7 @@ namespace mhxy.Resource.Wass {
             if (_loaded) {
                 return;
             }
+
             Logger.Info($"Begin Load Wdf : {FileName}");
             var buffer4 = new byte[4];
             try {
@@ -85,16 +87,18 @@ namespace mhxy.Resource.Wass {
                         _wasFileCount = 0;
                     }
                 }
+
                 _loaded = true;
             } catch (Exception e) {
                 Logger.Error($"Error In Load Wdf : {FileName}", e);
                 throw;
             }
+
             Logger.Info($"End Load Wdf : {FileName}");
         }
 
         /// <summary>
-        /// 获取文件中的Was
+        ///     获取文件中的Was
         /// </summary>
         /// <param name="wasId"></param>
         /// <param name="was"></param>
@@ -110,8 +114,10 @@ namespace mhxy.Resource.Wass {
                     Logger.Error("TryGetWas : {wasId}", e);
                 }
             }
+
             return false;
         }
+
     }
 
 }

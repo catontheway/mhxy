@@ -49,7 +49,6 @@ namespace mhxy.Client {
         /// <summary>
         /// </summary>
         //public Bitmap Bitmap { get; }
-
         /// <summary>
         ///     最底层(例如,场景图)
         /// </summary>

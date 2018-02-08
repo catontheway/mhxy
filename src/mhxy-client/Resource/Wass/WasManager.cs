@@ -43,16 +43,19 @@ namespace mhxy.Resource.Wass {
                         wdf.Load();
                         _wdfs[wdfFileId] = wdf;
                     }
+
                     if (!wdf.TryGetSpWas(wasId, out was)) {
                         Logger.Warn($"Not Fount Was: {wasId}@{wdfFileId}");
                         return false;
                     }
+
                     _wass[wasId] = was;
                 }
             } catch (Exception e) {
                 Logger.Error($"Error In Get Was: {wasId}@{wdfFileId}", e);
                 was = null;
             }
+
             return true;
         }
 

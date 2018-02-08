@@ -46,7 +46,7 @@ namespace mhxy.Common.Model {
         public string Name { get; set; }
 
         /// <summary>
-        /// 是否正在移动
+        ///     是否正在移动
         /// </summary>
         public bool Moving { get; set; }
 
