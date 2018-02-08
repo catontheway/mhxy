@@ -1,4 +1,4 @@
-﻿namespace StbSharp
+﻿namespace mhxy.StbSharp
 {
 	public class Image
 	{

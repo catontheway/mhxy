@@ -6,6 +6,7 @@
 #region
 
 using System.Collections.Generic;
+using System.Drawing;
 using mhxy.Client.Interfaces;
 using mhxy.Common;
 using mhxy.Common.Model;
@@ -171,17 +172,23 @@ namespace mhxy.Client {
                     engine.SaveProfile();
                     engine.LoadProfile(Global.DevelopProfileId);
                 }
-
+                ServiceLocator.ClientEngine.GetCurrentPlayer().At = new Point(2000, 1500);
                 engine.Goto(InterfaceType.Main);
             }
 
-            //ServiceLocator.ScheduleService.AddJob(() => {
-            //    var newPoint = new System.Drawing.Point {
-            //        X = ServiceLocator.ClientEngine.GetCurrentPlayer().At.X + 6,
-            //        Y = ServiceLocator.ClientEngine.GetCurrentPlayer().At.Y + 0
-            //    };
-            //    ServiceLocator.ClientEngine.GetCurrentPlayer().At = newPoint;
-            //}, schedule => schedule.ToRunEvery(20).Milliseconds());
+            ServiceLocator.ScheduleService.AddJob(() => {
+                if (ServiceLocator.ClientEngine.GetCurrentPlayer().At.X > 6000) {
+                    ServiceLocator.ClientEngine.GetCurrentPlayer().Moving = false;
+                } else {
+                    var newPoint = new Point {
+                        X = ServiceLocator.ClientEngine.GetCurrentPlayer().At.X + 5,
+                        Y = ServiceLocator.ClientEngine.GetCurrentPlayer().At.Y + 3
+                    };
+                    ServiceLocator.ClientEngine.GetCurrentPlayer().FaceTo = Direction.RightDown;
+                    ServiceLocator.ClientEngine.GetCurrentPlayer().At = newPoint;
+                    ServiceLocator.ClientEngine.GetCurrentPlayer().Moving = true;
+                }
+            }, schedule => schedule.ToRunEvery(20).Milliseconds());
         }
 
     }

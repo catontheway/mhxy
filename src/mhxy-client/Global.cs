@@ -33,12 +33,12 @@ namespace mhxy {
         /// <summary>
         ///     主角在屏幕上的位置(正常情况下)
         /// </summary>
-        public const int PlayX = 400;
+        public static int PlayX = Width / 2;
 
         /// <summary>
         ///     主角在屏幕上的位置(正常情况下)
         /// </summary>
-        public const int PlayY = 300;
+        public const int PlayY = Height / 2;
 
         /// <summary>
         ///     是否正常登录
@@ -98,12 +98,12 @@ namespace mhxy {
         /// <summary>
         ///     宽度
         /// </summary>
-        public static int Width = 800;
+        public const int Width = 800;
 
         /// <summary>
         ///     高度
         /// </summary>
-        public static int Height = 600;
+        public const int Height = 600;
 
         /// <summary>
         /// </summary>

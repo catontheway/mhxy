@@ -8,6 +8,11 @@ namespace mhxy.Resource.Wass {
     public class SpFrame {
 
         /// <summary>
+        /// 透明色
+        /// </summary>
+        public Color ColorA0 = Color.FromArgb(255, 255, 0, 255);
+
+        /// <summary>
         /// 图片的关键位X
         /// </summary>
         public int KeyX { get; set; }
@@ -18,24 +23,29 @@ namespace mhxy.Resource.Wass {
         public int KeyY { get; set; }
 
         /// <summary>
-        /// 图片的宽度，单位像素
+        /// 原始图片的宽度，单位像素
         /// </summary>
         public int Width { get; set; }
 
         /// <summary>
-        ///  图片的高度，单位像素
+        /// 原始图片的高度，单位像素
         /// </summary>
         public int Height { get; set; }
+
+        /// <summary>
+        /// 图片的宽度，单位像素
+        /// </summary>
+        public int BitmapWidth { get; set; }
+
+        /// <summary>
+        ///  图片的高度，单位像素
+        /// </summary>
+        public int BitmapHeight { get; set; }
 
         /// <summary>
         /// 原始数据
         /// </summary>
         public byte[] Data { get; set; }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        public TgaHeader TgaHeader { get; set; }
 
         /// <summary>
         /// 

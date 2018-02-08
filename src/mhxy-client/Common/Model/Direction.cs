@@ -11,44 +11,44 @@ namespace mhxy.Common.Model {
     public enum Direction {
 
         /// <summary>
-        ///     上
+        ///     右下
         /// </summary>
-        Up,
-
-        /// <summary>
-        ///     下
-        /// </summary>
-        Down,
-
-        /// <summary>
-        ///     左
-        /// </summary>
-        Left,
-
-        /// <summary>
-        ///     右
-        /// </summary>
-        Right,
+        RightDown = 0,
 
         /// <summary>
         ///     左上
         /// </summary>
-        LeftUp,
-
-        /// <summary>
-        ///     左下
-        /// </summary>
-        LeftDown,
+        LeftUp = 2,
 
         /// <summary>
         ///     右上
         /// </summary>
-        RightUp,
+        RightUp = 3,
 
         /// <summary>
-        ///     右下
+        ///     左下
         /// </summary>
-        RightDow
+        LeftDown = 1,
+
+        /// <summary>
+        ///     下
+        /// </summary>
+        Down = 4,
+
+        /// <summary>
+        ///     左
+        /// </summary>
+        Left = 5,
+
+        /// <summary>
+        ///     上
+        /// </summary>
+        Up = 6,
+
+        /// <summary>
+        ///     右
+        /// </summary>
+        Right = 7,
 
     }
 

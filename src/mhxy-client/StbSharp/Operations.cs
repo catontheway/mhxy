@@ -1,6 +1,6 @@
 ﻿using System.Collections.Concurrent;
 
-namespace StbSharp
+namespace mhxy.StbSharp
 {
 	internal static unsafe class Operations
 	{

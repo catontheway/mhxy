@@ -3,7 +3,7 @@
 using System;
 using System.Runtime.InteropServices;
 
-namespace StbSharp
+namespace mhxy.StbSharp
 {
 	unsafe partial class StbVorbis
 	{

@@ -1,6 +1,6 @@
 ﻿using System.Runtime.InteropServices;
 
-namespace StbSharp
+namespace mhxy.StbSharp
 {
 	public static unsafe partial class StbImageResize
 	{

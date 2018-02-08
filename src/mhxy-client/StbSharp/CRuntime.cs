@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StbSharp
+namespace mhxy.StbSharp
 {
 	internal static unsafe class CRuntime
 	{

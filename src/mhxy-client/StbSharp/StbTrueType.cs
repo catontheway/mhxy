@@ -1,4 +1,4 @@
-﻿namespace StbSharp
+﻿namespace mhxy.StbSharp
 {
 	public static unsafe partial class StbTrueType
 	{

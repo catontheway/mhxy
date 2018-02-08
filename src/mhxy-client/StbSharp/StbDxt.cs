@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace StbSharp
+namespace mhxy.StbSharp
 {
 	public static unsafe partial class StbDxt
 	{

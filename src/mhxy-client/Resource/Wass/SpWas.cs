@@ -4,7 +4,12 @@
 // Description:   
 
 using System;
+using System.Drawing;
 using System.IO;
+using ImageProcessor;
+using ImageProcessor.Imaging.Formats;
+using mhxy.StbSharp;
+
 //using System.Drawing;
 //using ImageProcessor;
 //using ImageProcessor.Imaging.Formats;
@@ -100,15 +105,17 @@ namespace mhxy.Resource.Wass {
                     //读取Frame数据
                     _frames = new SpFrame[SpHeader.Group, SpHeader.Frame];
                     int pixels = SpHeader.Width * SpHeader.Height;
-                    uint[] buffer = new uint[pixels];
                     int[] frameLine = new int[SpHeader.Height * 4]; // 分配行引索列表的空间
-                    byte[] lineData = new byte[SpHeader.Width * 4]; // 分配行数据的空间
                     int frameHeadOffset = SpHeader.Length + 4;// 头部的实际长度 SpHeader.Length + Length占的长度
                     for (int group = 0; group < SpHeader.Group; group++) {
                         for (int frame = 0; frame < SpHeader.Frame; frame++) {
                             uint frameIndex = _frameIndexes[group, frame];
                             fs.Seek(_wasInfo.Offset + frameHeadOffset + frameIndex, SeekOrigin.Begin);
-                            SpFrame spFrame = new SpFrame();
+                            var spFrame = new SpFrame {
+                                BitmapHeight = SpHeader.Height,
+                                BitmapWidth = SpHeader.Width,
+                                Data = new byte[pixels * 4]
+                            };
                             // 读取Frame Header
                             fs.Read(buffer4, 0, 4);
                             spFrame.KeyX = BitConverter.ToInt32(buffer4, 0);
@@ -118,11 +125,11 @@ namespace mhxy.Resource.Wass {
                             spFrame.Width = BitConverter.ToInt32(buffer4, 0);
                             fs.Read(buffer4, 0, 4);
                             spFrame.Height = BitConverter.ToInt32(buffer4, 0);
-                            spFrame.Data = new byte[pixels * 4];
                             for (int h = 0; h < spFrame.Height; h++) {
                                 fs.Read(buffer4, 0, 4);
                                 frameLine[h] = BitConverter.ToInt32(buffer4, 0);
                             }
+                            uint[] buffer = new uint[pixels];
                             //开始读取
                             for (int j = 0; j < spFrame.Height; j++) {
                                 int startIndex = SpHeader.Width * j;
@@ -139,6 +146,7 @@ namespace mhxy.Resource.Wass {
                                         lineDataLen = (int)_frameIndexes[group2, frame2] - ((int)frameIndex + frameLine[j]);
                                     }
                                 }
+                                var lineData = new byte[SpHeader.Width * 4]; // 分配行数据的空间
                                 fs.Seek(_wasInfo.Offset + frameIndex + frameHeadOffset + frameLine[j], SeekOrigin.Begin);
                                 fs.Read(lineData, 0, lineDataLen);
                                 int pixelOffset = (SpHeader.KeyX - spFrame.KeyX);
@@ -154,40 +162,19 @@ namespace mhxy.Resource.Wass {
                                 spFrame.Data[i * 4 + 2] = bytes[2];
                                 spFrame.Data[i * 4 + 3] = bytes[3];
                             }
-                            spFrame.Height = SpHeader.Height;
-                            spFrame.Width = SpHeader.Width;
-                            spFrame.TgaHeader = new TgaHeader {
-                                IdLength = 0,       // 图像信息字段(默认:0)
-                                ColorMapType = 0,    // 颜色标的类型(默认0)
-                                ImageType = 0x02,         // 图像类型码(支持2或10)
-                                ColorMapFirstIndex = 0,  // 颜色表的引索(默认:0)
-                                ColorMapLength = 0,       // 颜色表的长度(默认:0)
-                                ColorMapEntrySize = 0,   // 颜色表表项的为数(默认:0，支持16/24/32)
-                                XOrigin = 0,              // 图像X坐标的起始位置(默认:0)
-                                YOrigin = 0,             // 图像Y坐标的起始位置(默认:0)
-                                ImageWidth = (ushort)spFrame.Width,          // 图像的宽度
-                                ImageHeight = (ushort)spFrame.Height,          // 图像的高度
-                                PixelDepth = 32,          // 图像每像素存储占用位数
-                                ImageDescruptor = 8      // 图像描述字符字节(默认:0)
-                            };
-                            using (MemoryStream stream1 = new MemoryStream()) {
-                                stream1.WriteByte(spFrame.TgaHeader.IdLength);
-                                stream1.WriteByte(spFrame.TgaHeader.ColorMapType);
-                                stream1.WriteByte(spFrame.TgaHeader.ImageType);
-                                stream1.Write(BitConverter.GetBytes(spFrame.TgaHeader.ColorMapFirstIndex), 0, 2);
-                                stream1.Write(BitConverter.GetBytes(spFrame.TgaHeader.ColorMapLength), 0, 2);
-                                stream1.WriteByte(spFrame.TgaHeader.ColorMapEntrySize);
-                                stream1.Write(BitConverter.GetBytes(spFrame.TgaHeader.XOrigin), 0, 2);
-                                stream1.Write(BitConverter.GetBytes(spFrame.TgaHeader.YOrigin), 0, 2);
-                                stream1.Write(BitConverter.GetBytes(spFrame.TgaHeader.ImageWidth), 0, 2);
-                                stream1.Write(BitConverter.GetBytes(spFrame.TgaHeader.ImageHeight), 0, 2);
-                                stream1.WriteByte(spFrame.TgaHeader.PixelDepth);
-                                stream1.WriteByte(spFrame.TgaHeader.ImageDescruptor);
-                                stream1.Write(spFrame.Data, 0, spFrame.Data.Length);
-                                using (FileStream file = new FileStream(Path.Combine(Environment.CurrentDirectory, $"{_wasInfo.Uid}.{group}.{frame}.tga"), FileMode.OpenOrCreate)) {
-                                    file.Write(stream1.ToArray(), 0, spFrame.Data.Length);
+                            using (var stream = new MemoryStream()) {
+                                var writer = new ImageWriter();
+                                var image = new StbSharp.Image { Comp = 4, Data = spFrame.Data, Height = spFrame.BitmapHeight, Width = spFrame.BitmapWidth };
+                                writer.WriteBmp(image, stream);
+                                var bitmapData = stream.ToArray();
+                                spFrame.Bitmap = new Bitmap(spFrame.BitmapWidth, spFrame.BitmapHeight);
+                                using (var imageFactory = new ImageFactory()) {
+                                    if (imageFactory.Load(bitmapData).Format(new BitmapFormat()).Image is Bitmap bitmap) {
+                                        spFrame.Bitmap = new Bitmap(bitmap);
+                                    }
                                 }
                             }
+                            _frames[group, frame] = spFrame;
                         }
                     }
                 }
@@ -229,7 +216,7 @@ namespace mhxy.Resource.Wass {
                             // {000 +重复1~31次}+{0~255层Alpha通道}+{1~255个调色板引索}
                             // 注: 这里的{00000000} 保留给像素行结束使用，所以只可以重复1~31次。
                             repeat = (byte)((pData[pDataIndex]) & 0x1f); // 获得重复的次数
-                            destIndex++;
+                            pDataIndex++;
                             level = pData[pDataIndex]; // 获得Alpha通道值
                             pDataIndex++;
                             for (int i = 1; i <= repeat; i++) {
@@ -313,7 +300,24 @@ namespace mhxy.Resource.Wass {
         }
 
         public override void Save() {
-
+            if (!_loaded) {
+                return;
+            }
+            Logger.Info($"Begin Save SPWas : {_wasInfo.Uid}@{_fileName}");
+            for (int group = 0; group < SpHeader.Group; group++) {
+                for (int frame = 0; frame < SpHeader.Frame; frame++) {
+                    var spFrame = _frames[group, frame];
+                    var fileName = $"{_fileName}_{_wasInfo.Uid}_{group}.{frame}.bmp";
+                    try {
+                        using (var imageFactory = new ImageFactory()) {
+                            imageFactory.Load(spFrame.Bitmap).Format(new BitmapFormat()).Save(fileName);
+                        }
+                    } catch (Exception e) {
+                        Logger.Error($"Save Map : {fileName}", e);
+                    }
+                }
+            }
+            Logger.Info($"End Save SPWas : {_fileName}");
         }
 
         private static uint Rgb16ToRgb32(ushort color, byte alpha) {

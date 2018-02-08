@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace StbSharp
+namespace mhxy.StbSharp
 {
 	public abstract unsafe class Pointer : IDisposable
 	{

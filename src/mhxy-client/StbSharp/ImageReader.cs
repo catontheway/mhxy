@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Runtime.InteropServices;
 
-namespace StbSharp
+namespace mhxy.StbSharp
 {
 	public unsafe class ImageReader
 	{

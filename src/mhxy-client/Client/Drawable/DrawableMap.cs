@@ -33,9 +33,8 @@ namespace mhxy.Client.Drawable {
             if (!string.Equals(_currentMapId, currentScene.MapId)) {
                 _currentMapId = currentScene.MapId;
                 ServiceLocator.MapManager.TryGetMap(_currentMapId, out _currentMap);
-                _currentMap.Save();
+                //_currentMap.Save();
             }
-
             int x = currentPlayer.At.X - Global.PlayX;
             x = x < 0 ? 0 : (x > _currentMap.MaxX ? _currentMap.MaxX : x);
             _currentRectangle.X = x;

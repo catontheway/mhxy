@@ -118,10 +118,7 @@ namespace mhxy.Resource.Maps {
                                 if (!unit.Decoded) {
                                     continue;
                                 }
-
                                 if (factory.Load(unit.RealImage)
-                                    .Format(new JpegFormat())
-                                    .Format(new BitmapFormat())
                                     .Image is Bitmap unitBitmap) {
                                     FastBitmap.CopyRegion(unitBitmap, _bitmap,
                                         new Rectangle(0, 0, unitBitmap.Width, unitBitmap.Height),
@@ -132,7 +129,6 @@ namespace mhxy.Resource.Maps {
                         }
                     }
                 }
-
                 _loaded = true;
             } catch (Exception e) {
                 Logger.Error($"Error In Load Map : {_fileName}", e);
@@ -149,7 +145,6 @@ namespace mhxy.Resource.Maps {
             if (!_loaded) {
                 return;
             }
-
             Logger.Info($"Begin Save Map : {_fileName}");
             var fileName = _fileName + ".jpg";
             try {
@@ -213,11 +208,10 @@ namespace mhxy.Resource.Maps {
                 unit.Decoded = DecodeJpeg(img.Data, out byte[] realImage);
                 unit.RealImage = realImage;
             } else if (string.Equals(img.Flag, "32-47-50-4A")) {
-                // SJPG
+                // JPG
                 unit.Decoded = true;
                 unit.RealImage = img.Data;
             }
-
             //Logger.Debug($"Read Unit({index}:{offSet}):RealOffset:{realOffset}");
             //Logger.Debug($"UnitData(jpeg):Flag(47-45-50-4A):{jpeg.Flag},Size:{jpeg.Size}"); //也可能是 32-47-50-4A,JPG
             //Logger.Debug($"UnitData(cell):Flag(4C-4C-45-43):{cell.Flag},Size:{cell.Size}");

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace StbSharp
+namespace mhxy.StbSharp
 {
 	public static unsafe partial class StbImageWrite
 	{
