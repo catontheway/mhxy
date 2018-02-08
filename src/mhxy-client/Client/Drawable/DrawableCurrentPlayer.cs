@@ -50,6 +50,9 @@ namespace mhxy.Client.Drawable {
         }
 
         public void Draw(Canvas cancas) {
+            if (_walk == null || _stand == null || _currentPlayer == null) {
+                return;
+            }
             var frame = _currentPlayer.Moving ? _walk.GetFrame((int)_currentPlayer.FaceTo, _frame / 4) : _stand.GetFrame((int)_currentPlayer.FaceTo, _frame / 4);
             using (FastBitmap canvas = new FastBitmap(cancas.Bitmap)) {
                 canvas.Lock();
