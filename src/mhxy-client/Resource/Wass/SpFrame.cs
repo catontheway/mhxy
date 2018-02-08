@@ -10,7 +10,7 @@ namespace mhxy.Resource.Wass {
         /// <summary>
         /// 透明色
         /// </summary>
-        public Color ColorA0 = Color.FromArgb(255, 255, 0, 255);
+        public Color ColorA0 = Color.FromArgb(0, 0, 0, 0);
 
         /// <summary>
         /// 图片的关键位X
@@ -42,10 +42,10 @@ namespace mhxy.Resource.Wass {
         /// </summary>
         public int BitmapHeight { get; set; }
 
-        /// <summary>
-        /// 原始数据
-        /// </summary>
-        public byte[] Data { get; set; }
+        ///// <summary>
+        ///// 原始数据
+        ///// </summary>
+        //public byte[] Data { get; set; }
 
         /// <summary>
         /// 

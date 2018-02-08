@@ -16,6 +16,11 @@ namespace mhxy.Common.Model {
         RightDown = 0,
 
         /// <summary>
+        ///     左下
+        /// </summary>
+        LeftDown = 1,
+
+        /// <summary>
         ///     左上
         /// </summary>
         LeftUp = 2,
@@ -24,11 +29,6 @@ namespace mhxy.Common.Model {
         ///     右上
         /// </summary>
         RightUp = 3,
-
-        /// <summary>
-        ///     左下
-        /// </summary>
-        LeftDown = 1,
 
         /// <summary>
         ///     下

@@ -8,7 +8,7 @@ using System.Drawing;
 using System.IO;
 using ImageProcessor;
 using ImageProcessor.Imaging.Formats;
-using mhxy.StbSharp;
+using mhxy.Utils;
 
 //using System.Drawing;
 //using ImageProcessor;
@@ -114,7 +114,7 @@ namespace mhxy.Resource.Wass {
                             var spFrame = new SpFrame {
                                 BitmapHeight = SpHeader.Height,
                                 BitmapWidth = SpHeader.Width,
-                                Data = new byte[pixels * 4]
+                                //Data = new byte[pixels * 4]
                             };
                             // 读取Frame Header
                             fs.Read(buffer4, 0, 4);
@@ -155,25 +155,35 @@ namespace mhxy.Resource.Wass {
                                 startIndex += (SpHeader.KeyY - spFrame.KeyY) * SpHeader.Width;
                                 DataHandler(lineData, buffer, startIndex, pixelOffset, pixelLen);
                             }
-                            for (int i = 0; i < buffer.Length; i++) {
-                                var bytes = BitConverter.GetBytes(buffer[i]);
-                                spFrame.Data[i * 4 + 0] = bytes[0];
-                                spFrame.Data[i * 4 + 1] = bytes[1];
-                                spFrame.Data[i * 4 + 2] = bytes[2];
-                                spFrame.Data[i * 4 + 3] = bytes[3];
-                            }
-                            using (var stream = new MemoryStream()) {
-                                var writer = new ImageWriter();
-                                var image = new StbSharp.Image { Comp = 4, Data = spFrame.Data, Height = spFrame.BitmapHeight, Width = spFrame.BitmapWidth };
-                                writer.WriteBmp(image, stream);
-                                var bitmapData = stream.ToArray();
-                                spFrame.Bitmap = new Bitmap(spFrame.BitmapWidth, spFrame.BitmapHeight);
-                                using (var imageFactory = new ImageFactory()) {
-                                    if (imageFactory.Load(bitmapData).Format(new BitmapFormat()).Image is Bitmap bitmap) {
-                                        spFrame.Bitmap = new Bitmap(bitmap);
+                            //for (int i = 0; i < buffer.Length; i++) {
+                            //    var bytes = BitConverter.GetBytes(buffer[i]);
+                            //    spFrame.Data[i * 4 + 0] = bytes[0];
+                            //    spFrame.Data[i * 4 + 1] = bytes[1];
+                            //    spFrame.Data[i * 4 + 2] = bytes[2];
+                            //    spFrame.Data[i * 4 + 3] = bytes[3];
+                            //}
+                            spFrame.Bitmap = new Bitmap(spFrame.BitmapWidth, spFrame.BitmapHeight);
+                            using (FastBitmap fastBitmap = new FastBitmap(spFrame.Bitmap)) {
+                                fastBitmap.Lock();
+                                for (int w = 0; w < spFrame.BitmapWidth; w++) {
+                                    for (int h = 0; h < spFrame.BitmapHeight; h++) {
+                                        fastBitmap.SetPixel(w, h, buffer[h * spFrame.BitmapWidth + w]);
                                     }
                                 }
+                                fastBitmap.Unlock();
                             }
+                            //using (var stream = new MemoryStream()) {
+                            //    var writer = new ImageWriter();
+                            //    var image = new StbSharp.Image { Comp = 4, Data = spFrame.Data, Height = spFrame.BitmapHeight, Width = spFrame.BitmapWidth };
+                            //    writer.WriteBmp(image, stream);
+                            //    var bitmapData = stream.ToArray();
+                            //    spFrame.Bitmap = new Bitmap(spFrame.BitmapWidth, spFrame.BitmapHeight);
+                            //    using (var imageFactory = new ImageFactory()) {
+                            //        if (imageFactory.Load(bitmapData).Format(new BitmapFormat()).Image is Bitmap bitmap) {
+                            //            spFrame.Bitmap = new Bitmap(bitmap);
+                            //        }
+                            //    }
+                            //}
                             _frames[group, frame] = spFrame;
                         }
                     }
@@ -328,7 +338,8 @@ namespace mhxy.Resource.Wass {
             uint r2 = (r << 3) | (r >> 2);
             uint g2 = (g << 2) | (g >> 4);
             uint b2 = (b << 3) | (b >> 2);
-            return a2 << 24 | (b2 << 16) | (g2 << 8) | r2;
+            return a2 << 24 | (r2 << 16) | (g2 << 8) | b2;
+            //return a2 << 24 | (b2 << 16) | (g2 << 8) | r2;
         }
 
         private static ushort Alpha565(ushort src, ushort des, ushort alpha) {

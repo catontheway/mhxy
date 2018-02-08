@@ -18,14 +18,9 @@ namespace mhxy.Client.Drawable {
     /// </summary>
     public class DrawableMap : IDrawable {
 
-        //private static readonly Random Rand = new Random();
-        //private readonly Logging.ILogger _logger = ServiceLocator.GlobalLogger;
-
         private Rectangle _currentRectangle = new Rectangle(0, 0, Global.Width, Global.Height);
         private string _currentMapId;
         private Map _currentMap;
-
-        public bool Static { get; set; }
 
         public void NextFrame() {
             var currentScene = ServiceLocator.ClientEngine.GetCurrentScene();
@@ -43,20 +38,15 @@ namespace mhxy.Client.Drawable {
             _currentRectangle.Y = y;
         }
 
-        public void Frame(int frame) {
-        }
-
         public void Draw(Canvas canvas) {
             if (_currentMap == null) {
                 return;
             }
-
             FastBitmap.CopyRegion(_currentMap.Bitmap, canvas.Bitmap,
                 _currentRectangle,
                 new Rectangle(0, 0, canvas.Width, canvas.Height));
             canvas.WorldPoint = new Point(_currentRectangle.X, _currentRectangle.Y);
         }
-
     }
 
 }

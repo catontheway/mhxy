@@ -11,19 +11,9 @@ namespace mhxy.Client {
     public interface IDrawable {
 
         /// <summary>
-        ///     是否是静态图像
-        /// </summary>
-        bool Static { get; set; }
-
-        /// <summary>
         ///     刷新到下一帧
         /// </summary>
         void NextFrame();
-
-        /// <summary>
-        ///     刷新特定帧
-        /// </summary>
-        void Frame(int frame);
 
         /// <summary>
         /// </summary>

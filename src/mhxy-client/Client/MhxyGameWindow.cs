@@ -25,6 +25,11 @@ namespace mhxy.Client {
 
         // private readonly ILogger _logger = ServiceLocator.GlobalLogger;
 
+        #region
+
+        private int _fpsCount;
+
+        #endregion
         /// <summary>
         /// </summary>
         public new void Run() {
@@ -39,15 +44,21 @@ namespace mhxy.Client {
 
         protected override void OnRenderFrame(FrameEventArgs e) {
             //_logger.Debug($"OnRenderFrame {e.Time}");
-            Title = $"(Vsync: {VSync}) FPS: {1f / e.Time:0}";
-            if (_texture != 0) {
-                GL.DeleteTexture(_texture);
+#if DEBUG
+            _fpsCount++;
+            if (_fpsCount == 60) {
+                Title = $"(Vsync: {VSync}),FPS: {1f / e.Time:0}";
+                _fpsCount = 0;
             }
-
+#endif
+            var oldTexture = _texture;
             var canvas = ServiceLocator.DrawingService.Draw();
             _texture = LoadTexture(canvas.Bitmap);
             DrawImage(_texture);
             SwapBuffers();
+            if (oldTexture != 0) {
+                GL.DeleteTexture(_texture);
+            }
             base.OnRenderFrame(e);
         }
 
@@ -82,11 +93,11 @@ namespace mhxy.Client {
                 OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
             bitmap.UnlockBits(data);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter
-                , (int) TextureMinFilter.Linear);
+                , (int)TextureMinFilter.Linear);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter
-                , (int) TextureMagFilter.Linear);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int) TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int) TextureWrapMode.Repeat);
+                , (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
             return texture;
         }
 

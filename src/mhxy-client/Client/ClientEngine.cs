@@ -175,20 +175,7 @@ namespace mhxy.Client {
                 ServiceLocator.ClientEngine.GetCurrentPlayer().At = new Point(2000, 1500);
                 engine.Goto(InterfaceType.Main);
             }
-
-            ServiceLocator.ScheduleService.AddJob(() => {
-                if (ServiceLocator.ClientEngine.GetCurrentPlayer().At.X > 6000) {
-                    ServiceLocator.ClientEngine.GetCurrentPlayer().Moving = false;
-                } else {
-                    var newPoint = new Point {
-                        X = ServiceLocator.ClientEngine.GetCurrentPlayer().At.X + 5,
-                        Y = ServiceLocator.ClientEngine.GetCurrentPlayer().At.Y + 3
-                    };
-                    ServiceLocator.ClientEngine.GetCurrentPlayer().FaceTo = Direction.RightDown;
-                    ServiceLocator.ClientEngine.GetCurrentPlayer().At = newPoint;
-                    ServiceLocator.ClientEngine.GetCurrentPlayer().Moving = true;
-                }
-            }, schedule => schedule.ToRunEvery(20).Milliseconds());
+           
         }
 
     }

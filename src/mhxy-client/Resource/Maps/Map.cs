@@ -67,8 +67,8 @@ namespace mhxy.Resource.Maps {
                     fs.Read(buffer4, 0, 4);
                     _height = BitConverter.ToInt32(buffer4, 0);
                     MaxY = _height - Global.Height;
-                    _unitColumns = (int) Math.Ceiling((double) Width / Global.WidthPerMapCell);
-                    _unitRows = (int) Math.Ceiling((double) Height / Global.HeightPerMapCell);
+                    _unitColumns = (int)Math.Ceiling((double)Width / Global.WidthPerMapCell);
+                    _unitRows = (int)Math.Ceiling((double)Height / Global.HeightPerMapCell);
                     _unitSize = _unitColumns * _unitRows;
                     _unitOffsets = new int[_unitSize];
                     _units = new Unit[_unitSize];
@@ -200,9 +200,9 @@ namespace mhxy.Resource.Maps {
             uint realOffset = BitConverter.ToUInt32(buffer4, 0);
             fs.Seek(realOffset * 4, SeekOrigin.Current);
             UnitData img = ReadUnitData(fs);
-            UnitData cell = ReadUnitData(fs);
-            UnitData brig = ReadUnitData(fs);
-            var unit = new Unit(realOffset, img, cell, brig);
+            //UnitData cell = ReadUnitData(fs);
+            //UnitData brig = ReadUnitData(fs);
+            var unit = new Unit(realOffset);
             if (string.Equals(img.Flag, "47-45-50-4A")) {
                 // JPEG
                 unit.Decoded = DecodeJpeg(img.Data, out byte[] realImage);

@@ -24,7 +24,6 @@ namespace mhxy.Client {
         public Canvas(int width, int height) {
             Width = width;
             Height = height;
-            //Data = new byte[width * height * 3];
             Bitmap = new Bitmap(width, height, PixelFormat.Format32bppArgb);
         }
 

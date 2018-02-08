@@ -15,8 +15,6 @@ namespace mhxy {
 
     internal class Program {
 
-      
-
         private static void Main(string[] args) {
             if (args == null || args.Length == 0) {
                 args = new[] {"n"};

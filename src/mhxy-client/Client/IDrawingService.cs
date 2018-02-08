@@ -34,6 +34,12 @@ namespace mhxy.Client {
         void RemoveAll();
 
         /// <summary>
+        /// 获取当前画布
+        /// </summary>
+        /// <returns></returns>
+        Canvas GetCurrentCanvas();
+
+        /// <summary>
         ///     绘制
         /// </summary>
         Canvas Draw();

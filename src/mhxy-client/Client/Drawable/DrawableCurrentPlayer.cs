@@ -5,7 +5,6 @@
 
 #region
 
-using System;
 using mhxy.Common.Model;
 using mhxy.Resource.Wass;
 using mhxy.Utils;
@@ -24,14 +23,6 @@ namespace mhxy.Client.Drawable {
         private CurrentPlayer _currentPlayer;
         private int _frame = 8;
 
-        /// <summary>
-        ///     是否是静态资源
-        /// </summary>
-        public bool Static {
-            get => false;
-            set => throw new NotImplementedException();
-        }
-
         public void NextFrame() {
             _currentPlayer = ServiceLocator.ClientEngine.GetCurrentPlayer();
             if (_walk == null) {
@@ -45,15 +36,16 @@ namespace mhxy.Client.Drawable {
             _frame = (_frame + 1) % 32;
         }
 
-        public void Frame(int frame) {
-
-        }
-
         public void Draw(Canvas cancas) {
             if (_walk == null || _stand == null || _currentPlayer == null) {
                 return;
             }
             var frame = _currentPlayer.Moving ? _walk.GetFrame((int)_currentPlayer.FaceTo, _frame / 4) : _stand.GetFrame((int)_currentPlayer.FaceTo, _frame / 4);
+            var header = _currentPlayer.Moving ? _walk.SpHeader : _stand.SpHeader;
+            var currentPlayerX = _currentPlayer.At.X;
+            var currentPlayerY = _currentPlayer.At.Y;
+            var worldPointX = cancas.WorldPoint.X;
+            var worldPointY = cancas.WorldPoint.Y;
             using (FastBitmap canvas = new FastBitmap(cancas.Bitmap)) {
                 canvas.Lock();
                 using (FastBitmap play = new FastBitmap(frame.Bitmap)) {
@@ -63,9 +55,9 @@ namespace mhxy.Client.Drawable {
                             var pixel = play.GetPixel(x, y);
                             if (pixel != frame.ColorA0) {
                                 // 画到Canvas上
-                                int drawX = x + _currentPlayer.At.X - cancas.WorldPoint.X;
+                                int drawX = x + currentPlayerX - worldPointX - header.KeyX;
                                 drawX = drawX > 0 ? drawX >= Global.Width ? Global.Width - 1 : drawX : 0;
-                                int drawY = y + _currentPlayer.At.Y - cancas.WorldPoint.Y;
+                                int drawY = y + currentPlayerY - worldPointY - header.KeyY;
                                 drawY = drawY > 0 ? drawY >= Global.Height ? Global.Height - 1 : drawY : 0;
                                 canvas.SetPixel(drawX, drawY, pixel);
                             }

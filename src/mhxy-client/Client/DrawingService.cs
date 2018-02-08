@@ -31,8 +31,16 @@ namespace mhxy.Client {
             _drawables.Remove(drawableObj);
         }
 
+        public Canvas GetCurrentCanvas() {
+            return _canvas;
+        }
+
         public Canvas Draw() {
+            //Canvas canvas = new Canvas(Global.Width, Global.Height);
             _drawables.ForEach(drawable => drawable.Draw(_canvas));
+            //using (ImageFactory factory = new ImageFactory()) {
+            //    factory.Load(canvas.Bitmap).Save(Path.Combine(Environment.CurrentDirectory, DateTime.Now.Ticks + ".bmp"));
+            //}
             return _canvas;
         }
 

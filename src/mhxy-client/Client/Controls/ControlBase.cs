@@ -16,13 +16,7 @@ namespace mhxy.Client.Controls {
     /// </summary>
     public abstract class ControlBase : IDrawable {
 
-        public bool Static { get; set; }
-
         public void NextFrame() {
-            throw new NotImplementedException();
-        }
-
-        public void Frame(int frame) {
             throw new NotImplementedException();
         }
 
