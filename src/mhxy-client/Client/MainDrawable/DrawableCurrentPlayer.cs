@@ -11,7 +11,7 @@ using mhxy.Utils;
 
 #endregion
 
-namespace mhxy.Client.Drawable {
+namespace mhxy.Client.MainDrawable {
 
     /// <summary>
     ///     主角绘制
@@ -21,26 +21,30 @@ namespace mhxy.Client.Drawable {
         private SpWas _walk;
         private SpWas _stand;
         private CurrentPlayer _currentPlayer;
-        private int _frame = 8;
+
+        private const int ChangeFrame = 4;
+        private int _frame;
+        private int _count;
 
         public void NextFrame() {
             _currentPlayer = ServiceLocator.ClientEngine.GetCurrentPlayer();
             if (_walk == null) {
                 ServiceLocator.WasManager.TryGetSpWas("shape.wdf", 0x54F3FC94, out _walk);
-                //_walk.Save();
             }
             if (_stand == null) {
                 ServiceLocator.WasManager.TryGetSpWas("shape.wdf", 0x49386FCE, out _stand);
-                //_stand.Save();
             }
-            _frame = (_frame + 1) % 32;
+            if (_count++ >= ChangeFrame) {
+                _count = 0;
+                _frame = (_frame + 1) % 8;
+            }
         }
 
         public void Draw(Canvas cancas) {
             if (_walk == null || _stand == null || _currentPlayer == null) {
                 return;
             }
-            var frame = _currentPlayer.Moving ? _walk.GetFrame((int)_currentPlayer.FaceTo, _frame / 4) : _stand.GetFrame((int)_currentPlayer.FaceTo, _frame / 4);
+            var frame = _currentPlayer.Moving ? _walk.GetFrame((int)_currentPlayer.FaceTo, _frame) : _stand.GetFrame((int)_currentPlayer.FaceTo, _frame);
             var header = _currentPlayer.Moving ? _walk.SpHeader : _stand.SpHeader;
             var currentPlayerX = _currentPlayer.At.X;
             var currentPlayerY = _currentPlayer.At.Y;

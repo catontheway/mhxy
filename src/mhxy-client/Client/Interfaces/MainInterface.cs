@@ -8,6 +8,7 @@
 using System;
 using System.Drawing;
 using mhxy.Client.Drawable;
+using mhxy.Client.MainDrawable;
 using mhxy.Common.Model;
 
 #endregion
