@@ -53,7 +53,7 @@ namespace mhxy.Client {
 #endif
             var oldTexture = _texture;
             var canvas = ServiceLocator.DrawingService.Draw();
-            _texture = LoadTexture(canvas.Bitmap);
+            _texture = LoadTexture(canvas.Lowest);
             DrawImage(_texture);
             SwapBuffers();
             if (oldTexture != 0) {

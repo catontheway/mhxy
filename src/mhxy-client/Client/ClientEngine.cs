@@ -119,7 +119,6 @@ namespace mhxy.Client {
             Logger.Info("SignOut");
             _currentProfilId = 0;
             _currentProfile = null;
-            //_profilLoaded = false;
             _currentName = string.Empty;
             _currentPwd = string.Empty;
             _signedIn = false;

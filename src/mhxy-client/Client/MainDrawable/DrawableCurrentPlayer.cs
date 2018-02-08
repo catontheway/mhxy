@@ -16,17 +16,21 @@ namespace mhxy.Client.MainDrawable {
     /// <summary>
     ///     主角绘制
     /// </summary>
-    public class DrawableCurrentPlayer : IDrawable {
+    public class DrawableCurrentPlayer : DrawableBase {
 
         private SpWas _walk;
         private SpWas _stand;
         private CurrentPlayer _currentPlayer;
-
         private const int ChangeFrame = 4;
+        private const int TotalFrame = 8;
         private int _frame;
         private int _count;
 
-        public void NextFrame() {
+        public DrawableCurrentPlayer() : base(DrawPriority.Lowest) {
+
+        }
+
+        public override void NextFrame() {
             _currentPlayer = ServiceLocator.ClientEngine.GetCurrentPlayer();
             if (_walk == null) {
                 ServiceLocator.WasManager.TryGetSpWas("shape.wdf", 0x54F3FC94, out _walk);
@@ -36,11 +40,11 @@ namespace mhxy.Client.MainDrawable {
             }
             if (_count++ >= ChangeFrame) {
                 _count = 0;
-                _frame = (_frame + 1) % 8;
+                _frame = (_frame + 1) % TotalFrame;
             }
         }
 
-        public void Draw(Canvas cancas) {
+        public override void Draw(DrawArgs args) {
             if (_walk == null || _stand == null || _currentPlayer == null) {
                 return;
             }
@@ -48,29 +52,28 @@ namespace mhxy.Client.MainDrawable {
             var header = _currentPlayer.Moving ? _walk.SpHeader : _stand.SpHeader;
             var currentPlayerX = _currentPlayer.At.X;
             var currentPlayerY = _currentPlayer.At.Y;
-            var worldPointX = cancas.WorldPoint.X;
-            var worldPointY = cancas.WorldPoint.Y;
-            using (FastBitmap canvas = new FastBitmap(cancas.Bitmap)) {
-                canvas.Lock();
-                using (FastBitmap play = new FastBitmap(frame.Bitmap)) {
-                    play.Lock();
-                    for (int x = 0; x < play.Width; x++) {
-                        for (int y = 0; y < play.Height; y++) {
-                            var pixel = play.GetPixel(x, y);
-                            if (pixel != frame.ColorA0) {
-                                // 画到Canvas上
-                                int drawX = x + currentPlayerX - worldPointX - header.KeyX;
-                                drawX = drawX > 0 ? drawX >= Global.Width ? Global.Width - 1 : drawX : 0;
-                                int drawY = y + currentPlayerY - worldPointY - header.KeyY;
-                                drawY = drawY > 0 ? drawY >= Global.Height ? Global.Height - 1 : drawY : 0;
-                                canvas.SetPixel(drawX, drawY, pixel);
-                            }
+            var worldPointX = args.WorldPoint.X;
+            var worldPointY = args.WorldPoint.Y;
+            FastBitmap fastBitmap = args.FastBitmap;
+            fastBitmap.Lock();
+            using (FastBitmap play = new FastBitmap(frame.Bitmap)) {
+                play.Lock();
+                for (int x = 0; x < play.Width; x++) {
+                    for (int y = 0; y < play.Height; y++) {
+                        var pixel = play.GetPixel(x, y);
+                        if (pixel != frame.ColorA0) {
+                            // 画到Canvas上
+                            int drawX = x + currentPlayerX - worldPointX - header.KeyX;
+                            drawX = drawX > 0 ? drawX >= Global.Width ? Global.Width - 1 : drawX : 0;
+                            int drawY = y + currentPlayerY - worldPointY - header.KeyY;
+                            drawY = drawY > 0 ? drawY >= Global.Height ? Global.Height - 1 : drawY : 0;
+                            fastBitmap.SetPixel(drawX, drawY, pixel);
                         }
                     }
-                    play.Unlock();
                 }
-                canvas.Unlock();
+                play.Unlock();
             }
+            fastBitmap.Unlock();
         }
     }
 }

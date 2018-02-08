@@ -14,16 +14,13 @@ namespace mhxy.Client.Controls {
     /// <summary>
     ///     界面控件基类
     /// </summary>
-    public abstract class ControlBase : IDrawable {
+    public abstract class ControlBase : DrawableBase {
 
-        public void NextFrame() {
-            throw new NotImplementedException();
+        /// <summary>
+        /// 通用构造方法
+        /// </summary>
+        protected ControlBase() : base(DrawPriority.Normal) {
         }
-
-        public void Draw(Canvas cancas) {
-            throw new NotImplementedException();
-        }
-
     }
 
 }

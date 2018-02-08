@@ -7,28 +7,30 @@
 
 using System.Drawing;
 using mhxy.Resource.Maps;
-using mhxy.Utils;
 
 #endregion
 
-namespace mhxy.Client.Drawable {
+namespace mhxy.Client.MainDrawable {
 
     /// <summary>
     ///     供绘制的场景
     /// </summary>
-    public class DrawableMap : IDrawable {
+    public class DrawableMap : DrawableBase {
 
         private Rectangle _currentRectangle = new Rectangle(0, 0, Global.Width, Global.Height);
         private string _currentMapId;
         private Map _currentMap;
 
-        public void NextFrame() {
+        public DrawableMap() : base(DrawPriority.Lowest) {
+
+        }
+
+        public override void NextFrame() {
             var currentScene = ServiceLocator.ClientEngine.GetCurrentScene();
             var currentPlayer = ServiceLocator.ClientEngine.GetCurrentPlayer();
             if (!string.Equals(_currentMapId, currentScene.MapId)) {
                 _currentMapId = currentScene.MapId;
                 ServiceLocator.MapManager.TryGetMap(_currentMapId, out _currentMap);
-                //_currentMap.Save();
             }
             int x = currentPlayer.At.X - Global.PlayX;
             x = x < 0 ? 0 : (x > _currentMap.MaxX ? _currentMap.MaxX : x);
@@ -38,14 +40,15 @@ namespace mhxy.Client.Drawable {
             _currentRectangle.Y = y;
         }
 
-        public void Draw(Canvas canvas) {
+        public override void Draw(DrawArgs args) {
             if (_currentMap == null) {
                 return;
             }
-            FastBitmap.CopyRegion(_currentMap.Bitmap, canvas.Bitmap,
-                _currentRectangle,
-                new Rectangle(0, 0, canvas.Width, canvas.Height));
-            canvas.WorldPoint = new Point(_currentRectangle.X, _currentRectangle.Y);
+            args.FastBitmap.Lock();
+            args.FastBitmap.CopyRegion(_currentMap.Bitmap, _currentRectangle,
+                new Rectangle(0, 0, args.Width, args.Height));
+            args.FastBitmap.Unlock();
+            args.WorldPoint = new Point(_currentRectangle.X, _currentRectangle.Y);
         }
     }
 

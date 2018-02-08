@@ -10,6 +10,8 @@ namespace mhxy.Client {
     /// </summary>
     public interface IDrawable {
 
+        DrawPriority Priority { get; }
+
         /// <summary>
         ///     刷新到下一帧
         /// </summary>
@@ -18,7 +20,7 @@ namespace mhxy.Client {
         /// <summary>
         /// </summary>
         /// <param name="cancas"></param>
-        void Draw(Canvas cancas);
+        void Draw(DrawArgs cancas);
 
     }
 
