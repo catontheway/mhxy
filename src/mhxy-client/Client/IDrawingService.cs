@@ -5,6 +5,7 @@
 
 #region
 
+using System;
 using mhxy.Common;
 
 #endregion
@@ -40,7 +41,7 @@ namespace mhxy.Client {
         Canvas GetCurrentCanvas();
 
         /// <summary>
-        ///     绘制
+        ///     绘制并返回绘制完成的画布
         /// </summary>
         Canvas Draw();
 
@@ -48,6 +49,8 @@ namespace mhxy.Client {
         ///     更新一帧绘制内容
         /// </summary>
         void UpdateFrame();
+
+        event EventHandler Frame;
 
     }
 

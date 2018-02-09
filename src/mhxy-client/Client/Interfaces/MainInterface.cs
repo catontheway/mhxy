@@ -34,31 +34,33 @@ namespace mhxy.Client.Interfaces {
         ///     显示
         /// </summary>
         protected override void ShowCore() {
-            ServiceLocator.ScheduleService.AddJob(() => {
-                var currentPlayer = ServiceLocator.ClientEngine.GetCurrentPlayer();
-                if (_goto == Point.Empty) {
-                    ServiceLocator.ClientEngine.GetCurrentPlayer().Moving = false;
-                } else {
-                    var distX = _goto.X - currentPlayer.At.X;
-                    var distY = _goto.Y - currentPlayer.At.Y;
-                    if (!CalcSpeedAndDir(distX, distY, out int speetX, out int speedY, out Direction direction)) {
-                        currentPlayer.At = _goto;
-                        _goto = Point.Empty;
-                    } else {
-                        var newPoint = new Point {
-                            X = currentPlayer.At.X + speetX,
-                            Y = currentPlayer.At.Y + speedY
-                        };
-                        currentPlayer.FaceTo = direction;
-                        currentPlayer.At = newPoint;
-                        currentPlayer.Moving = true;
-                    }
-                }
-            }, schedule => schedule.ToRunEvery(20).Milliseconds());
             ServiceLocator.DrawingService.Add(_map);
             ServiceLocator.DrawingService.Add(_currentUser);
+            ServiceLocator.DrawingService.Frame += DrawingService_Frame;
             ServiceLocator.Window.MouseDown += GameWindow_MouseDown;
             ServiceLocator.Window.KeyDown += GameWindow_KeyDown;
+        }
+
+        private void DrawingService_Frame(object sender, EventArgs e) {
+            var currentPlayer = ServiceLocator.ClientEngine.GetCurrentPlayer();
+            if (_goto == Point.Empty) {
+                ServiceLocator.ClientEngine.GetCurrentPlayer().Moving = false;
+            } else {
+                var distX = _goto.X - currentPlayer.At.X;
+                var distY = _goto.Y - currentPlayer.At.Y;
+                if (!CalcSpeedAndDir(distX, distY, out int speetX, out int speedY, out Direction direction)) {
+                    currentPlayer.At = _goto;
+                    _goto = Point.Empty;
+                } else {
+                    var newPoint = new Point {
+                        X = currentPlayer.At.X + speetX,
+                        Y = currentPlayer.At.Y + speedY
+                    };
+                    currentPlayer.FaceTo = direction;
+                    currentPlayer.At = newPoint;
+                    currentPlayer.Moving = true;
+                }
+            }
         }
 
         private bool CalcSpeedAndDir(int distX, int distY, out int speetX, out int speedY, out Direction direction) {
@@ -67,11 +69,10 @@ namespace mhxy.Client.Interfaces {
             var distX2 = distX * distX;
             var distY2 = distY * distY;
             var dist = Math.Sqrt(distX2 + distY2);
-            var step = (int) (dist / 5);
+            var step = (int)(dist / 4);
             if (step < 1) {
                 return false;
             }
-
             speetX = distX / step;
             speedY = distY / step;
             if (distX2 >= distY2 * 4) {
@@ -107,6 +108,7 @@ namespace mhxy.Client.Interfaces {
         protected override void CloseCore() {
             ServiceLocator.Window.KeyDown -= GameWindow_KeyDown;
             ServiceLocator.Window.MouseDown -= GameWindow_MouseDown;
+            ServiceLocator.DrawingService.Frame -= DrawingService_Frame;
             ServiceLocator.DrawingService.Remove(_currentUser);
             ServiceLocator.DrawingService.Remove(_map);
         }

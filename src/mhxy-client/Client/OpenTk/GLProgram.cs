@@ -5,7 +5,7 @@
 
 #region
 
-using System;
+using System.IO;
 using OpenTK.Graphics.OpenGL;
 
 #endregion
@@ -35,8 +35,14 @@ namespace mhxy.Client.OpenTk {
             }
 
             _program = GL.CreateProgram();
-            GL.AttachShader(_program, _vertexShader.GetShaderId());
-            GL.AttachShader(_program, _fragmentShader.GetShaderId());
+
+            if (_vertexShader != null) {
+                GL.AttachShader(_program, _vertexShader.GetShaderId());
+            }
+
+            if (_fragmentShader != null) {
+                GL.AttachShader(_program, _fragmentShader.GetShaderId());
+            }
 
             if (_geometryShader != null) {
                 GL.AttachShader(_program, _geometryShader.GetShaderId());
@@ -45,29 +51,32 @@ namespace mhxy.Client.OpenTk {
             GL.LinkProgram(_program);
             string error = GL.GetProgramInfoLog(_program);
             if (error.Length > 0) {
-                _mIsValid = false;
-                Console.WriteLine(error);
+                _isValid = false;
+                ServiceLocator.GlobalLogger.Error(error);
             } else {
-                _mIsValid = true;
+                _isValid = true;
             }
         }
 
         private readonly int _program;
+        private readonly bool _isValid;
         private readonly GlShader _vertexShader;
         private readonly GlShader _fragmentShader;
         private readonly GlShader _geometryShader;
-        private readonly bool _mIsValid;
 
         public void Use() {
             GL.UseProgram(_program);
         }
 
         public int GetUniformLocation(string name) {
+            if (!_isValid) {
+                throw new InvalidDataException("Is Not Valid");
+            }
             return GL.GetUniformLocation(_program, name);
         }
 
         public bool IsValid() {
-            return _mIsValid;
+            return _isValid;
         }
 
     }

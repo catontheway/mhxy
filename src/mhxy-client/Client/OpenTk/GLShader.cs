@@ -27,6 +27,9 @@ namespace mhxy.Client.OpenTk {
             GL.CompileShader(_shaderId);
             string error = GL.GetShaderInfoLog(_shaderId);
             _isValid = error.Length <= 0;
+            if (!_isValid) {
+                ServiceLocator.GlobalLogger.Error(error);
+            }
         }
 
         private readonly int _shaderId;

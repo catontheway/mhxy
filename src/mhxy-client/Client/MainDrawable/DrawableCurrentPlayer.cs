@@ -21,7 +21,7 @@ namespace mhxy.Client.MainDrawable {
         private const int ChangeFrame = 4;
         private const int TotalFrame = 8;
 
-        public DrawableCurrentPlayer() : base(DrawPriority.Lowest) {
+        public DrawableCurrentPlayer() : base(DrawPriority.Lower) {
         }
 
         private SpWas _walk;

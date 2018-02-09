@@ -21,12 +21,12 @@ namespace mhxy.Client {
         Lower = 2,
 
         /// <summary>
-        ///     正常层(例如,属性 物品 任务等普通窗口)
+        ///     正常层(地图蒙版)
         /// </summary>
         Normal = 3,
 
         /// <summary>
-        ///     稍高层(系统界面 小地图)
+        ///     稍高层(例如,系统界面 属性 物品 任务 小地图等普通窗口)
         /// </summary>
         Higher = 4,
 

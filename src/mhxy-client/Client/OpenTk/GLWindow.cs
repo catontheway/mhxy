@@ -27,9 +27,12 @@ namespace mhxy.Client.OpenTk {
         private int _textureNormal;
         private int _textureHigher;
         private int _textureHighest;
+        private int _locLowest = -1;
+        private int _locLower = -1;
+        private int _locNormal;
+        private int _locHigher;
+        private int _locHighest;
         private GlProgram _mProgram;
-        private int _mLocation1 = -1;
-        private int _mLocation2 = -1;
 
         // private readonly ILogger _logger = ServiceLocator.GlobalLogger;
 
@@ -53,8 +56,11 @@ namespace mhxy.Client.OpenTk {
         protected override void OnLoad(EventArgs e) {
             _mProgram = new GlProgram(@"Resources/texture.vert", @"Resources/texture.frag");
             _mProgram.Use();
-            _mLocation1 = _mProgram.GetUniformLocation("ourTexture1");
-            _mLocation2 = _mProgram.GetUniformLocation("ourTexture2");
+            _locLowest = _mProgram.GetUniformLocation("outTexture1");
+            _locLower = _mProgram.GetUniformLocation("outTexture2");
+            _locNormal = _mProgram.GetUniformLocation("outTexture3");
+            _locHigher = _mProgram.GetUniformLocation("outTexture4");
+            _locHighest = _mProgram.GetUniformLocation("outTexture5");
             base.OnLoad(e);
         }
 
@@ -91,11 +97,23 @@ namespace mhxy.Client.OpenTk {
 
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, _textureLowest);
-            GL.Uniform1(_mLocation1, 0);
+            GL.Uniform1(_locLowest, 0);
 
             GL.ActiveTexture(TextureUnit.Texture1);
             GL.BindTexture(TextureTarget.Texture2D, _textureLower);
-            GL.Uniform1(_mLocation2, 1);
+            GL.Uniform1(_locLower, 1);
+
+            GL.ActiveTexture(TextureUnit.Texture2);
+            GL.BindTexture(TextureTarget.Texture2D, _textureNormal);
+            GL.Uniform1(_locNormal, 2);
+
+            GL.ActiveTexture(TextureUnit.Texture3);
+            GL.BindTexture(TextureTarget.Texture2D, _textureHigher);
+            GL.Uniform1(_locHigher, 3);
+
+            GL.ActiveTexture(TextureUnit.Texture4);
+            GL.BindTexture(TextureTarget.Texture2D, _textureHighest);
+            GL.Uniform1(_locHighest, 4);
 
             Draw();
             SwapBuffers();
@@ -111,12 +129,12 @@ namespace mhxy.Client.OpenTk {
                 OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
             bitmap.UnlockBits(data);
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int) TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int) TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-                (int) TextureMagFilter.Nearest);
+                (int)TextureMagFilter.Nearest);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-                (int) TextureMagFilter.Linear);
+                (int)TextureMagFilter.Linear);
             GL.BindTexture(TextureTarget.Texture2D, 0);
             return textureId;
         }

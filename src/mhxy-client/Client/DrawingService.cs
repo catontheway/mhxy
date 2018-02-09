@@ -5,6 +5,7 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
 using mhxy.Common;
 
@@ -76,7 +77,10 @@ namespace mhxy.Client {
             _drawables[priority].ForEach(drawable => drawable.NextFrame());
             priority = DrawPriority.Highest;
             _drawables[priority].ForEach(drawable => drawable.NextFrame());
+            OnFrame();
         }
+
+        public event EventHandler Frame;
 
         public void RemoveAll() {
             RemoveAll(DrawPriority.Lowest);
@@ -90,6 +94,9 @@ namespace mhxy.Client {
             _drawables[priority].Clear();
         }
 
+        protected virtual void OnFrame() {
+            Frame?.Invoke(this, EventArgs.Empty);
+        }
     }
 
 }
