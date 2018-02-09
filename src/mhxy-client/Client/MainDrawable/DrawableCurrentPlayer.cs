@@ -6,7 +6,7 @@
 #region
 
 using mhxy.Common.Model;
-using mhxy.Resource.Wass;
+using mhxy.NetEase.Wass;
 using mhxy.Utils;
 
 #endregion

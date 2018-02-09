@@ -8,13 +8,14 @@
 using System;
 using System.Windows.Forms;
 using mhxy.Client;
+using mhxy.Client.OpenTk;
 using mhxy.Job;
 using mhxy.Logging;
-using mhxy.Resource;
-using mhxy.Resource.Configs;
-using mhxy.Resource.Maps;
-using mhxy.Resource.Profiles;
-using mhxy.Resource.Wass;
+using mhxy.NetEase;
+using mhxy.NetEase.Configs;
+using mhxy.NetEase.Maps;
+using mhxy.NetEase.Profiles;
+using mhxy.NetEase.Wass;
 using OpenTK;
 using OpenTK.Graphics;
 
@@ -40,7 +41,7 @@ namespace mhxy {
                 WasManager = new WasManager(Global.WdfPath);
                 DrawingService = new DrawingService();
                 ClientEngine = new ClientEngine();
-                GameWindow = new MhxyGameWindow(Global.Width, Global.Height, GraphicsMode.Default
+                Window = new GlWindow(Global.Width, Global.Height, new GraphicsMode(32, 24, 8)
                     , Global.Title, GameWindowFlags.FixedWindow);
             } catch (Exception e) {
                 GlobalLogger.Error(e);
@@ -87,7 +88,7 @@ namespace mhxy {
         /// <summary>
         ///     游戏主窗口
         /// </summary>
-        public static MhxyGameWindow GameWindow { get; }
+        public static GlWindow Window { get; }
 
         /// <summary>
         ///     调度服务

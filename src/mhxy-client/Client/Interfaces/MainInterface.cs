@@ -57,8 +57,8 @@ namespace mhxy.Client.Interfaces {
             }, schedule => schedule.ToRunEvery(20).Milliseconds());
             ServiceLocator.DrawingService.Add(_map);
             ServiceLocator.DrawingService.Add(_currentUser);
-            ServiceLocator.GameWindow.MouseDown += GameWindow_MouseDown;
-            ServiceLocator.GameWindow.KeyDown += GameWindow_KeyDown;
+            ServiceLocator.Window.MouseDown += GameWindow_MouseDown;
+            ServiceLocator.Window.KeyDown += GameWindow_KeyDown;
         }
 
         private bool CalcSpeedAndDir(int distX, int distY, out int speetX, out int speedY, out Direction direction) {
@@ -105,8 +105,8 @@ namespace mhxy.Client.Interfaces {
         ///     关闭
         /// </summary>
         protected override void CloseCore() {
-            ServiceLocator.GameWindow.KeyDown -= GameWindow_KeyDown;
-            ServiceLocator.GameWindow.MouseDown -= GameWindow_MouseDown;
+            ServiceLocator.Window.KeyDown -= GameWindow_KeyDown;
+            ServiceLocator.Window.MouseDown -= GameWindow_MouseDown;
             ServiceLocator.DrawingService.Remove(_currentUser);
             ServiceLocator.DrawingService.Remove(_map);
         }

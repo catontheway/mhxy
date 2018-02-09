@@ -10,7 +10,7 @@ using System.Drawing;
 using mhxy.Client.Interfaces;
 using mhxy.Common;
 using mhxy.Common.Model;
-using mhxy.Resource.Profiles;
+using mhxy.NetEase.Profiles;
 using mhxy.Utils;
 
 #endregion

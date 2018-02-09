@@ -6,7 +6,7 @@
 #region
 
 using System.Drawing;
-using mhxy.Resource.Maps;
+using mhxy.NetEase.Maps;
 
 #endregion
 

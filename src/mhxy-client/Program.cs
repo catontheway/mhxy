@@ -34,7 +34,7 @@ namespace mhxy {
                 case "n":
                     ServiceLocator.GlobalLogger.Info("Start Mode : Normal.");
                     ServiceLocator.ClientEngine.Start();
-                    ServiceLocator.GameWindow.Run();
+                    ServiceLocator.Window.Run();
                     break;
                 case "m":
                     ServiceLocator.GlobalLogger.Info("Start Mode : ParseAllMaps.");

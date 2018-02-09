@@ -30,8 +30,9 @@ namespace mhxy.Client {
         private readonly Dictionary<DrawPriority, List<IDrawable>> _drawables =
             new Dictionary<DrawPriority, List<IDrawable>>();
 
-        private readonly Canvas _canvas;
+        private Canvas _canvas;
 
+        private bool _drawing;
         public void Add(IDrawable drawableObj) {
             _drawables[drawableObj.Priority].Add(drawableObj);
         }
@@ -45,16 +46,22 @@ namespace mhxy.Client {
         }
 
         public Canvas Draw() {
-            var priority = DrawPriority.Lowest;
-            _drawables[priority].ForEach(drawable => drawable.Draw(new DrawArgs(_canvas, priority)));
-            priority = DrawPriority.Lower;
-            _drawables[priority].ForEach(drawable => drawable.Draw(new DrawArgs(_canvas, priority)));
-            priority = DrawPriority.Normal;
-            _drawables[priority].ForEach(drawable => drawable.Draw(new DrawArgs(_canvas, priority)));
-            priority = DrawPriority.Higher;
-            _drawables[priority].ForEach(drawable => drawable.Draw(new DrawArgs(_canvas, priority)));
-            priority = DrawPriority.Highest;
-            _drawables[priority].ForEach(drawable => drawable.Draw(new DrawArgs(_canvas, priority)));
+            if (!_drawing) {
+                _drawing = true;
+                var canvas = new Canvas(Global.Width, Global.Height);
+                var priority = DrawPriority.Lowest;
+                _drawables[priority].ForEach(drawable => drawable.Draw(new DrawArgs(canvas, priority)));
+                priority = DrawPriority.Lower;
+                _drawables[priority].ForEach(drawable => drawable.Draw(new DrawArgs(canvas, priority)));
+                priority = DrawPriority.Normal;
+                _drawables[priority].ForEach(drawable => drawable.Draw(new DrawArgs(canvas, priority)));
+                priority = DrawPriority.Higher;
+                _drawables[priority].ForEach(drawable => drawable.Draw(new DrawArgs(canvas, priority)));
+                priority = DrawPriority.Highest;
+                _drawables[priority].ForEach(drawable => drawable.Draw(new DrawArgs(canvas, priority)));
+                _canvas = canvas;
+                _drawing = false;
+            }
             return _canvas;
         }
 
