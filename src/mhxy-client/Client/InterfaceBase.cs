@@ -12,7 +12,7 @@ using mhxy.Logging;
 namespace mhxy.Client {
 
     /// <summary>
-    ///     界面基类
+    ///     界面基类 用来实际控制哪些界面显示什么内容
     /// </summary>
     public abstract class InterfaceBase {
 

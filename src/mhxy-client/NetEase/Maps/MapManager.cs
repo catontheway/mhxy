@@ -34,6 +34,9 @@ namespace mhxy.NetEase.Maps {
         /// </summary>
         private readonly string _mapPath;
 
+        /// <summary>
+        ///     缓存
+        /// </summary>
         private readonly ConcurrentDictionary<string, Map> _loadedMaps = new ConcurrentDictionary<string, Map>();
 
         /// <summary>

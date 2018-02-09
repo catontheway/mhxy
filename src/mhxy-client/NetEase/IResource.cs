@@ -27,6 +27,7 @@ namespace mhxy.NetEase {
         void Unload();
 
         /// <summary>
+        ///     保存资源
         /// </summary>
         void Save();
 

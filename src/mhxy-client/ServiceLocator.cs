@@ -16,8 +16,6 @@ using mhxy.NetEase.Configs;
 using mhxy.NetEase.Maps;
 using mhxy.NetEase.Profiles;
 using mhxy.NetEase.Wass;
-using OpenTK;
-using OpenTK.Graphics;
 
 #endregion
 
@@ -29,8 +27,10 @@ namespace mhxy {
     public static class ServiceLocator {
 
         /// <summary>
+        ///     简单的服务定位器
         /// </summary>
         static ServiceLocator() {
+            // 添加全局日志
             LogManager.AddLoggerAdapter(new Log4NetLoggerAdapter());
             GlobalLogger = LogManager.GetLogger(typeof(ServiceLocator));
             try {
@@ -41,8 +41,7 @@ namespace mhxy {
                 WasManager = new WasManager(Global.WdfPath);
                 DrawingService = new DrawingService();
                 ClientEngine = new ClientEngine();
-                Window = new GlWindow(Global.Width, Global.Height, new GraphicsMode(32, 24, 8)
-                    , Global.Title, GameWindowFlags.FixedWindow);
+                Window = new GlWindow();
             } catch (Exception e) {
                 GlobalLogger.Error(e);
                 MessageBox.Show(Resources.ServiceLocator_ServiceLocator_Error);

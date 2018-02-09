@@ -12,6 +12,7 @@ using System.Collections.Generic;
 namespace mhxy.NetEase.Profiles {
 
     /// <summary>
+    ///     存档简介列表
     /// </summary>
     public class ProfileList {
 
@@ -20,6 +21,7 @@ namespace mhxy.NetEase.Profiles {
         }
 
         /// <summary>
+        ///     存档数量
         /// </summary>
         public int Count => ProfileBreifs.Count;
 

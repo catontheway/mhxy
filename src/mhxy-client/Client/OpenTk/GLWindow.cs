@@ -1,6 +1,6 @@
-﻿// FileName:  Window.cs
+﻿// FileName:  GLWindow.cs
 // Author:  guodp <guodp9u0@gmail.com>
-// Create Date:  20180205 13:58
+// Create Date:  20180209 15:31
 // Description:   
 
 #region
@@ -52,10 +52,10 @@ namespace mhxy.Client.OpenTk {
             Run(Global.FramePerSecond);
         }
 
-
         protected override void OnLoad(EventArgs e) {
-            _mProgram = new GlProgram(@"Resources/texture.vert", @"Resources/texture.frag");
+            _mProgram = new GlProgram(@"data/texture.vert", @"data/texture.frag");
             _mProgram.Use();
+            //获取shader 变量
             _locLowest = _mProgram.GetUniformLocation("outTexture1");
             _locLower = _mProgram.GetUniformLocation("outTexture2");
             _locNormal = _mProgram.GetUniformLocation("outTexture3");
@@ -65,13 +65,11 @@ namespace mhxy.Client.OpenTk {
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e) {
-            //_logger.Debug($"OnUpdateFrame {e.Time}");
             ServiceLocator.DrawingService.UpdateFrame();
             base.OnUpdateFrame(e);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e) {
-            //_logger.Debug($"OnRenderFrame {e.Time}");
 #if DEBUG
             _fpsCount++;
             if (_fpsCount == 60) {
@@ -81,20 +79,20 @@ namespace mhxy.Client.OpenTk {
 #endif
             GL.Viewport(0, 0, Width, Height);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
-
             var canvas = ServiceLocator.DrawingService.Draw();
+            //删除之前的texture
             GL.DeleteTexture(_textureLowest);
             GL.DeleteTexture(_textureLower);
             GL.DeleteTexture(_textureNormal);
             GL.DeleteTexture(_textureHigher);
             GL.DeleteTexture(_textureHighest);
-
+            //加载新texture
             _textureLowest = LoadTextureFromBitmap(canvas.Lowest);
             _textureLower = LoadTextureFromBitmap(canvas.Lower);
             _textureNormal = LoadTextureFromBitmap(canvas.Normal);
             _textureHigher = LoadTextureFromBitmap(canvas.Higher);
             _textureHighest = LoadTextureFromBitmap(canvas.Highest);
-
+            //绑定texture
             GL.ActiveTexture(TextureUnit.Texture0);
             GL.BindTexture(TextureTarget.Texture2D, _textureLowest);
             GL.Uniform1(_locLowest, 0);
@@ -114,7 +112,7 @@ namespace mhxy.Client.OpenTk {
             GL.ActiveTexture(TextureUnit.Texture4);
             GL.BindTexture(TextureTarget.Texture2D, _textureHighest);
             GL.Uniform1(_locHighest, 4);
-
+            //绘制
             Draw();
             SwapBuffers();
             base.OnRenderFrame(e);
@@ -129,12 +127,12 @@ namespace mhxy.Client.OpenTk {
                 OpenTK.Graphics.OpenGL.PixelFormat.Bgra, PixelType.UnsignedByte, data.Scan0);
             bitmap.UnlockBits(data);
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
-            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int) TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int) TextureWrapMode.Repeat);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter,
-                (int)TextureMagFilter.Nearest);
+                (int) TextureMagFilter.Nearest);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter,
-                (int)TextureMagFilter.Linear);
+                (int) TextureMagFilter.Linear);
             GL.BindTexture(TextureTarget.Texture2D, 0);
             return textureId;
         }
@@ -189,38 +187,8 @@ namespace mhxy.Client.OpenTk {
 
         #region Ctor
 
-        public GlWindow() {
-        }
-
-        public GlWindow(int width, int height)
-            : base(width, height) {
-        }
-
-        public GlWindow(int width, int height, GraphicsMode mode)
-            : base(width, height, mode) {
-        }
-
-        public GlWindow(int width, int height, GraphicsMode mode, string title)
-            : base(width, height, mode, title) {
-        }
-
-        public GlWindow(int width, int height, GraphicsMode mode, string title, GameWindowFlags options)
-            : base(width, height, mode, title, options) {
-        }
-
-        public GlWindow(int width, int height, GraphicsMode mode, string title, GameWindowFlags options
-            , DisplayDevice device)
-            : base(width, height, mode, title, options, device) {
-        }
-
-        public GlWindow(int width, int height, GraphicsMode mode, string title, GameWindowFlags options
-            , DisplayDevice device, int major, int minor, GraphicsContextFlags flags)
-            : base(width, height, mode, title, options, device, major, minor, flags) {
-        }
-
-        public GlWindow(int width, int height, GraphicsMode mode, string title, GameWindowFlags options
-            , DisplayDevice device, int major, int minor, GraphicsContextFlags flags, IGraphicsContext sharedContext)
-            : base(width, height, mode, title, options, device, major, minor, flags, sharedContext) {
+        public GlWindow() :base(Global.Width, Global.Height, new GraphicsMode(32, 24, 8)
+            , Global.Title, GameWindowFlags.FixedWindow) {
         }
 
         #endregion

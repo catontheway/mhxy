@@ -36,10 +36,10 @@ namespace mhxy.NetEase.Maps {
         ///// </summary>
         //public UnitData Image { get; }
 
-        ///// <summary>
-        /////     Cell 数据
-        ///// </summary>
-        //public UnitData Cell { get; }
+        /// <summary>
+        ///     Cell 数据
+        /// </summary>
+        public UnitData Cell { get; set; }
 
         ///// <summary>
         /////     Brig 数据

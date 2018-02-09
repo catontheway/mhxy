@@ -57,6 +57,7 @@ namespace mhxy.NetEase.Wass {
         //public byte[] Data { get; set; }
 
         /// <summary>
+        ///     解析后的数据
         /// </summary>
         public Bitmap Bitmap { get; set; }
 

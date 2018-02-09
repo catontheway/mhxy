@@ -13,18 +13,25 @@ using mhxy.NetEase.Maps;
 namespace mhxy.Client.MainDrawable {
 
     /// <summary>
-    ///     供绘制的场景
+    ///     地图绘制
     /// </summary>
     public class DrawableMap : DrawableBase {
 
+        /// <summary>
+        ///     地图绘制
+        /// </summary>
         public DrawableMap() : base(DrawPriority.Lowest) {
         }
 
-        private Rectangle _currentRectangle = new Rectangle(0, 0, Global.Width, Global.Height);
-        private string _currentMapId;
-        private Map _currentMap;
+        private Rectangle _currentRectangle = new Rectangle(0, 0, Global.Width, Global.Height); // 绘制大小
+        private string _currentMapId; //当前地图Id
+        private Map _currentMap; //当前地图数据
 
+        /// <summary>
+        ///     切换到下一帧
+        /// </summary>
         public override void NextFrame() {
+            //获取场景 & 地图 & 主角
             var currentScene = ServiceLocator.ClientEngine.GetCurrentScene();
             var currentPlayer = ServiceLocator.ClientEngine.GetCurrentPlayer();
             if (!string.Equals(_currentMapId, currentScene.MapId)) {
@@ -32,6 +39,8 @@ namespace mhxy.Client.MainDrawable {
                 ServiceLocator.MapManager.TryGetMap(_currentMapId, out _currentMap);
             }
 
+            // 计算主角所在位置 从而得到应该将哪部分地图显示在界面上 
+            // 得到的X Y 分别是 显示在界面上地图的左上角坐标
             int x = currentPlayer.At.X - Global.PlayX;
             x = x < 0 ? 0 : (x > _currentMap.MaxX ? _currentMap.MaxX : x);
             _currentRectangle.X = x;

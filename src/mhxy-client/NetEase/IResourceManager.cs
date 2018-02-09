@@ -11,6 +11,9 @@ using mhxy.Common;
 
 namespace mhxy.NetEase {
 
+    /// <summary>
+    ///     ResourceManager基础接口
+    /// </summary>
     public interface IResourceManager : IService {
 
     }

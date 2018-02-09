@@ -13,6 +13,7 @@ using FluentScheduler;
 namespace mhxy.Job {
 
     /// <summary>
+    ///     定时任务服务
     /// </summary>
     public class ScheduleService : IScheduleService {
 

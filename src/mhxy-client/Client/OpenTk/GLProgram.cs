@@ -72,6 +72,7 @@ namespace mhxy.Client.OpenTk {
             if (!_isValid) {
                 throw new InvalidDataException("Is Not Valid");
             }
+
             return GL.GetUniformLocation(_program, name);
         }
 

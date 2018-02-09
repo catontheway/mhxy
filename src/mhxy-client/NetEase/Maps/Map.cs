@@ -35,17 +35,6 @@ namespace mhxy.NetEase.Maps {
         }
 
         /// <summary>
-        /// </summary>
-        /// <param name="rect"></param>
-        /// <returns></returns>
-        public Image GetParialImage(Rectangle rect) {
-            using (var imageFactory = new ImageFactory()) {
-                return imageFactory.Load(_bitmap).Format(new JpegFormat()).Format(new BitmapFormat()).Crop(rect).Image
-                    .Clone() as Image;
-            }
-        }
-
-        /// <summary>
         ///     加载资源
         /// </summary>
         public override void Load() {
@@ -203,9 +192,9 @@ namespace mhxy.NetEase.Maps {
             uint realOffset = BitConverter.ToUInt32(buffer4, 0);
             fs.Seek(realOffset * 4, SeekOrigin.Current);
             UnitData img = ReadUnitData(fs);
-            //UnitData cell = ReadUnitData(fs);
+            UnitData cell = ReadUnitData(fs);
             //UnitData brig = ReadUnitData(fs);
-            var unit = new Unit(realOffset);
+            var unit = new Unit(realOffset) {Cell = cell};
             if (string.Equals(img.Flag, "47-45-50-4A")) {
                 // JPEG
                 unit.Decoded = DecodeJpeg(img.Data, out byte[] realImage);
@@ -345,10 +334,11 @@ namespace mhxy.NetEase.Maps {
         }
 
         /// <summary>
+        ///     读取Unit数据
         /// </summary>
         /// <param name="fs"></param>
         /// <returns></returns>
-        private UnitData ReadUnitData(FileStream fs) {
+        private static UnitData ReadUnitData(FileStream fs) {
             var buffer4 = new byte[4];
             fs.Read(buffer4, 0, 4);
             var flag = BitConverter.ToString(buffer4);
@@ -370,8 +360,14 @@ namespace mhxy.NetEase.Maps {
 
         #region Map Data
 
+        /// <summary>
+        ///     地图文件名
+        /// </summary>
         private readonly string _fileName;
 
+        /// <summary>
+        ///     地图是否加载
+        /// </summary>
         private bool _loaded;
 
         /// <summary>
@@ -423,11 +419,6 @@ namespace mhxy.NetEase.Maps {
         ///     mask 偏移值
         /// </summary>
         private int[] _maskOffsets;
-
-        ///// <summary>
-        /////     unit是否加载
-        ///// </summary>
-        //private bool[] _unitLoaded;
 
         /// <summary>
         ///     地图单元

@@ -18,9 +18,10 @@ namespace mhxy.Client {
         void NextFrame();
 
         /// <summary>
+        ///     绘制
         /// </summary>
-        /// <param name="cancas"></param>
-        void Draw(DrawArgs cancas);
+        /// <param name="args">绘制参数</param>
+        void Draw(DrawArgs args);
 
     }
 

@@ -22,14 +22,15 @@ namespace mhxy {
             }
 
             ServiceLocator.GlobalLogger.Info("Application Start");
+            // 隐藏Console 窗口
             Console.Title = Guid.NewGuid().ToString();
             IntPtr intptr = NativeMethod.FindWindow("ConsoleWindowClass", Console.Title);
             if (intptr != IntPtr.Zero) {
                 NativeMethod.ShowWindow(intptr, Global.ShowConsole); //隐藏这个窗口
             }
 
+            // 捕获未处理异常
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-
             switch (args[0]) {
                 case "n":
                     ServiceLocator.GlobalLogger.Info("Start Mode : Normal.");

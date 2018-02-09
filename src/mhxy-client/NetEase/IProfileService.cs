@@ -69,8 +69,8 @@ namespace mhxy.NetEase {
         /// <summary>
         ///     删除
         /// </summary>
-        /// <param name="name"></param>
-        /// <param name="id"></param>
+        /// <param name="name">名称</param>
+        /// <param name="id">id</param>
         /// <returns></returns>
         bool DeleteProfile(string name, int id);
 

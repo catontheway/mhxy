@@ -6,6 +6,7 @@
 namespace mhxy.Common {
 
     /// <summary>
+    ///     服务接口
     /// </summary>
     public interface IService {
 

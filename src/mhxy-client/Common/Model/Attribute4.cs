@@ -1,14 +1,14 @@
-﻿// FileName:  Attribute3.cs
+﻿// FileName:  Attribute4.cs
 // Author:  guodp <guodp9u0@gmail.com>
-// Create Date:  20180205 14:01
+// Create Date:  20180209 17:31
 // Description:   
 
 namespace mhxy.Common.Model {
 
     /// <summary>
-    ///     战斗属性(伤害 闪避等)
+    ///     其他属性(暴击率等)
     /// </summary>
-    public class Attribute3 {
+    public class Attribute4 {
 
     }
 

@@ -25,6 +25,9 @@ namespace mhxy.Client {
             InitializeInterfaces();
         }
 
+        /// <summary>
+        ///     界面处理器 用来实际控制哪些界面显示什么内容
+        /// </summary>
         private readonly Dictionary<InterfaceType, InterfaceBase> _interfaces =
             new Dictionary<InterfaceType, InterfaceBase>();
 

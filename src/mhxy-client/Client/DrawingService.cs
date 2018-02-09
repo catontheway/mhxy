@@ -34,6 +34,7 @@ namespace mhxy.Client {
         private Canvas _canvas;
 
         private bool _drawing;
+
         public void Add(IDrawable drawableObj) {
             _drawables[drawableObj.Priority].Add(drawableObj);
         }
@@ -63,6 +64,7 @@ namespace mhxy.Client {
                 _canvas = canvas;
                 _drawing = false;
             }
+
             return _canvas;
         }
 
@@ -97,6 +99,7 @@ namespace mhxy.Client {
         protected virtual void OnFrame() {
             Frame?.Invoke(this, EventArgs.Empty);
         }
+
     }
 
 }

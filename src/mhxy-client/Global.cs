@@ -107,7 +107,7 @@ namespace mhxy {
 
         /// <summary>
         /// </summary>
-        public static string Title = @"梦幻西游";
+        public static string Title = @"";
 
         /// <summary>
         ///     帧

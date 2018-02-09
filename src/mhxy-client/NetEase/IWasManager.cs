@@ -21,11 +21,12 @@ namespace mhxy.NetEase {
     public interface IWasManager : IResourceManager {
 
         /// <summary>
+        ///     获取一个Was数据
         /// </summary>
-        /// <param name="fileId"></param>
-        /// <param name="wasId"></param>
-        /// <param name="wds"></param>
-        /// <returns></returns>
+        /// <param name="fileId">文件Id</param>
+        /// <param name="wasId">was UID</param>
+        /// <param name="wds">获取到的数据</param>
+        /// <returns>是否获取成功</returns>
         bool TryGetSpWas(string fileId, int wasId, out SpWas wds);
 
     }

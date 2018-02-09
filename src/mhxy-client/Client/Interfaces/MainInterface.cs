@@ -79,17 +79,17 @@ namespace mhxy.Client.Interfaces {
                 direction = distX <= 0 ? Direction.Left : Direction.Right;
                 return true;
             }
-
             if (distY2 >= distX2 * 4) {
                 direction = distY <= 0 ? Direction.Up : Direction.Down;
                 return true;
             }
-
+            step = (int)(dist / 5);
+            speetX = distX / step;
+            speedY = distY / step;
             if (distX < 0) {
                 direction = distY <= 0 ? Direction.LeftUp : Direction.LeftDown;
                 return true;
             }
-
             direction = distY <= 0 ? Direction.RightUp : Direction.RightDown;
             return true;
         }

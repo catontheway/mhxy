@@ -16,10 +16,15 @@ namespace mhxy.Common {
     /// </summary>
     public abstract class ServiceBase : IService {
 
+        /// <summary>
+        /// </summary>
         protected ServiceBase() {
             Logger = LogManager.GetLogger(this);
         }
 
+        /// <summary>
+        ///     默认 Logger
+        /// </summary>
         protected ILogger Logger { get; }
 
     }

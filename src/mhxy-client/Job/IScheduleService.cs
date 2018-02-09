@@ -13,6 +13,9 @@ using mhxy.Common;
 
 namespace mhxy.Job {
 
+    /// <summary>
+    ///     定时任务服务
+    /// </summary>
     public interface IScheduleService : IService {
 
         /// <summary>

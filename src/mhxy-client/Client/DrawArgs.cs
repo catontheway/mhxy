@@ -13,13 +13,15 @@ using mhxy.Utils;
 namespace mhxy.Client {
 
     /// <summary>
+    ///     绘制参数
     /// </summary>
     public class DrawArgs {
 
         /// <summary>
+        ///     构造函数
         /// </summary>
-        /// <param name="canvas"></param>
-        /// <param name="priority"></param>
+        /// <param name="canvas">画布</param>
+        /// <param name="priority">当前绘制级别</param>
         public DrawArgs(Canvas canvas, DrawPriority priority) {
             CurrentCanvas = canvas;
             Priority = priority;
@@ -45,7 +47,7 @@ namespace mhxy.Client {
         }
 
         /// <summary>
-        ///     当前绘制的画布
+        ///     当前绘制的画布 可以获取到所有绘制层的Bitmap
         /// </summary>
         public Canvas CurrentCanvas { get; }
 

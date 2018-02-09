@@ -47,6 +47,9 @@ namespace mhxy.NetEase {
             Dispose();
         }
 
+        /// <summary>
+        ///     保存资源
+        /// </summary>
         public virtual void Save() {
             throw new NotImplementedException();
         }
