@@ -5,8 +5,6 @@
 
 #region
 
-using System.Drawing;
-
 #endregion
 
 namespace mhxy.Common.Model {
