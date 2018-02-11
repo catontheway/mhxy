@@ -17,14 +17,14 @@ namespace mhxy.Common.Model {
     public class Scene {
 
         /// <summary>
+        /// 场景Id
+        /// </summary>
+        public string Id { get; set; }
+
+        /// <summary>
         ///     显示的地图
         /// </summary>
         public string MapId { get; set; }
-
-        /// <summary>
-        ///     主角所在位置
-        /// </summary>
-        public Point PlayerAt { get; set; }
 
     }
 
