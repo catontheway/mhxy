@@ -58,7 +58,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Client\AStar\AStarFinder.cs" />
+    <Compile Include="Client\AStar\AStarPoint.cs" />
+    <Compile Include="Client\AStar\PathFinderHelper.cs" />
+    <Compile Include="Client\AStar\PathNode.cs" />
     <Compile Include="Client\ClientEngine.cs" />
+    <Compile Include="Client\Debuger\DebuggerBase.cs" />
+    <Compile Include="Client\Debuger\PathDebugger.cs" />
+    <Compile Include="Client\Debuger\DebuggerContainer.cs" />
     <Compile Include="Client\DrawArgs.cs" />
     <Compile Include="Client\MainDrawable\DrawableCurrentPlayer.cs" />
     <Compile Include="Client\IClientEngine.cs" />

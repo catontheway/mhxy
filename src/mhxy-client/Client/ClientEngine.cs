@@ -7,6 +7,7 @@
 
 using System.Collections.Generic;
 using System.Drawing;
+using mhxy.Client.AStar;
 using mhxy.Client.Interfaces;
 using mhxy.Common;
 using mhxy.Common.Model;
@@ -23,7 +24,24 @@ namespace mhxy.Client {
 
         public ClientEngine() {
             InitializeInterfaces();
+            ServiceLocator.DrawingService.Frame += DrawingService_Frame;
         }
+
+        private void DrawingService_Frame(object sender, System.EventArgs e) {
+            if (_paths.Count != 0) {
+                lock (_paths) {
+                    if (_paths.Count != 0) {
+                        _currentPlayer.Moving = true;
+                        var pathNode = _paths.Dequeue();
+                        _currentPlayer.At = pathNode.Point;
+                        _currentPlayer.FaceTo = pathNode.Direction;
+                    }
+                }
+            } else {
+                _currentPlayer.Moving = false;
+            }
+        }
+
 
         /// <summary>
         ///     界面处理器 用来实际控制哪些界面显示什么内容
@@ -46,6 +64,10 @@ namespace mhxy.Client {
         //场景 角色相关
         private Scene _currentScene = new Scene();
         private CurrentPlayer _currentPlayer = CurrentPlayer.None;
+
+        // 寻路相关
+        private readonly PathFinderHelper _pathHelper = new PathFinderHelper();
+        private readonly Queue<PathNode> _paths = new Queue<PathNode>();
 
         /// <summary>
         ///     前往某个界面
@@ -175,7 +197,7 @@ namespace mhxy.Client {
                 Logger.Warn("用户尚未登录");
                 return false;
             }
-          
+
             _profileLoaded = false;
             _currentProfileId = 0;
             _currentProfile = null;
@@ -208,7 +230,13 @@ namespace mhxy.Client {
         }
 
         public void WalkTo(Point point) {
-
+            _paths.Clear();
+            Logger.Debug("Begin FindPath");
+            var paths = _pathHelper.FindPath(_currentScene.MapId, _currentPlayer.At, point);
+            Logger.Debug("End FindPath");
+            foreach (var path in paths) {
+                _paths.Enqueue(path);
+            }
         }
 
         private void InitializeInterfaces() {
@@ -257,13 +285,11 @@ namespace mhxy.Client {
                 engine.SignIn(Global.DevelopName, Global.DevelopPwd.Md532());
                 if (!engine.LoadProfile(Global.DevelopProfileId)) {
                     engine.CreateProfile(Global.DevelopProfileId);
-                    engine.SaveProfile();
                 }
-                ServiceLocator.ClientEngine.GetCurrentPlayer().At = new Point(2000, 1500);
+                ServiceLocator.ClientEngine.GetCurrentPlayer().At = new Point(239, 230);
                 engine.Goto(InterfaceType.Main);
             }
         }
-
     }
 
 }

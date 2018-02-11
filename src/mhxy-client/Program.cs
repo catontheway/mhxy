@@ -6,7 +6,10 @@
 #region
 
 using System;
+using System.Collections.Generic;
+using System.Threading;
 using mhxy.Client;
+using mhxy.Client.Debuger;
 using mhxy.Utils;
 
 #endregion
@@ -15,12 +18,7 @@ namespace mhxy {
 
     internal class Program {
 
-        private static void Main(string[] args) {
-            if (args == null || args.Length == 0) {
-                args = new[] {"n"};
-                //args = new[] { "m" };
-            }
-
+        private static void Main() {
             ServiceLocator.GlobalLogger.Info("Application Start");
             // 隐藏Console 窗口
             Console.Title = Guid.NewGuid().ToString();
@@ -28,26 +26,15 @@ namespace mhxy {
             if (intptr != IntPtr.Zero) {
                 NativeMethod.ShowWindow(intptr, Global.ShowConsole); //隐藏这个窗口
             }
-
             // 捕获未处理异常
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
-            switch (args[0]) {
-                case "n":
-                    ServiceLocator.GlobalLogger.Info("Start Mode : Normal.");
-                    ServiceLocator.ClientEngine.Start();
-                    ServiceLocator.Window.Run();
-                    break;
-                case "m":
-                    ServiceLocator.GlobalLogger.Info("Start Mode : ParseAllMaps.");
-                    ServiceLocator.MapManager.ParseAllMaps();
-                    break;
-                default:
-                    ServiceLocator.GlobalLogger.Info("Start Mode : No Hit.");
-                    break;
-            }
-
+            ServiceLocator.ClientEngine.Start();
+            DebuggerContainer container = new DebuggerContainer();
+            container.Hook();
+            ServiceLocator.Window.Run();
             ServiceLocator.GlobalLogger.Info("Application Exit");
         }
+
 
         private static void CurrentDomain_UnhandledException(object sender, UnhandledExceptionEventArgs e) {
             ServiceLocator.GlobalLogger.Error("Unhandled Exception", e.ExceptionObject ?? e);

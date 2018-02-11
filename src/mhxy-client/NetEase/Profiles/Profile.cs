@@ -20,7 +20,7 @@ namespace mhxy.NetEase.Profiles {
         /// <summary>
         ///     默认构造Profile
         /// </summary>
-        public Profile() : this(RoleType.剑侠客.ToString(), RoleType.剑侠客, "1501.map", new Point(50, 50)) {
+        public Profile() : this(RoleType.剑侠客.ToString(), RoleType.剑侠客, "1501.map", new Point(1, 1)) {
         }
 
         /// <summary>

@@ -7,7 +7,6 @@
 
 #region
 
-using System;
 using System.IO;
 
 #endregion
@@ -15,18 +14,34 @@ using System.IO;
 namespace mhxy {
 
     /// <summary>
+    /// 全局常量定义
     /// </summary>
     public static class Global {
 
         /// <summary>
-        ///     Map Cell 宽度
+        ///     Map Unit 图片宽度
         /// </summary>
-        public const int WidthPerMapCell = 320;
+        public const int ImageWidthPerMapUnit = 320;
 
         /// <summary>
-        ///     Map Cell 高度
+        ///     Map Unit 图片高度
         /// </summary>
-        public const int HeightPerMapCell = 240;
+        public const int ImageHeightPerMapUnit = 240;
+
+        /// <summary>
+        ///     Map Unit Cell宽度
+        /// </summary>
+        public const int CellWidthPerMapUnit = 16;
+
+        /// <summary>
+        ///     Map Unit Cell高度
+        /// </summary>
+        public const int CellHeightPerMapUnit = 12;
+
+        /// <summary>
+        /// 每个Cell的像素点
+        /// </summary>
+        public const int PixelPerCell = 20;
 
         /// <summary>
         ///     主角在屏幕上的位置(正常情况下)

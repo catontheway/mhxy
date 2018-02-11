@@ -8,6 +8,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Text;
 using ImageProcessor;
 using ImageProcessor.Imaging.Formats;
 using mhxy.Utils;
@@ -56,8 +57,8 @@ namespace mhxy.NetEase.Maps {
                     fs.Read(buffer4, 0, 4);
                     _height = BitConverter.ToInt32(buffer4, 0);
                     MaxY = _height - Global.Height;
-                    _unitColumns = (int) Math.Ceiling((double) Width / Global.WidthPerMapCell);
-                    _unitRows = (int) Math.Ceiling((double) Height / Global.HeightPerMapCell);
+                    _unitColumns = (int)Math.Ceiling((double)Width / Global.ImageWidthPerMapUnit);
+                    _unitRows = (int)Math.Ceiling((double)Height / Global.ImageHeightPerMapUnit);
                     _unitSize = _unitColumns * _unitRows;
                     _unitOffsets = new int[_unitSize];
                     _units = new Unit[_unitSize];
@@ -99,6 +100,7 @@ namespace mhxy.NetEase.Maps {
 
                     //5.Create BitMap
                     _bitmap = new Bitmap(Width, Height);
+                    Grid = new byte[_unitRows * Global.CellHeightPerMapUnit, _unitColumns * Global.CellWidthPerMapUnit];
                     using (ImageFactory factory = new ImageFactory()) {
                         for (var rowIndex = 0; rowIndex < _unitRows; rowIndex++) {
                             for (var colIndex = 0; colIndex < _unitColumns; colIndex++) {
@@ -107,7 +109,16 @@ namespace mhxy.NetEase.Maps {
                                 if (!unit.Decoded) {
                                     continue;
                                 }
-
+                                // 复制Cell
+                                for (int i = 0; i < unit.Cell.Data.Length; i++) {
+                                    int x = i / Global.CellWidthPerMapUnit;
+                                    int y = i % Global.CellWidthPerMapUnit;
+                                    int indexX = x + Global.CellHeightPerMapUnit * rowIndex;
+                                    int indexY = y + Global.CellWidthPerMapUnit * colIndex;
+                                    Grid[indexX, indexY] = (byte)(unit.Cell.Data[i] == 0 ? 1 : 0);
+                                    Grid[indexX, indexY] = 1;
+                                }
+                                // 复制Bitmap
                                 if (factory.Load(unit.RealImage)
                                     .Image is Bitmap unitBitmap) {
                                     FastBitmap.CopyRegion(unitBitmap, _bitmap,
@@ -136,7 +147,6 @@ namespace mhxy.NetEase.Maps {
             if (!_loaded) {
                 return;
             }
-
             Logger.Info($"Begin Save Map : {_fileName}");
             var fileName = _fileName + ".jpg";
             try {
@@ -146,7 +156,20 @@ namespace mhxy.NetEase.Maps {
             } catch (Exception e) {
                 Logger.Error($"Save Map : {fileName}", e);
             }
-
+            var fileName2 = _fileName + ".txt";
+            try {
+                StringBuilder sb = new StringBuilder();
+                for (int i = 0; i < _unitRows * Global.CellHeightPerMapUnit; i++) {
+                    for (int j = 0; j < _unitColumns * Global.CellWidthPerMapUnit; j++) {
+                        sb.Append((int)Grid[i, j]);
+                        sb.Append(" ");
+                    }
+                    sb.AppendLine();
+                }
+                File.WriteAllText(fileName2, sb.ToString());
+            } catch (Exception e) {
+                Logger.Error($"Save Cell : {fileName2}", e);
+            }
             Logger.Info($"End Save Map : {_fileName}");
         }
 
@@ -194,7 +217,7 @@ namespace mhxy.NetEase.Maps {
             UnitData img = ReadUnitData(fs);
             UnitData cell = ReadUnitData(fs);
             //UnitData brig = ReadUnitData(fs);
-            var unit = new Unit(realOffset) {Cell = cell};
+            var unit = new Unit(realOffset) { Cell = cell };
             if (string.Equals(img.Flag, "47-45-50-4A")) {
                 // JPEG
                 unit.Decoded = DecodeJpeg(img.Data, out byte[] realImage);
@@ -429,6 +452,11 @@ namespace mhxy.NetEase.Maps {
         ///     Mask 信息
         /// </summary>
         private Mask[] _masks;
+
+        /// <summary>
+        /// 地图可到达区域 
+        /// </summary>
+        public byte[,] Grid;
 
         /// <summary>
         ///     地图图像

@@ -7,6 +7,8 @@
 
 #endregion
 
+using mhxy.NetEase.Maps;
+
 namespace mhxy.Common.Model {
 
     /// <summary>
