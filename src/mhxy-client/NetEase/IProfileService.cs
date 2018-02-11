@@ -18,40 +18,41 @@ namespace mhxy.NetEase {
     public interface IProfileService : IService {
 
         /// <summary>
-        ///     是否有
+        ///     是否有用户
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">用户名</param>
         /// <returns></returns>
         bool Has(string name);
 
         /// <summary>
-        ///     读取
+        ///     读取用户
         /// </summary>
-        /// <param name="name"></param>
-        /// <returns></returns>
-        string Read(string name);
-
-        /// <summary>
-        ///     创建
-        /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">用户名</param>
         /// <param name="content"></param>
         /// <returns></returns>
-        bool Create(string name, string content);
+        bool TryRead(string name, out string content);
+
+        /// <summary>
+        ///     创建用户
+        /// </summary>
+        /// <param name="name">用户名</param>
+        /// <param name="content"></param>
+        /// <returns></returns>
+        bool TryCreate(string name, string content);
 
         /// <summary>
         ///     获取存档简介
         /// </summary>
-        /// <param name="name"></param>
+        /// <param name="name">用户名</param>
         /// <returns></returns>
         ProfileList GetProfileList(string name);
 
         /// <summary>
         ///     读取Profile
         /// </summary>
-        /// <param name="name">名称</param>
+        /// <param name="name">用户名</param>
         /// <param name="pwd">密码</param>
-        /// <param name="id">id</param>
+        /// <param name="id">存档id</param>
         /// <param name="profile">读取到的存档</param>
         /// <returns></returns>
         bool TryReadProfile(string name, string pwd, int id, out Profile profile);
@@ -59,20 +60,20 @@ namespace mhxy.NetEase {
         /// <summary>
         ///     保存Profile
         /// </summary>
-        /// <param name="name">名称</param>
+        /// <param name="name">用户名</param>
         /// <param name="pwd">密码</param>
-        /// <param name="id">id</param>
+        /// <param name="id">存档id</param>
         /// <param name="profile">存档</param>
         /// <returns></returns>
-        bool SaveProfile(string name, string pwd, int id, Profile profile);
+        bool TrySaveProfile(string name, string pwd, int id, Profile profile);
 
         /// <summary>
-        ///     删除
+        ///     删除Profile
         /// </summary>
-        /// <param name="name">名称</param>
-        /// <param name="id">id</param>
+        /// <param name="name">用户名</param>
+        /// <param name="id">存档id</param>
         /// <returns></returns>
-        bool DeleteProfile(string name, int id);
+        bool TryDeleteProfile(string name, int id);
 
     }
 

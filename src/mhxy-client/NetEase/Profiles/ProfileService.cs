@@ -48,17 +48,20 @@ namespace mhxy.NetEase.Profiles {
         }
 
         /// <summary>
-        ///     读取
+        ///     读取用户信息
         /// </summary>
         /// <param name="name"></param>
+        /// <param name="content"></param>
         /// <returns></returns>
-        public string Read(string name) {
-            Logger.Info($"Read : {name}");
+        public bool TryRead(string name, out string content) {
+            Logger.Info($"TryRead : {name}");
+            content = string.Empty;
             try {
-                return File.ReadAllText(Path.Combine(_profilePath, name));
+                content = File.ReadAllText(Path.Combine(_profilePath, name));
+                return true;
             } catch (Exception e) {
                 Logger.Error($"Read : {name}", e);
-                return string.Empty;
+                return false;
             }
         }
 
@@ -68,8 +71,8 @@ namespace mhxy.NetEase.Profiles {
         /// <param name="name"></param>
         /// <param name="content"></param>
         /// <returns></returns>
-        public bool Create(string name, string content) {
-            Logger.Info($"Create : {name} {content}");
+        public bool TryCreate(string name, string content) {
+            Logger.Info($"TryCreate : {name} {content}");
             try {
                 File.WriteAllText(Path.Combine(_profilePath, name), content);
                 return true;
@@ -133,6 +136,7 @@ namespace mhxy.NetEase.Profiles {
             return false;
         }
 
+        /// <inheritdoc />
         /// <summary>
         ///     保存Profile
         /// </summary>
@@ -141,8 +145,8 @@ namespace mhxy.NetEase.Profiles {
         /// <param name="id">id</param>
         /// <param name="profile">存档</param>
         /// <returns></returns>
-        public bool SaveProfile(string name, string pwd, int id, Profile profile) {
-            Logger.Info($"SaveProfile : {name} {pwd} {id}");
+        public bool TrySaveProfile(string name, string pwd, int id, Profile profile) {
+            Logger.Info($"TrySaveProfile : {name} {pwd} {id}");
             string fileName = Path.Combine(_profilePath, $"{name}.{id}.save");
             if (JsonUtil.TryToJson(profile, out string profileStr)) {
                 Logger.Debug($"SaveProfile : {name} \n {profileStr}");
@@ -174,14 +178,14 @@ namespace mhxy.NetEase.Profiles {
             return false;
         }
 
+        /// <inheritdoc />
         /// <summary>
-        ///     删除
         /// </summary>
         /// <param name="name"></param>
         /// <param name="id"></param>
         /// <returns></returns>
-        public bool DeleteProfile(string name, int id) {
-            Logger.Info($"DeleteProfile : {name} {id}");
+        public bool TryDeleteProfile(string name, int id) {
+            Logger.Info($"TryDeleteProfile : {name} {id}");
             string fileName = Path.Combine(_profilePath, $"{name}.{id}.save");
             if (!File.Exists(fileName)) {
                 return false;
@@ -199,10 +203,6 @@ namespace mhxy.NetEase.Profiles {
             return true;
         }
 
-        /// <summary>
-        /// </summary>
-        /// <param name="name"></param>
-        /// <param name="list"></param>
         private void SaveProfileList(string name, ProfileList list) {
             string fileName = Path.Combine(_profilePath, $"{name}.breif");
             try {

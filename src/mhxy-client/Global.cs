@@ -68,7 +68,7 @@ namespace mhxy {
         /// <summary>
         ///     开发存档编号
         /// </summary>
-        public static int DevelopProfileId = 0;
+        public static int DevelopProfileId = 1;
 
         /// <summary>
         ///     是否加密

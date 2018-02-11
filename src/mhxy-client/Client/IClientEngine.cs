@@ -5,6 +5,7 @@
 
 #region
 
+using System.Drawing;
 using mhxy.Common;
 using mhxy.Common.Model;
 
@@ -46,6 +47,12 @@ namespace mhxy.Client {
         bool SignOut();
 
         /// <summary>
+        /// 创建一个初始存档
+        /// </summary>
+        /// <returns></returns>
+        bool CreateProfile(int id);
+
+        /// <summary>
         ///     加载角色存档
         /// </summary>
         /// <param name="id"></param>
@@ -58,6 +65,12 @@ namespace mhxy.Client {
         bool SaveProfile();
 
         /// <summary>
+        /// 卸载当前存档
+        /// </summary>
+        /// <returns></returns>
+        bool UnloadProfile();
+
+        /// <summary>
         ///     获取当前场景信息
         /// </summary>
         /// <returns></returns>
@@ -68,6 +81,19 @@ namespace mhxy.Client {
         /// </summary>
         /// <returns></returns>
         CurrentPlayer GetCurrentPlayer();
+
+        /// <summary>
+        /// 飞行到某个场景的某个地点
+        /// </summary>
+        /// <param name="sceneId"></param>
+        /// <param name="point"></param>
+        void FlyTo(string sceneId, Point point);
+
+        /// <summary>
+        /// 走到某个地点
+        /// </summary>
+        /// <param name="point"></param>
+        void WalkTo(Point point);
 
     }
 
