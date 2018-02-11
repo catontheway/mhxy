@@ -89,8 +89,10 @@ namespace mhxy.Client {
                 Logger.Warn("存档尚未加载");
                 return false;
             }
-            _currentProfileId = 0;
             _profileLoaded = false;
+            _currentProfileId = 0;
+            CleanData();
+            _currentProfile = null;
             return true;
         }
 
@@ -104,8 +106,9 @@ namespace mhxy.Client {
                 Logger.Warn("用户尚未登录");
                 return false;
             }
-            _currentProfileId = id;
             _currentProfile = new Profile { InitCreate = true };
+            ProfileToData();
+            _currentProfileId = id;
             _profileLoaded = true;
             return true;
         }
@@ -122,19 +125,9 @@ namespace mhxy.Client {
                 return false;
             }
             if (!_profileLoaded && ServiceLocator.ProfileService.TryReadProfile(_currentName, _currentPwd, id, out Profile profile)) {
-                var scene = new Scene {
-                    MapId = _currentProfile.MapId
-                };
-                var player = new CurrentPlayer {
-                    At = _currentProfile.PlayerAt,
-                    FaceTo = Direction.Down,
-                    Role = _currentProfile.Role,
-                    Level = _currentPlayer.Level
-                };
-                _currentScene = scene;
-                _currentPlayer = player;
-                _currentProfileId = id;
                 _currentProfile = profile;
+                ProfileToData();
+                _currentProfileId = id;
                 _profileLoaded = true;
                 return true;
             }
@@ -182,11 +175,15 @@ namespace mhxy.Client {
                 Logger.Warn("用户尚未登录");
                 return false;
             }
+          
+            _profileLoaded = false;
             _currentProfileId = 0;
             _currentProfile = null;
+            CleanData();
+
+            _signedIn = false;
             _currentName = string.Empty;
             _currentPwd = string.Empty;
-            _signedIn = false;
             return true;
         }
 
@@ -226,6 +223,25 @@ namespace mhxy.Client {
             _interfaces[InterfaceType.Monolog] = new MonologInterface();
         }
 
+        private void ProfileToData() {
+            var scene = new Scene {
+                MapId = _currentProfile.MapId
+            };
+            var player = new CurrentPlayer {
+                At = _currentProfile.PlayerAt,
+                FaceTo = Direction.Down,
+                Role = _currentProfile.Role,
+                Level = _currentPlayer.Level
+            };
+            _currentScene = scene;
+            _currentPlayer = player;
+        }
+
+        private void CleanData() {
+            _currentScene = null;
+            _currentPlayer = null;
+        }
+
     }
 
     public static class Externtions {
@@ -242,8 +258,6 @@ namespace mhxy.Client {
                 if (!engine.LoadProfile(Global.DevelopProfileId)) {
                     engine.CreateProfile(Global.DevelopProfileId);
                     engine.SaveProfile();
-                    engine.UnloadProfile();
-                    engine.LoadProfile(Global.DevelopProfileId);
                 }
                 ServiceLocator.ClientEngine.GetCurrentPlayer().At = new Point(2000, 1500);
                 engine.Goto(InterfaceType.Main);
