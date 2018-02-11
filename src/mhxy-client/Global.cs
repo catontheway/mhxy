@@ -58,7 +58,7 @@ namespace mhxy {
         /// <summary>
         ///     开发用户名
         /// </summary>
-        public static string DevelopName = DateTime.Now.ToString("yyyyMMddHHmmss");
+        public static string DevelopName = "guodp9u0";
 
         /// <summary>
         ///     开发密码
