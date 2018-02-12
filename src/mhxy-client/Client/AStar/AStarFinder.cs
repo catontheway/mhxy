@@ -5,6 +5,7 @@
 
 using System.Collections.Generic;
 using System.Drawing;
+using log4net.Repository.Hierarchy;
 
 namespace mhxy.Client.AStar {
 
@@ -37,6 +38,7 @@ namespace mhxy.Client.AStar {
         /// <param name="end"></param>
         /// <returns></returns>
         public List<Point> FindPath(Point start, Point end) {
+            ServiceLocator.GlobalLogger.Debug($"{start.X} {start.Y} to {end.X} {end.Y}");
             List<Point> way = new List<Point>();
             if (start.X < 0 || start.X >= _length0 || start.Y < 0 || start.Y >= _length1 ||
                 _grid[start.X, start.Y] == 0) {
@@ -50,12 +52,14 @@ namespace mhxy.Client.AStar {
             AStarPoint current = startPoint;
             while (!OpenListIsEmpty()) {
                 current = GetMinFFromOpenList();
+                ServiceLocator.GlobalLogger.Error($"X : {current.X} Y : {current.Y} G : {current.G } H : {current.H} : {current.G + current.H}");
                 if (current.X == end.X && current.Y == end.Y) {
                     break;// Success
                 }
+                Check8(current, end);
                 RemoveFromOpenList(current);
                 AddToCloseList(current);
-                Check8(current, end);
+
             }
             while (current != null) {
                 way.Add(new Point(current.X, current.Y));
@@ -68,6 +72,7 @@ namespace mhxy.Client.AStar {
             for (int indexX = current.X - 1; indexX < current.X + 2; indexX++) {
                 for (int indexY = current.Y - 1; indexY < current.Y + 2; indexY++) {
                     if (indexX == end.X && indexY == end.Y) {
+                        ServiceLocator.GlobalLogger.Warn($"WTF");
                     }
                     var point = new AStarPoint(indexX, indexY, current, end);
                     if (indexX == current.X && indexY == current.Y
@@ -75,11 +80,11 @@ namespace mhxy.Client.AStar {
                         || _grid[indexX, indexY] == 0
                         || IsInOpenList(indexX, indexY)
                         || IsInCloseList(indexX, indexY)) {
-                        continue;
+                        //ServiceLocator.GlobalLogger.Warn($"Ignore To OpenList {point.X} {point.Y} {point.G} {point.H}");
                     } else {
                         //var point = new AStarPoint(indexX, indexY, current, end);
                         AddToOpenList(point);
-                        ServiceLocator.GlobalLogger.Debug($"Add To OpenList {point.X} {point.Y} {point.G} {point.H}");
+                        //ServiceLocator.GlobalLogger.Debug($"Add To OpenList {point.X} {point.Y} {point.G} {point.H}");
                     }
                 }
             }

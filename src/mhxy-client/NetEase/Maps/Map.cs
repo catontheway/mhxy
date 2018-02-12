@@ -116,7 +116,7 @@ namespace mhxy.NetEase.Maps {
                                     int indexX = x + Global.CellHeightPerMapUnit * rowIndex;
                                     int indexY = y + Global.CellWidthPerMapUnit * colIndex;
                                     Grid[indexX, indexY] = (byte)(unit.Cell.Data[i] == 0 ? 1 : 0);
-                                    Grid[indexX, indexY] = 1;
+                                    //Grid[indexX, indexY] = 1;
                                 }
                                 // 复制Bitmap
                                 if (factory.Load(unit.RealImage)

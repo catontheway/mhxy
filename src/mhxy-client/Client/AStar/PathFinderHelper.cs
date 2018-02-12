@@ -33,10 +33,10 @@ namespace mhxy.Client.AStar {
                 ServiceLocator.MapManager.TryGetMap(mapId, out _currentMap);
                 _currentMapId = mapId;
             }
-            int startX = pointStart.X / Global.PixelPerCell;
-            int startY = pointStart.Y / Global.PixelPerCell;
-            int endX = pointEnd.X / Global.PixelPerCell;
-            int endY = pointEnd.Y / Global.PixelPerCell;
+            int startY = pointStart.X / Global.PixelPerCell;
+            int startX = pointStart.Y / Global.PixelPerCell;
+            int endY = pointEnd.X / Global.PixelPerCell;
+            int endX = pointEnd.Y / Global.PixelPerCell;
             var pathFinder = new AStarFinder(_currentMap.Grid);
             var way = pathFinder.FindPath(new Point(startX, startY), new Point(endX, endY));
             if (way != null && way.Count != 0) {
@@ -44,13 +44,13 @@ namespace mhxy.Client.AStar {
                 PathNode pre = new PathNode { Point = pointStart };
                 foreach (var wayNode in way) {
                     var current = new PathNode {
-                        Point = new Point(wayNode.X * Global.PixelPerCell, wayNode.Y * Global.PixelPerCell)
+                        Point = new Point(wayNode.Y * Global.PixelPerCell, wayNode.X * Global.PixelPerCell)
                     };
                     result.Add(current);
                     pre.Direction = CalcDirection(pre, current);
                     pre = current;
                 }
-                result.Add(new PathNode { Point = pointEnd, Direction = pre.Direction });
+                // result.Add(new PathNode { Point = pointEnd, Direction = pre.Direction });
             }
             return result;
         }

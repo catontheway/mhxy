@@ -286,7 +286,7 @@ namespace mhxy.Client {
                 if (!engine.LoadProfile(Global.DevelopProfileId)) {
                     engine.CreateProfile(Global.DevelopProfileId);
                 }
-                ServiceLocator.ClientEngine.GetCurrentPlayer().At = new Point(239, 230);
+                ServiceLocator.ClientEngine.GetCurrentPlayer().At = new Point(500, 500);
                 engine.Goto(InterfaceType.Main);
             }
         }

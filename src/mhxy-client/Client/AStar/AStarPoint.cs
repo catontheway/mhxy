@@ -1,8 +1,9 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Drawing;
 
 namespace mhxy.Client.AStar {
-
+    [DebuggerDisplay("{X} {Y} {G} {H}: {G+H}")]
     public class AStarPoint {
 
         public int X { get; }
@@ -31,7 +32,10 @@ namespace mhxy.Client.AStar {
         }
 
         private void GetH(Point end) {
-            H = Math.Abs(X - end.X) * 10 + Math.Abs(Y - end.Y) * 10;
+            var distX = Math.Abs(X - end.X);
+            var distY = Math.Abs(Y - end.Y);
+            H = Math.Abs(distX - distY) * 10 + Math.Min(distX, distY) * 14;
+            //H = Math.Abs(X - end.X) * 10 + Math.Abs(Y - end.Y) * 10;
         }
 
         public override string ToString() {
