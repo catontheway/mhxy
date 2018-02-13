@@ -22,6 +22,14 @@ namespace mhxy.Client.OpenTk {
     /// </summary>
     public class GlWindow : GameWindow {
 
+        #region Ctor
+
+        public GlWindow() : base(Global.Width, Global.Height, new GraphicsMode(32, 24, 8), Global.Title,
+            GameWindowFlags.FixedWindow) {
+        }
+
+        #endregion
+
         private int _textureLowest;
         private int _textureLower;
         private int _textureNormal;
@@ -48,7 +56,7 @@ namespace mhxy.Client.OpenTk {
 
         /// <summary>
         /// </summary>
-        public new void Run() {
+        public void RunDefault() {
             Run(Global.FramePerSecond);
         }
 
@@ -66,16 +74,17 @@ namespace mhxy.Client.OpenTk {
 
         protected override void OnUpdateFrame(FrameEventArgs e) {
             ServiceLocator.DrawingService.UpdateFrame();
+            Title = $"(Vsync: {VSync}),FPS: {1f / e.Time:0}";
             base.OnUpdateFrame(e);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e) {
 #if DEBUG
-            _fpsCount++;
-            if (_fpsCount == 60) {
-                Title = $"(Vsync: {VSync}),FPS: {1f / e.Time:0}";
-                _fpsCount = 0;
-            }
+            //_fpsCount++;
+            //if (_fpsCount == Global.FramePerSecond) {
+            //Title = $"(Vsync: {VSync}),FPS: {1f / e.Time:0}";
+            //    _fpsCount = 0;
+            //}
 #endif
             GL.Viewport(0, 0, Width, Height);
             GL.Clear(ClearBufferMask.ColorBufferBit | ClearBufferMask.DepthBufferBit);
@@ -184,14 +193,6 @@ namespace mhxy.Client.OpenTk {
                 GL.BindVertexArray(0);
             }
         }
-
-        #region Ctor
-
-        public GlWindow() :base(Global.Width, Global.Height, new GraphicsMode(32, 24, 8)
-            , Global.Title, GameWindowFlags.FixedWindow) {
-        }
-
-        #endregion
 
     }
 

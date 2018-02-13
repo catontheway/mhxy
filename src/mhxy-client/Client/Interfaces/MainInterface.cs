@@ -5,11 +5,8 @@
 
 #region
 
-using System;
 using System.Drawing;
-using System.Threading;
 using mhxy.Client.MainDrawable;
-using mhxy.Common.Model;
 using OpenTK.Input;
 
 #endregion

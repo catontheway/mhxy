@@ -5,6 +5,7 @@
 
 #region
 
+using System.Drawing;
 using mhxy.Common.Model;
 using mhxy.NetEase.Wass;
 using mhxy.Utils;
@@ -18,19 +19,29 @@ namespace mhxy.Client.MainDrawable {
     /// </summary>
     public class DrawableCurrentPlayer : DrawableBase {
 
-        private const int ChangeFrame = 4;
-        private const int TotalFrame = 8;
+        private const int TotalFrame = 8; //人物动画8帧一组
+        private const int FramePerSecond = 20; //每秒20帧速度播放
+        private static readonly int FramePerGlobalFrame = FramePerSecond / Global.FramePerSecond; //实际播放速度根据全局画面速度计算
 
         public DrawableCurrentPlayer() : base(DrawPriority.Lower) {
         }
 
+        private int _frameCount;
+
         private SpWas _walk;
         private SpWas _stand;
         private CurrentPlayer _currentPlayer;
-        private int _frame;
-        private int _count;
+        private int _frameIndex;
+        private SpFrame _frame;
+        private SpHeader _header;
 
         public override void NextFrame() {
+            if (_frameCount++ < FramePerGlobalFrame) {
+                //没有达到切换画面条件
+                return;
+            }
+
+            _frameCount = 0;
             _currentPlayer = ServiceLocator.ClientEngine.GetCurrentPlayer();
             if (_walk == null) {
                 ServiceLocator.WasManager.TryGetSpWas("shape.wdf", 0x54F3FC94, out _walk);
@@ -40,46 +51,37 @@ namespace mhxy.Client.MainDrawable {
                 ServiceLocator.WasManager.TryGetSpWas("shape.wdf", 0x49386FCE, out _stand);
             }
 
-            if (_count++ >= ChangeFrame) {
-                _count = 0;
-                _frame = (_frame + 1) % TotalFrame;
-            }
-        }
-
-        public override void Draw(DrawArgs args) {
             if (_walk == null || _stand == null || _currentPlayer == null) {
                 return;
             }
 
-            var frame = _currentPlayer.Moving
-                ? _walk.GetFrame((int) _currentPlayer.FaceTo, _frame)
-                : _stand.GetFrame((int) _currentPlayer.FaceTo, _frame);
-            var header = _currentPlayer.Moving ? _walk.SpHeader : _stand.SpHeader;
+            //计算显示哪一帧
+            _frameIndex = (_frameIndex + 1) % TotalFrame;
+            _frame = _currentPlayer.Moving
+                ? _walk.GetFrame((int) _currentPlayer.FaceTo, _frameIndex)
+                : _stand.GetFrame((int) _currentPlayer.FaceTo, _frameIndex);
+            _header = _currentPlayer.Moving ? _walk.SpHeader : _stand.SpHeader;
+        }
+
+        public override void Draw(DrawArgs args) {
+            //空值检测
+            if (_frame == null || _header == null || _currentPlayer == null) {
+                return;
+            }
+
+            //计算显示位置
             var currentPlayerX = _currentPlayer.At.X;
             var currentPlayerY = _currentPlayer.At.Y;
             var worldPointX = args.WorldPoint.X;
             var worldPointY = args.WorldPoint.Y;
+            var sourceRect = new Rectangle(0, 0, _header.Width, _header.Height);
+            int targX = currentPlayerX - worldPointX - _header.KeyX;
+            int targY = currentPlayerY - worldPointY - _header.KeyY;
+            var targetRect = new Rectangle(targX, targY, _header.Width, _header.Height);
+            //将图像复制到画布 : args.FastBitmap
             FastBitmap fastBitmap = args.FastBitmap;
             fastBitmap.Lock();
-            using (FastBitmap play = new FastBitmap(frame.Bitmap)) {
-                play.Lock();
-                for (int x = 0; x < play.Width; x++) {
-                    for (int y = 0; y < play.Height; y++) {
-                        var pixel = play.GetPixel(x, y);
-                        if (pixel != frame.ColorA0) {
-                            // 画到Canvas上
-                            int drawX = x + currentPlayerX - worldPointX - header.KeyX;
-                            drawX = drawX > 0 ? drawX >= Global.Width ? Global.Width - 1 : drawX : 0;
-                            int drawY = y + currentPlayerY - worldPointY - header.KeyY;
-                            drawY = drawY > 0 ? drawY >= Global.Height ? Global.Height - 1 : drawY : 0;
-                            fastBitmap.SetPixel(drawX, drawY, pixel);
-                        }
-                    }
-                }
-
-                play.Unlock();
-            }
-
+            fastBitmap.CopyRegion(_frame.Bitmap, sourceRect, targetRect);
             fastBitmap.Unlock();
         }
 

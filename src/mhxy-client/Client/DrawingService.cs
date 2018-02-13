@@ -69,6 +69,7 @@ namespace mhxy.Client {
         }
 
         public void UpdateFrame() {
+            OnBeforeFrame();
             var priority = DrawPriority.Lowest;
             _drawables[priority].ForEach(drawable => drawable.NextFrame());
             priority = DrawPriority.Lower;
@@ -79,10 +80,9 @@ namespace mhxy.Client {
             _drawables[priority].ForEach(drawable => drawable.NextFrame());
             priority = DrawPriority.Highest;
             _drawables[priority].ForEach(drawable => drawable.NextFrame());
-            OnFrame();
         }
 
-        public event EventHandler Frame;
+        public event EventHandler BeforeFrame;
 
         public void RemoveAll() {
             RemoveAll(DrawPriority.Lowest);
@@ -96,8 +96,8 @@ namespace mhxy.Client {
             _drawables[priority].Clear();
         }
 
-        protected virtual void OnFrame() {
-            Frame?.Invoke(this, EventArgs.Empty);
+        protected virtual void OnBeforeFrame() {
+            BeforeFrame?.Invoke(this, EventArgs.Empty);
         }
 
     }

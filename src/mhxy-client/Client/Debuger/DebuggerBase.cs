@@ -6,7 +6,6 @@
 namespace mhxy.Client.Debuger {
 
     /// <summary>
-    /// 
     /// </summary>
     public abstract class DebuggerBase {
 

@@ -14,7 +14,7 @@ using System.IO;
 namespace mhxy {
 
     /// <summary>
-    /// 全局常量定义
+    ///     全局常量定义
     /// </summary>
     public static class Global {
 
@@ -39,7 +39,7 @@ namespace mhxy {
         public const int CellHeightPerMapUnit = 12;
 
         /// <summary>
-        /// 每个Cell的像素点
+        ///     每个Cell的像素点
         /// </summary>
         public const int PixelPerCell = 20;
 
@@ -125,9 +125,9 @@ namespace mhxy {
         public static string Title = @"";
 
         /// <summary>
-        ///     帧
+        ///     画面更新频率
         /// </summary>
-        public static int FramePerSecond = 60;
+        public static int FramePerSecond = 20;
 
         static Global() {
 #if Develop

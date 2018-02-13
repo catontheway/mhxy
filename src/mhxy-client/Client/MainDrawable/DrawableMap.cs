@@ -31,14 +31,19 @@ namespace mhxy.Client.MainDrawable {
         ///     切换到下一帧
         /// </summary>
         public override void NextFrame() {
-            //获取场景 & 地图 & 主角
+            // 获取场景 & 地图 &
             var currentScene = ServiceLocator.ClientEngine.GetCurrentScene();
-            var currentPlayer = ServiceLocator.ClientEngine.GetCurrentPlayer();
             if (!string.Equals(_currentMapId, currentScene.MapId)) {
                 _currentMapId = currentScene.MapId;
                 ServiceLocator.MapManager.TryGetMap(_currentMapId, out _currentMap);
             }
 
+            if (_currentMap == null) {
+                return;
+            }
+
+            //主角
+            var currentPlayer = ServiceLocator.ClientEngine.GetCurrentPlayer();
             // 计算主角所在位置 从而得到应该将哪部分地图显示在界面上 
             // 得到的X Y 分别是 显示在界面上地图的左上角坐标
             int x = currentPlayer.At.X - Global.PlayX;

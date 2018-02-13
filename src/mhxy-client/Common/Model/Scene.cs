@@ -7,8 +7,6 @@
 
 #endregion
 
-using mhxy.NetEase.Maps;
-
 namespace mhxy.Common.Model {
 
     /// <summary>
@@ -17,7 +15,7 @@ namespace mhxy.Common.Model {
     public class Scene {
 
         /// <summary>
-        /// 场景Id
+        ///     场景Id
         /// </summary>
         public string Id { get; set; }
 

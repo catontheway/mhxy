@@ -47,7 +47,7 @@ namespace mhxy.Client {
         bool SignOut();
 
         /// <summary>
-        /// 创建一个初始存档
+        ///     创建一个初始存档
         /// </summary>
         /// <returns></returns>
         bool CreateProfile(int id);
@@ -65,7 +65,7 @@ namespace mhxy.Client {
         bool SaveProfile();
 
         /// <summary>
-        /// 卸载当前存档
+        ///     卸载当前存档
         /// </summary>
         /// <returns></returns>
         bool UnloadProfile();
@@ -83,14 +83,14 @@ namespace mhxy.Client {
         CurrentPlayer GetCurrentPlayer();
 
         /// <summary>
-        /// 飞行到某个场景的某个地点
+        ///     飞行到某个场景的某个地点
         /// </summary>
         /// <param name="sceneId"></param>
         /// <param name="point"></param>
         void FlyTo(string sceneId, Point point);
 
         /// <summary>
-        /// 走到某个地点
+        ///     走到某个地点
         /// </summary>
         /// <param name="point"></param>
         void WalkTo(Point point);

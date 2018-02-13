@@ -5,6 +5,7 @@
 
 #region
 
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using mhxy.Client.AStar;
@@ -22,32 +23,23 @@ namespace mhxy.Client {
     /// </summary>
     public class ClientEngine : ServiceBase, IClientEngine {
 
+        private const int SetpPerSecond = 20;
+        private static readonly int GobalFramePerSetp = Global.FramePerSecond / SetpPerSecond;
+
         public ClientEngine() {
             InitializeInterfaces();
-            ServiceLocator.DrawingService.Frame += DrawingService_Frame;
+            ServiceLocator.DrawingService.BeforeFrame += DrawingService_BeforeFrame;
         }
-
-        private void DrawingService_Frame(object sender, System.EventArgs e) {
-            if (_paths.Count != 0) {
-                lock (_paths) {
-                    if (_paths.Count != 0) {
-                        _currentPlayer.Moving = true;
-                        var pathNode = _paths.Dequeue();
-                        _currentPlayer.At = pathNode.Point;
-                        _currentPlayer.FaceTo = pathNode.Direction;
-                    }
-                }
-            } else {
-                _currentPlayer.Moving = false;
-            }
-        }
-
 
         /// <summary>
         ///     界面处理器 用来实际控制哪些界面显示什么内容
         /// </summary>
         private readonly Dictionary<InterfaceType, InterfaceBase> _interfaces =
             new Dictionary<InterfaceType, InterfaceBase>();
+
+        // 寻路相关
+        private readonly PathFinderHelper _pathHelper = new PathFinderHelper();
+        private readonly Queue<PathNode> _paths = new Queue<PathNode>();
 
         private InterfaceBase _currentInterface; //当前界面处理器
 
@@ -64,10 +56,7 @@ namespace mhxy.Client {
         //场景 角色相关
         private Scene _currentScene = new Scene();
         private CurrentPlayer _currentPlayer = CurrentPlayer.None;
-
-        // 寻路相关
-        private readonly PathFinderHelper _pathHelper = new PathFinderHelper();
-        private readonly Queue<PathNode> _paths = new Queue<PathNode>();
+        private int _frameCount;
 
         /// <summary>
         ///     前往某个界面
@@ -81,7 +70,7 @@ namespace mhxy.Client {
         }
 
         /// <summary>
-        /// 保存存档
+        ///     保存存档
         /// </summary>
         /// <returns>是否保存成功</returns>
         public bool SaveProfile() {
@@ -90,16 +79,19 @@ namespace mhxy.Client {
                 Logger.Warn("用户尚未登录");
                 return false;
             }
+
             if (!_profileLoaded) {
                 Logger.Warn("存档尚未加载");
                 return false;
             }
+
             _currentProfile.InitCreate = false;
-            return ServiceLocator.ProfileService.TrySaveProfile(_currentName, _currentPwd, _currentProfileId, _currentProfile);
+            return ServiceLocator.ProfileService.TrySaveProfile(_currentName, _currentPwd, _currentProfileId,
+                _currentProfile);
         }
 
         /// <summary>
-        /// 卸载当前存档
+        ///     卸载当前存档
         /// </summary>
         /// <returns></returns>
         public bool UnloadProfile() {
@@ -107,10 +99,12 @@ namespace mhxy.Client {
                 Logger.Warn("用户尚未登录");
                 return false;
             }
+
             if (!_profileLoaded) {
                 Logger.Warn("存档尚未加载");
                 return false;
             }
+
             _profileLoaded = false;
             _currentProfileId = 0;
             CleanData();
@@ -119,7 +113,6 @@ namespace mhxy.Client {
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <returns></returns>
         public bool CreateProfile(int id) {
@@ -128,7 +121,8 @@ namespace mhxy.Client {
                 Logger.Warn("用户尚未登录");
                 return false;
             }
-            _currentProfile = new Profile { InitCreate = true };
+
+            _currentProfile = new Profile {InitCreate = true};
             ProfileToData();
             _currentProfileId = id;
             _profileLoaded = true;
@@ -136,7 +130,7 @@ namespace mhxy.Client {
         }
 
         /// <summary>
-        /// 加载存档
+        ///     加载存档
         /// </summary>
         /// <param name="id"></param>
         /// <returns></returns>
@@ -146,13 +140,16 @@ namespace mhxy.Client {
                 Logger.Warn("用户尚未登录");
                 return false;
             }
-            if (!_profileLoaded && ServiceLocator.ProfileService.TryReadProfile(_currentName, _currentPwd, id, out Profile profile)) {
+
+            if (!_profileLoaded &&
+                ServiceLocator.ProfileService.TryReadProfile(_currentName, _currentPwd, id, out Profile profile)) {
                 _currentProfile = profile;
                 ProfileToData();
                 _currentProfileId = id;
                 _profileLoaded = true;
                 return true;
             }
+
             return false;
         }
 
@@ -164,7 +161,8 @@ namespace mhxy.Client {
         /// <returns></returns>
         public bool SignUp(string name, string pwd) {
             Logger.Info($"SignUp : {name} {pwd}");
-            return !ServiceLocator.ProfileService.Has(name) && ServiceLocator.ProfileService.TryCreate(name, pwd.Md532());
+            return !ServiceLocator.ProfileService.Has(name) &&
+                   ServiceLocator.ProfileService.TryCreate(name, pwd.Md532());
         }
 
         /// <summary>
@@ -184,6 +182,7 @@ namespace mhxy.Client {
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -226,7 +225,6 @@ namespace mhxy.Client {
         }
 
         public void FlyTo(string sceneId, Point point) {
-
         }
 
         public void WalkTo(Point point) {
@@ -236,6 +234,26 @@ namespace mhxy.Client {
             Logger.Debug("End FindPath");
             foreach (var path in paths) {
                 _paths.Enqueue(path);
+            }
+        }
+
+        private void DrawingService_BeforeFrame(object sender, EventArgs e) {
+            if (_frameCount++ < GobalFramePerSetp) {
+                return;
+            }
+
+            _frameCount = 0;
+            if (_paths.Count != 0) {
+                _currentPlayer.Moving = true;
+                lock (_paths) {
+                    if (_paths.Count != 0) {
+                        var pathNode = _paths.Dequeue();
+                        _currentPlayer.At = pathNode.Point;
+                        _currentPlayer.FaceTo = pathNode.Direction;
+                    }
+                }
+            } else {
+                _currentPlayer.Moving = false;
             }
         }
 
@@ -286,10 +304,12 @@ namespace mhxy.Client {
                 if (!engine.LoadProfile(Global.DevelopProfileId)) {
                     engine.CreateProfile(Global.DevelopProfileId);
                 }
+
                 ServiceLocator.ClientEngine.GetCurrentPlayer().At = new Point(500, 500);
                 engine.Goto(InterfaceType.Main);
             }
         }
+
     }
 
 }

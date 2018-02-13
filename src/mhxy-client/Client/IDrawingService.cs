@@ -50,7 +50,7 @@ namespace mhxy.Client {
         /// </summary>
         void UpdateFrame();
 
-        event EventHandler Frame;
+        event EventHandler BeforeFrame;
 
     }
 

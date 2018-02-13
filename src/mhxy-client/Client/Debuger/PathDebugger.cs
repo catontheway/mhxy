@@ -3,7 +3,11 @@
 // Create Date:  20180211 16:56
 // Description:   
 
+#region
+
 using System.Drawing;
+
+#endregion
 
 namespace mhxy.Client.Debuger {
 
@@ -18,6 +22,7 @@ namespace mhxy.Client.Debuger {
                 ServiceLocator.GlobalLogger.Warn($"Invalid GOTO Input");
                 return;
             }
+
             int.TryParse(args[1], out int x);
             int.TryParse(args[2], out int y);
             ServiceLocator.ClientEngine.WalkTo(new Point(x, y));

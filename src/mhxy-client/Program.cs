@@ -6,8 +6,6 @@
 #region
 
 using System;
-using System.Collections.Generic;
-using System.Threading;
 using mhxy.Client;
 using mhxy.Client.Debuger;
 using mhxy.Utils;
@@ -26,12 +24,13 @@ namespace mhxy {
             if (intptr != IntPtr.Zero) {
                 NativeMethod.ShowWindow(intptr, Global.ShowConsole); //隐藏这个窗口
             }
+
             // 捕获未处理异常
             AppDomain.CurrentDomain.UnhandledException += CurrentDomain_UnhandledException;
             ServiceLocator.ClientEngine.Start();
             DebuggerContainer container = new DebuggerContainer();
             container.Hook();
-            ServiceLocator.Window.Run();
+            ServiceLocator.Window.RunDefault();
             ServiceLocator.GlobalLogger.Info("Application Exit");
         }
 

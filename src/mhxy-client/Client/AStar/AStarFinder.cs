@@ -3,17 +3,30 @@
 // Create Date:  20180211 15:53
 // Description:   
 
+#region
+
 using System.Collections.Generic;
 using System.Drawing;
-using log4net.Repository.Hierarchy;
+
+#endregion
 
 namespace mhxy.Client.AStar {
 
-
     /// <summary>
-    /// 
     /// </summary>
     public class AStarFinder {
+
+        //查找终点周围50层的点 在此范围内获取一个实际有效的终点
+        private const int SearchLevel = 50;
+
+        /// <summary>
+        /// </summary>
+        /// <param name="grid">地图</param>
+        public AStarFinder(byte[,] grid) {
+            _grid = grid;
+            _length0 = _grid.GetLength(0);
+            _length1 = _grid.GetLength(1);
+        }
 
         private readonly List<AStarPoint> _openList = new List<AStarPoint>();
         private readonly List<AStarPoint> _closeList = new List<AStarPoint>();
@@ -22,76 +35,77 @@ namespace mhxy.Client.AStar {
         private readonly byte[,] _grid;
 
         /// <summary>
-        /// 
+        ///     寻路
         /// </summary>
-        /// <param name="grid"></param>
-        public AStarFinder(byte[,] grid) {
-            _grid = grid;
-            _length0 = _grid.GetLength(0);
-            _length1 = _grid.GetLength(1);
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="start"></param>
-        /// <param name="end"></param>
+        /// <param name="start">起点</param>
+        /// <param name="end">终点</param>
         /// <returns></returns>
         public List<Point> FindPath(Point start, Point end) {
-            ServiceLocator.GlobalLogger.Debug($"{start.X} {start.Y} to {end.X} {end.Y}");
+            ServiceLocator.GlobalLogger.Debug($"FindPath(Cell Point) : {start.X} {start.Y} to {end.X} {end.Y}");
             List<Point> way = new List<Point>();
-            if (start.X < 0 || start.X >= _length0 || start.Y < 0 || start.Y >= _length1 ||
-                _grid[start.X, start.Y] == 0) {
+            var index0 = start.Y;
+            var index1 = start.X;
+            //预判断
+            if (index0 < 0 || index0 >= _length0 || index1 < 0 || index1 >= _length1 ||
+                _grid[index0, index1] == 0) {
                 return way;
             }
+
+            //尝试获取一个可用的终点
             if (!TryGetAnValidEndPoint(end, out end)) {
                 return way;
             }
+
+            //将起点加入开放列表
             var startPoint = new AStarPoint(start.X, start.Y, null, end);
             AddToOpenList(startPoint);
             AStarPoint current = startPoint;
+            //从开放列表中寻路
             while (!OpenListIsEmpty()) {
+                //获取G+H最小的节点
                 current = GetMinFFromOpenList();
-                ServiceLocator.GlobalLogger.Error($"X : {current.X} Y : {current.Y} G : {current.G } H : {current.H} : {current.G + current.H}");
                 if (current.X == end.X && current.Y == end.Y) {
-                    break;// Success
+                    break; // Success
                 }
+
+                //检查并设置当前周围八个点
                 Check8(current, end);
                 RemoveFromOpenList(current);
                 AddToCloseList(current);
-
             }
+
             while (current != null) {
                 way.Add(new Point(current.X, current.Y));
                 current = current.Parent;
             }
+
             return way;
         }
 
         private void Check8(AStarPoint current, Point end) {
-            for (int indexX = current.X - 1; indexX < current.X + 2; indexX++) {
-                for (int indexY = current.Y - 1; indexY < current.Y + 2; indexY++) {
-                    if (indexX == end.X && indexY == end.Y) {
-                        ServiceLocator.GlobalLogger.Warn($"WTF");
-                    }
-                    var point = new AStarPoint(indexX, indexY, current, end);
-                    if (indexX == current.X && indexY == current.Y
-                        || indexX < 0 || indexX >= _length0 || indexY < 0 || indexY >= _length1
-                        || _grid[indexX, indexY] == 0
-                        || IsInOpenList(indexX, indexY)
-                        || IsInCloseList(indexX, indexY)) {
-                        //ServiceLocator.GlobalLogger.Warn($"Ignore To OpenList {point.X} {point.Y} {point.G} {point.H}");
+            for (int x = current.X - 1; x < current.X + 2; x++) {
+                for (int y = current.Y - 1; y < current.Y + 2; y++) {
+                    var index0 = y;
+                    var index1 = x;
+                    //添加条件:
+                    //不是当前点
+                    //有效点
+                    //不在开放列表
+                    //不在封闭列表
+                    if (x == current.X && y == current.Y
+                        || index0 < 0 || index0 >= _length0 || index1 < 0 || index1 >= _length1
+                        || _grid[index0, index1] == 0
+                        || IsInOpenList(x, y)
+                        || IsInCloseList(x, y)) {
                     } else {
-                        //var point = new AStarPoint(indexX, indexY, current, end);
+                        var point = new AStarPoint(x, y, current, end);
                         AddToOpenList(point);
-                        //ServiceLocator.GlobalLogger.Debug($"Add To OpenList {point.X} {point.Y} {point.G} {point.H}");
                     }
                 }
             }
         }
 
         /// <summary>
-        /// 
         /// </summary>
         /// <returns></returns>
         private bool OpenListIsEmpty() {
@@ -121,15 +135,18 @@ namespace mhxy.Client.AStar {
                     return true;
                 }
             }
+
             return false;
         }
 
+        //判断开放列表是否包含一个坐标
         private bool IsInOpenList(int x, int y) {
             foreach (AStarPoint p in _openList) {
                 if (p.X == x && p.Y == y) {
                     return true;
                 }
             }
+
             return false;
         }
 
@@ -141,49 +158,60 @@ namespace mhxy.Client.AStar {
                     pmin = p;
                 }
             }
+
             return pmin;
         }
 
-        private const int SearchLevel = 30;
-
+        //尝试获取一个有效的终点
         private bool TryGetAnValidEndPoint(Point end, out Point point) {
             point = end;
-            var indexX = point.X;
-            var indexY = point.Y;
-            if (indexX >= 0 && indexY >= 0 && indexX < _length0 && indexY < _length1 && _grid[indexX, indexY] == 0) {
+            var index0 = point.Y;
+            var index1 = point.X;
+            if (index0 >= 0 && index1 >= 0 && index0 < _length0 && index1 < _length1 && _grid[index0, index1] == 0) {
                 for (int i = 1; i < SearchLevel; i++) {
                     for (int j = 0; j <= i; j++) {
                         int offsetX = i;
                         int offsetY = i - j;
-                        indexX = point.X + offsetX;
-                        indexY = point.Y + offsetY;
-                        if (indexX >= 0 && indexY >= 0 && indexX < _length0 && indexY < _length1 && _grid[indexX, indexY] == 1) {
-                            point = new Point(indexX, indexY);
+                        index0 = point.X + offsetX;
+                        index1 = point.Y + offsetY;
+                        if (index0 >= 0 && index1 >= 0 && index0 < _length0 && index1 < _length1 &&
+                            _grid[index0, index1] == 1) {
+                            point = new Point(index0, index1);
                             return true;
                         }
-                        indexX = point.X + offsetX;
-                        indexY = point.Y - offsetY;
-                        if (indexX >= 0 && indexY >= 0 && indexX < _length0 && indexY < _length1 && _grid[indexX, indexY] == 1) {
-                            point = new Point(indexX, indexY);
+
+                        index0 = point.X + offsetX;
+                        index1 = point.Y - offsetY;
+                        if (index0 >= 0 && index1 >= 0 && index0 < _length0 && index1 < _length1 &&
+                            _grid[index0, index1] == 1) {
+                            point = new Point(index0, index1);
                             return true;
                         }
-                        indexX = point.X - offsetX;
-                        indexY = point.Y + offsetY;
-                        if (indexX >= 0 && indexY >= 0 && indexX < _length0 && indexY < _length1 && _grid[indexX, indexY] == 1) {
-                            point = new Point(indexX, indexY);
+
+                        index0 = point.X - offsetX;
+                        index1 = point.Y + offsetY;
+                        if (index0 >= 0 && index1 >= 0 && index0 < _length0 && index1 < _length1 &&
+                            _grid[index0, index1] == 1) {
+                            point = new Point(index0, index1);
                             return true;
                         }
-                        indexX = point.X - offsetX;
-                        indexY = point.Y - offsetY;
-                        if (indexX >= 0 && indexY >= 0 && indexX < _length0 && indexY < _length1 && _grid[indexX, indexY] == 1) {
-                            point = new Point(indexX, indexY);
+
+                        index0 = point.X - offsetX;
+                        index1 = point.Y - offsetY;
+                        if (index0 >= 0 && index1 >= 0 && index0 < _length0 && index1 < _length1 &&
+                            _grid[index0, index1] == 1) {
+                            point = new Point(index0, index1);
                             return true;
                         }
                     }
                 }
+
                 return false;
             }
+
             return true;
         }
+
     }
+
 }
