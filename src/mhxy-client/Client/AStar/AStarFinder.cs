@@ -16,9 +16,6 @@ namespace mhxy.Client.AStar {
     /// </summary>
     public class AStarFinder {
 
-        //查找终点周围50层的点 在此范围内获取一个实际有效的终点
-        private const int SearchLevel = 50;
-
         /// <summary>
         /// </summary>
         /// <param name="grid">地图</param>
@@ -164,43 +161,45 @@ namespace mhxy.Client.AStar {
 
         //尝试获取一个有效的终点
         private bool TryGetAnValidEndPoint(Point end, out Point point) {
+            //查找终点周围50层的点 在此范围内获取一个实际有效的终点
+            const int searchLevel = 20;
             point = end;
             var index0 = point.Y;
             var index1 = point.X;
             if (index0 >= 0 && index1 >= 0 && index0 < _length0 && index1 < _length1 && _grid[index0, index1] == 0) {
-                for (int i = 1; i < SearchLevel; i++) {
+                for (int i = 1; i < searchLevel; i++) {
                     for (int j = 0; j <= i; j++) {
                         int offsetX = i;
                         int offsetY = i - j;
-                        index0 = point.X + offsetX;
-                        index1 = point.Y + offsetY;
+                        index0 = point.Y + offsetY;
+                        index1 = point.X + offsetX;
                         if (index0 >= 0 && index1 >= 0 && index0 < _length0 && index1 < _length1 &&
                             _grid[index0, index1] == 1) {
-                            point = new Point(index0, index1);
+                            point = new Point(index1, index0);
                             return true;
                         }
 
-                        index0 = point.X + offsetX;
-                        index1 = point.Y - offsetY;
+                        index0 = point.Y + offsetY;
+                        index1 = point.X + offsetX;
                         if (index0 >= 0 && index1 >= 0 && index0 < _length0 && index1 < _length1 &&
                             _grid[index0, index1] == 1) {
-                            point = new Point(index0, index1);
+                            point = new Point(index1, index0);
                             return true;
                         }
 
-                        index0 = point.X - offsetX;
-                        index1 = point.Y + offsetY;
+                        index0 = point.Y + offsetY;
+                        index1 = point.X + offsetX;
                         if (index0 >= 0 && index1 >= 0 && index0 < _length0 && index1 < _length1 &&
                             _grid[index0, index1] == 1) {
-                            point = new Point(index0, index1);
+                            point = new Point(index1, index0);
                             return true;
                         }
 
-                        index0 = point.X - offsetX;
-                        index1 = point.Y - offsetY;
+                        index0 = point.Y + offsetY;
+                        index1 = point.X + offsetX;
                         if (index0 >= 0 && index1 >= 0 && index0 < _length0 && index1 < _length1 &&
                             _grid[index0, index1] == 1) {
-                            point = new Point(index0, index1);
+                            point = new Point(index1, index0);
                             return true;
                         }
                     }
