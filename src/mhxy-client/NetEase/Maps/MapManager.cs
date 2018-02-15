@@ -57,7 +57,7 @@ namespace mhxy.NetEase.Maps {
                 var mapFileName = Path.Combine(_mapPath, $"{mapId}");
                 map = new Map(mapFileName);
                 map.Load();
-                map.Save();
+                // map.Save();
                 _loadedMaps[mapId] = map;
                 return true;
             } catch (Exception e) {

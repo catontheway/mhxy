@@ -304,10 +304,6 @@ namespace mhxy.Client {
                 if (!engine.LoadProfile(Global.DevelopProfileId)) {
                     engine.CreateProfile(Global.DevelopProfileId);
                 }
-
-                //1910 930 to 1684 845
-                // ServiceLocator.ClientEngine.GetCurrentPlayer().At = new Point(1910, 930);
-                ServiceLocator.ClientEngine.GetCurrentPlayer().At = new Point(500, 500);
                 engine.Goto(InterfaceType.Main);
             }
         }
