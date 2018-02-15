@@ -11,6 +11,7 @@ namespace mhxy.NetEase.Maps {
     public class Mask {
 
         /// <summary>
+        ///     遮罩数据
         /// </summary>
         public Mask(int startX, int startY, int width, int height, int size) {
             StartX = startX;
@@ -18,7 +19,7 @@ namespace mhxy.NetEase.Maps {
             Width = width;
             Height = height;
             Size = size;
-            Data = new int[size];
+            Data = new byte[size];
         }
 
         /// <summary>
@@ -42,14 +43,24 @@ namespace mhxy.NetEase.Maps {
         public int Height { get; private set; }
 
         /// <summary>
+        ///     对齐宽度
+        /// </summary>
+        public int AlignWidth { get; set; }
+
+        /// <summary>
         ///     大小
         /// </summary>
         public int Size { get; private set; }
 
         /// <summary>
-        ///     数据
+        ///     原始数据
         /// </summary>
-        public int[] Data { get; private set; }
+        public byte[] Data { get; set; }
+
+        /// <summary>
+        ///     处理后的数据
+        /// </summary>
+        public byte[] DecodedData { get; set; }
 
     }
 

@@ -20,8 +20,8 @@ namespace mhxy.Client.MainDrawable {
     public class DrawableCurrentPlayer : DrawableBase {
 
         private const int TotalFrame = 8; //人物动画8帧一组
-        private const int FramePerSecond = 20; //每秒20帧速度播放
-        private static readonly int FramePerGlobalFrame = FramePerSecond / Global.FramePerSecond; //实际播放速度根据全局画面速度计算
+        private const int FramePerSecond = 10; //播放速度
+        private static readonly int GlobalFramePerFrame = Global.FramePerSecond / FramePerSecond; //实际播放速度根据全局画面速度计算
 
         public DrawableCurrentPlayer() : base(DrawPriority.Lower) {
         }
@@ -36,7 +36,7 @@ namespace mhxy.Client.MainDrawable {
         private SpHeader _header;
 
         public override void NextFrame() {
-            if (_frameCount++ < FramePerGlobalFrame) {
+            if (++_frameCount < GlobalFramePerFrame) {
                 //没有达到切换画面条件
                 return;
             }

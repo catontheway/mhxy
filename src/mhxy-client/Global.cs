@@ -51,12 +51,12 @@ namespace mhxy {
         /// <summary>
         ///     宽度
         /// </summary>
-        public const int Width = 800;
+        public const int Width = 1024;
 
         /// <summary>
         ///     高度
         /// </summary>
-        public const int Height = 600;
+        public const int Height = 768;
 
         // 非正常情况下：地图到达边缘 需要保持地图不变 移动主角到屏幕边缘
 
@@ -96,6 +96,11 @@ namespace mhxy {
         public static uint ShowConsole;
 
         /// <summary>
+        /// 是否显示地图遮罩层
+        /// </summary>
+        public static bool ShowMapMask;
+
+        /// <summary>
         ///     当前路径
         /// </summary>
         public static string CurrentDirectory;
@@ -121,13 +126,14 @@ namespace mhxy {
         public static string ProfilePath;
 
         /// <summary>
+        ///     标题
         /// </summary>
         public static string Title = @"";
 
         /// <summary>
         ///     画面更新频率
         /// </summary>
-        public static int FramePerSecond = 20;
+        public static int FramePerSecond = 60;
 
         static Global() {
 #if Develop
@@ -135,11 +141,13 @@ namespace mhxy {
             Profile = false;
             CurrentDirectory = @"C:\Users\guodp\Source\mhxy";
             ShowConsole = 1;
+            ShowMapMask = false;
 #else
             Encrypt = true;
             Profile = true;
             CurrentDirectory = System.Environment.CurrentDirectory;
             ShowConsole = 0;
+            ShowMapMask = true;
 #endif
             ConfigPath = Path.Combine(CurrentDirectory, @"data\config");
             WdfPath = Path.Combine(CurrentDirectory, @"data\wdf");

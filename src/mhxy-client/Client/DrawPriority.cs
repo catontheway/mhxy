@@ -6,22 +6,22 @@
 namespace mhxy.Client {
 
     /// <summary>
-    ///     绘制图层级别
+    ///     绘制图层级别(绘制效果参考 texture.frag)
     /// </summary>
     public enum DrawPriority {
 
         /// <summary>
-        ///     最底层(例如,场景图)
+        ///     最底层(例如,场景地图)
         /// </summary>
         Lowest = 1,
 
         /// <summary>
-        ///     稍底层(例如,Player)
+        ///     稍底层(例如,Player NPC等)
         /// </summary>
         Lower = 2,
 
         /// <summary>
-        ///     正常层(地图蒙版)
+        ///     正常层(地图遮罩层 除了蒙版不要使用该层)
         /// </summary>
         Normal = 3,
 
@@ -31,7 +31,7 @@ namespace mhxy.Client {
         Higher = 4,
 
         /// <summary>
-        ///     最高层(消息)
+        ///     最高层(消息 物品介绍等)
         /// </summary>
         Highest = 5
 

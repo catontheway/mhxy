@@ -55,12 +55,12 @@ namespace mhxy.Client {
         public Bitmap Lowest { get; }
 
         /// <summary>
-        ///     稍底层(例如,Player)
+        ///     稍底层(例如,Player NPC)
         /// </summary>
         public Bitmap Lower { get; }
 
         /// <summary>
-        ///     正常层(例如,系统界面，聊天窗口)
+        ///     正常层(地图遮罩层 除了蒙版不要使用该层)
         /// </summary>
         public Bitmap Normal { get; }
 
@@ -70,7 +70,7 @@ namespace mhxy.Client {
         public Bitmap Higher { get; }
 
         /// <summary>
-        ///     最高层(消息)
+        ///     最高层(消息 物品介绍等弹出框)
         /// </summary>
         public Bitmap Highest { get; }
 

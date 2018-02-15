@@ -49,12 +49,21 @@ namespace mhxy.Client.AStar {
             if (way != null && way.Count != 0) {
                 way.Reverse();
                 PathNode pre = new PathNode {Point = pointStart};
+                PathNode mid = null;
+                PathNode current = null;
                 foreach (var wayNode in way) {
-                    var current = new PathNode {
-                        Point = new Point(wayNode.X * Global.PixelPerCell, wayNode.Y * Global.PixelPerCell)
+                    current = new PathNode {
+                        Point = new Point(wayNode.X * Global.PixelPerCell + Global.PixelPerCell / 2,
+                            wayNode.Y * Global.PixelPerCell + Global.PixelPerCell / 2)
                     };
-                    result.Add(current);
+                    mid = new PathNode {
+                        Point = new Point((pre.Point.X + current.Point.X) / 2, (pre.Point.Y + current.Point.Y) / 2)
+                    };
                     pre.Direction = CalcDirection(pre, current);
+                    mid.Direction = pre.Direction;
+                    current.Direction = pre.Direction;
+                    result.Add(mid);
+                    result.Add(current);
                     pre = current;
                 }
             }

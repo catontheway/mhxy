@@ -23,8 +23,8 @@ namespace mhxy.Client {
     /// </summary>
     public class ClientEngine : ServiceBase, IClientEngine {
 
-        private const int SetpPerSecond = 20;
-        private static readonly int GobalFramePerSetp = Global.FramePerSecond / SetpPerSecond;
+        private const int SetpPerSecond = 20; //每秒钟前进步数
+        private static readonly int GobalFramePerSetp = Global.FramePerSecond / SetpPerSecond; //每步需要多少帧
 
         public ClientEngine() {
             InitializeInterfaces();
@@ -238,7 +238,7 @@ namespace mhxy.Client {
         }
 
         private void DrawingService_BeforeFrame(object sender, EventArgs e) {
-            if (_frameCount++ < GobalFramePerSetp) {
+            if (++_frameCount < GobalFramePerSetp) {
                 return;
             }
 
@@ -305,6 +305,8 @@ namespace mhxy.Client {
                     engine.CreateProfile(Global.DevelopProfileId);
                 }
 
+                //1910 930 to 1684 845
+                // ServiceLocator.ClientEngine.GetCurrentPlayer().At = new Point(1910, 930);
                 ServiceLocator.ClientEngine.GetCurrentPlayer().At = new Point(500, 500);
                 engine.Goto(InterfaceType.Main);
             }

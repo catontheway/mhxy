@@ -61,7 +61,7 @@ namespace mhxy.NetEase.Maps {
                     _unitRows = (int) Math.Ceiling((double) Height / Global.ImageHeightPerMapUnit);
                     _unitSize = _unitColumns * _unitRows;
                     _unitOffsets = new int[_unitSize];
-                    _units = new Unit[_unitSize];
+                    //_units = new Unit[_unitSize];
                     Logger.Info($"Flag(302E314D):{_flag},Width:{Width}" +
                                 $",Height:{Height},Unit Columns:{_unitColumns}" +
                                 $",Unit Rows:{_unitRows},Unit Size:{_unitSize}");
@@ -78,34 +78,25 @@ namespace mhxy.NetEase.Maps {
                     fs.Read(buffer4, 0, 4);
                     _maskSize = BitConverter.ToInt32(buffer4, 0);
                     _maskOffsets = new int[_maskSize];
-                    _masks = new Mask[_maskSize];
+                    //_masks = new Mask[_maskSize];
                     Logger.Info($"Mask Head Flag(70030000):{_maskFlag},Mask Size:{_maskSize}");
                     for (var i = 0; i < _maskSize; i++) {
                         fs.Read(buffer4, 0, 4);
                         _maskOffsets[i] = BitConverter.ToInt32(buffer4, 0);
-                        //Logger.Debug($"Mask:{i},Offset:{_maskOffsets[i]}");
                     }
 
-                    fs.Seek(0, SeekOrigin.Begin);
-                    //2.Read Mask
-                    for (int i = 0; i < _maskSize; i++) {
-                        _masks[i] = ReadMask(fs, _maskOffsets[i]);
-                    }
-
-                    //3.Read Unit
-                    for (int i = 0; i < _unitSize; i++) {
-                        _units[i] = ReadUnit(fs, _unitOffsets[i]);
-                    }
-                    //4.Process Mask
-
-                    //5.Create BitMap
-                    _bitmap = new Bitmap(Width, Height);
+                    Bitmap = new Bitmap(Width, Height);
+                    MaskBitmap = new Bitmap(Width, Height);
                     Grid = new byte[_unitRows * Global.CellHeightPerMapUnit, _unitColumns * Global.CellWidthPerMapUnit];
+                    _masks = new byte[Height, Width];
+                    fs.Seek(0, SeekOrigin.Begin);
+                    //2.Read Map Image And Grid
+                    Logger.Info("Begin Read Map Image And Grid");
                     using (ImageFactory factory = new ImageFactory()) {
                         for (var rowIndex = 0; rowIndex < _unitRows; rowIndex++) {
                             for (var colIndex = 0; colIndex < _unitColumns; colIndex++) {
                                 var index = colIndex + _unitColumns * rowIndex;
-                                var unit = _units[index];
+                                var unit = ReadUnit(fs, _unitOffsets[index]);
                                 if (!unit.Decoded) {
                                     continue;
                                 }
@@ -117,19 +108,47 @@ namespace mhxy.NetEase.Maps {
                                     int indexX = x + Global.CellHeightPerMapUnit * rowIndex;
                                     int indexY = y + Global.CellWidthPerMapUnit * colIndex;
                                     Grid[indexX, indexY] = (byte) (unit.Cell.Data[i] == 0 ? 1 : 0);
-                                    //Grid[indexX, indexY] = 1;
                                 }
 
-                                // 复制Bitmap
+                                // 复制Image
                                 if (factory.Load(unit.RealImage)
                                     .Image is Bitmap unitBitmap) {
-                                    FastBitmap.CopyRegion(unitBitmap, _bitmap,
+                                    FastBitmap.CopyRegion(unitBitmap, Bitmap,
                                         new Rectangle(0, 0, unitBitmap.Width, unitBitmap.Height),
                                         new Rectangle(colIndex * 320, rowIndex * 240, unitBitmap.Width
                                             , unitBitmap.Height));
                                 }
                             }
                         }
+                    }
+
+                    if (Global.ShowMapMask) {
+                        Logger.Info("End Read Map Image And Grid");
+                        //3.Read Mask
+                        FastBitmap bitmap = new FastBitmap(MaskBitmap);
+                        bitmap.Lock();
+                        Logger.Info("Begin Read Mask");
+                        for (int i = 0; i < _maskSize; i++) {
+                            var mask = ReadMask(fs, _maskOffsets[i]);
+                            for (int h = 0; h < mask.Height; h++) {
+                                for (int w = 0; w < mask.Width; w++) {
+                                    int maskIndex = (h * mask.AlignWidth + w) * 2; //单位:位
+                                    byte maskValue1 = mask.DecodedData[maskIndex / 8]; //定位到字节
+                                    var maskValue = (byte) (maskValue1 >> (maskIndex % 8)); //定位到位
+                                    var index0 = mask.StartY + h;
+                                    var index1 = mask.StartX + w;
+                                    byte value = (byte) ((maskValue & 3) == 3 ? 1 : 0);
+                                    _masks[index0, index1] = value;
+                                    if (value == 1) {
+                                        var pixel = Bitmap.GetPixel(index1, index0);
+                                        bitmap.SetPixel(index1, index0, pixel);
+                                    }
+                                }
+                            }
+                        }
+
+                        bitmap.Unlock();
+                        Logger.Info("End Read Mask");
                     }
                 }
 
@@ -140,6 +159,225 @@ namespace mhxy.NetEase.Maps {
             }
 
             Logger.Info($"End Load Map : {_fileName}");
+        }
+
+        private void DecodeMask(byte[] input, byte[] output) {
+            int t = 0;
+            int pos = 0;
+            int inputIndex = 0;
+            int outputIndex = 0;
+            bool gotoMatch = false;
+            bool gotoMatchDone = false;
+            bool gotoCopyMatch = false;
+            bool gotoMatchNext = false;
+            bool gotoFirstLiteralRun = false;
+            if (input[inputIndex] > 17) {
+                t = input[inputIndex++] - 17;
+                if (t < 4) {
+                    gotoMatchNext = true;
+                }
+
+                do {
+                    output[outputIndex++] = input[inputIndex++];
+                } while (--t > 0);
+
+                gotoFirstLiteralRun = true;
+            }
+
+            while (true) {
+                if (gotoMatchNext) {
+                    goto matchLoop;
+                }
+
+                if (gotoFirstLiteralRun) {
+                    goto first_literal_run;
+                }
+
+                t = input[inputIndex++];
+                if (t >= 16) {
+                    gotoMatch = true;
+                    goto matchLoop;
+                }
+
+                if (t == 0) {
+                    while (input[inputIndex] == 0) {
+                        t += 255;
+                        inputIndex++;
+                    }
+
+                    t += 15 + input[inputIndex++];
+                }
+
+                output[outputIndex++] = input[inputIndex++];
+                output[outputIndex++] = input[inputIndex++];
+                output[outputIndex++] = input[inputIndex++];
+                output[outputIndex++] = input[inputIndex++];
+                //outputIndex += 4;
+                //inputIndex += 4;
+                if (--t > 0) {
+                    if (t >= 4) {
+                        do {
+                            output[outputIndex++] = input[inputIndex++];
+                            output[outputIndex++] = input[inputIndex++];
+                            output[outputIndex++] = input[inputIndex++];
+                            output[outputIndex++] = input[inputIndex++];
+                            //outputIndex += 4;
+                            //inputIndex += 4;
+                            t -= 4;
+                        } while (t >= 4);
+
+                        if (t > 0)
+                            do {
+                                output[outputIndex++] = input[inputIndex++];
+                            } while (--t > 0);
+                    } else
+                        do {
+                            output[outputIndex++] = input[inputIndex++];
+                        } while (--t > 0);
+                }
+
+                first_literal_run:
+                t = input[inputIndex++];
+                if (t >= 16) {
+                    gotoMatch = true;
+                    goto matchLoop;
+                }
+
+                pos = outputIndex - 0x0801;
+                pos -= t >> 2;
+                pos -= input[inputIndex++] << 2;
+                output[outputIndex++] = output[pos++];
+                output[outputIndex++] = output[pos++];
+                output[outputIndex++] = output[pos];
+                gotoMatchDone = true;
+                matchLoop:
+                while (true) {
+                    if (gotoCopyMatch) {
+                        // gotoCopyMatch = false;
+                        goto copy_match;
+                    }
+
+                    if (gotoMatch) {
+                        gotoMatch = false;
+                        goto match;
+                    }
+
+                    if (gotoMatchDone) {
+                        gotoMatchDone = false;
+                        goto match_done;
+                    }
+
+                    if (gotoMatchNext) {
+                        gotoMatchNext = false;
+                        goto match_next;
+                    }
+
+                    match:
+                    if (t >= 64) {
+                        pos = outputIndex - 1;
+                        pos -= (t >> 2) & 7;
+                        pos -= input[inputIndex++] << 3;
+                        t = (t >> 5) - 1;
+                        gotoCopyMatch = true;
+                        goto matchLoop;
+                    }
+
+                    if (t >= 32) {
+                        t &= 31;
+                        if (t == 0) {
+                            while (input[inputIndex] == 0) {
+                                t += 255;
+                                inputIndex++;
+                            }
+
+                            t += 31 + input[inputIndex++];
+                        }
+
+                        pos = outputIndex - 1;
+                        var offset = BitConverter.ToUInt16(input, inputIndex);
+                        pos -= offset >> 2;
+                        inputIndex += 2;
+                    } else if (t >= 16) {
+                        pos = outputIndex;
+                        pos -= (t & 8) << 11;
+                        t &= 7;
+                        if (t == 0) {
+                            while (input[inputIndex] == 0) {
+                                t += 255;
+                                inputIndex++;
+                            }
+
+                            t += 7 + input[inputIndex++];
+                        }
+
+                        var offset = BitConverter.ToUInt16(input, inputIndex);
+                        pos -= offset >> 2;
+                        inputIndex += 2;
+                        if (pos == outputIndex) {
+                            goto eof_found;
+                        }
+
+                        pos -= 0x4000;
+                    } else {
+                        pos = outputIndex - 1;
+                        pos -= t >> 2;
+                        pos -= input[inputIndex++] << 2;
+                        output[outputIndex++] = output[pos++];
+                        output[outputIndex++] = output[pos];
+                        goto match_done;
+                    }
+
+                    copy_match:
+                    if (t >= 6 && outputIndex - pos >= 4 && !gotoCopyMatch) {
+                        output[outputIndex++] = output[pos++];
+                        output[outputIndex++] = output[pos++];
+                        output[outputIndex++] = output[pos++];
+                        output[outputIndex++] = output[pos++];
+                        //outputIndex += 4;
+                        //pos += 4;
+                        t -= 2;
+                        do {
+                            output[outputIndex++] = output[pos++];
+                            output[outputIndex++] = output[pos++];
+                            output[outputIndex++] = output[pos++];
+                            output[outputIndex++] = output[pos++];
+                            //outputIndex += 4;
+                            //pos += 4;
+                            t -= 4;
+                        } while (t >= 4);
+
+                        if (t > 0)
+                            do {
+                                output[outputIndex++] = output[pos++];
+                            } while (--t > 0);
+                    } else {
+                        if (gotoCopyMatch) {
+                            gotoCopyMatch = false;
+                        }
+
+                        output[outputIndex++] = output[pos++];
+                        output[outputIndex++] = output[pos++];
+                        do {
+                            output[outputIndex++] = output[pos++];
+                        } while (--t > 0);
+                    }
+
+                    match_done:
+                    t = input[inputIndex - 2] & 3;
+                    if (t == 0) {
+                        break;
+                    }
+
+                    match_next:
+                    do {
+                        output[outputIndex++] = input[inputIndex++];
+                    } while (--t > 0);
+
+                    t = input[inputIndex++];
+                }
+            }
+
+            eof_found:;
         }
 
         /// <summary>
@@ -154,15 +392,15 @@ namespace mhxy.NetEase.Maps {
             var fileName = _fileName + ".jpg";
             try {
                 using (var imageFactory = new ImageFactory()) {
-                    imageFactory.Load(_bitmap).Format(new JpegFormat()).Save(fileName);
+                    imageFactory.Load(Bitmap).Format(new JpegFormat()).Save(fileName);
                 }
             } catch (Exception e) {
                 Logger.Error($"Save Map : {fileName}", e);
             }
 
-            var fileName2 = _fileName + ".txt";
+            string fileName2 = _fileName + ".cell.txt";
             try {
-                StringBuilder sb = new StringBuilder();
+                var sb = new StringBuilder();
                 for (int i = 0; i < _unitRows * Global.CellHeightPerMapUnit; i++) {
                     for (int j = 0; j < _unitColumns * Global.CellWidthPerMapUnit; j++) {
                         sb.Append((int) Grid[i, j]);
@@ -199,11 +437,14 @@ namespace mhxy.NetEase.Maps {
             int height = BitConverter.ToInt32(buffer4, 0);
             fs.Read(buffer4, 0, 4);
             int size = BitConverter.ToInt32(buffer4, 0);
-            var mask = new Mask(startX, startY, width, height, size);
-            //Logger.Debug($"Read Mask({index}:{offSet}):StartX:{startX},StartY:{startY},Width:{width},Height:{height},Size:{size}");
-            for (var i = 0; i < size; i++) {
-                fs.Read(buffer4, 0, 4);
-                mask.Data[i] = BitConverter.ToInt32(buffer4, 0);
+            var mask = new Mask(startX, startY, width, height, size) {Data = new byte[size]};
+            fs.Read(mask.Data, 0, size);
+            mask.AlignWidth = (mask.Width / 4 + (mask.Width % 4 != 0 ? 1 : 0)) * 4; // 以4对齐的宽度
+            mask.DecodedData = new byte[mask.AlignWidth * mask.Height / 4];
+            try {
+                DecodeMask(mask.Data, mask.DecodedData);
+            } catch {
+                // ignored
             }
 
             return mask;
@@ -451,14 +692,9 @@ namespace mhxy.NetEase.Maps {
         private int[] _maskOffsets;
 
         /// <summary>
-        ///     地图单元
+        ///     遮罩层数据
         /// </summary>
-        private Unit[] _units;
-
-        /// <summary>
-        ///     Mask 信息
-        /// </summary>
-        private Mask[] _masks;
+        private byte[,] _masks;
 
         /// <summary>
         ///     地图可到达区域
@@ -468,7 +704,12 @@ namespace mhxy.NetEase.Maps {
         /// <summary>
         ///     地图图像
         /// </summary>
-        public Bitmap Bitmap => _bitmap;
+        public Bitmap Bitmap { get; private set; }
+
+        /// <summary>
+        ///     遮罩层数据
+        /// </summary>
+        public Bitmap MaskBitmap { get; private set; }
 
         /// <summary>
         ///     宽度
@@ -491,10 +732,10 @@ namespace mhxy.NetEase.Maps {
         public int MaxY { get; private set; }
 
 
-        /// <summary>
-        ///     地图图像
-        /// </summary>
-        private Bitmap _bitmap;
+        ///// <summary>
+        /////     地图图像
+        ///// </summary>
+        //private Bitmap _bitmap;
 
         #endregion
 

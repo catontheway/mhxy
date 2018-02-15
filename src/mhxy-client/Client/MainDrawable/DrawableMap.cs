@@ -7,6 +7,7 @@
 
 using System.Drawing;
 using mhxy.NetEase.Maps;
+using mhxy.Utils;
 
 #endregion
 
@@ -59,10 +60,18 @@ namespace mhxy.Client.MainDrawable {
                 return;
             }
 
+            // 绘制地图
             args.FastBitmap.Lock();
             args.FastBitmap.CopyRegion(_currentMap.Bitmap, _currentRectangle,
                 new Rectangle(0, 0, args.Width, args.Height));
             args.FastBitmap.Unlock();
+            //绘制遮罩层
+            FastBitmap fastBitmap = new FastBitmap(args.CurrentCanvas.Normal);
+            fastBitmap.Lock();
+            fastBitmap.CopyRegion(_currentMap.MaskBitmap, _currentRectangle,
+                new Rectangle(0, 0, args.Width, args.Height));
+            fastBitmap.Unlock();
+            //设置世界坐标
             args.WorldPoint = new Point(_currentRectangle.X, _currentRectangle.Y);
         }
 

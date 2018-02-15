@@ -19,7 +19,7 @@ void main()
 	vec4 color3 = texture(outTexture3, TexCoord);
 	vec4 color4 = texture(outTexture4, TexCoord);
 	vec4 color5 = texture(outTexture5, TexCoord);
-	color = color1;
+	color = color1;	
 	if(color2.a != 0)
 	{
 		if(color2.a == 1){
@@ -28,7 +28,8 @@ void main()
 			color = mix(color, color2, color2.a);
 		}
 	}
-	if(color3.a != 0)
+	//只有第二层存在的情况下 第三层才会起效
+	if(color2.a != 0&&color3.a != 0)
 	{
 		if(color3.a == 1){
 			color = color3;
