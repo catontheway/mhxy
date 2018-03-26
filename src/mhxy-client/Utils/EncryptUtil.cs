@@ -52,9 +52,9 @@ namespace mhxy.Utils {
         /// <returns>密文</returns>
         public static string AesEncrypt(this string data, string key, string vector) {
             byte[] plainBytes = Encoding.UTF8.GetBytes(data);
-            byte[] bKey = new byte[32];
+            var bKey = new byte[32];
             Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
-            byte[] bVector = new byte[16];
+            var bVector = new byte[16];
             Array.Copy(Encoding.UTF8.GetBytes(vector.PadRight(bVector.Length)), bVector, bVector.Length);
             byte[] cryptograph; // 加密后的密文  
             Rijndael aes = Rijndael.Create();
@@ -83,21 +83,21 @@ namespace mhxy.Utils {
         /// <returns>明文</returns>
         public static string AesDecrypt(this string data, string key, string vector) {
             byte[] encryptedBytes = Convert.FromBase64String(data);
-            byte[] bKey = new byte[32];
+            var bKey = new byte[32];
             Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
-            byte[] bVector = new byte[16];
+            var bVector = new byte[16];
             Array.Copy(Encoding.UTF8.GetBytes(vector.PadRight(bVector.Length)), bVector, bVector.Length);
             byte[] original; // 解密后的明文  
             Rijndael aes = Rijndael.Create();
             // 开辟一块内存流，存储密文  
-            using (MemoryStream memory = new MemoryStream(encryptedBytes)) {
+            using (var memory = new MemoryStream(encryptedBytes)) {
                 // 把内存流对象包装成加密流对象  
-                using (CryptoStream decryptor = new CryptoStream(memory,
+                using (var decryptor = new CryptoStream(memory,
                     aes.CreateDecryptor(bKey, bVector),
                     CryptoStreamMode.Read)) {
                     // 明文存储区  
-                    using (MemoryStream originalMemory = new MemoryStream()) {
-                        byte[] buffer = new byte[1024];
+                    using (var originalMemory = new MemoryStream()) {
+                        var buffer = new byte[1024];
                         int readBytes;
                         while ((readBytes = decryptor.Read(buffer, 0, buffer.Length)) > 0) {
                             originalMemory.Write(buffer, 0, readBytes);
@@ -119,11 +119,11 @@ namespace mhxy.Utils {
         /// <param name="key">密钥</param>
         /// <returns>密文</returns>
         public static string AesEncrypt(this string data, string key) {
-            MemoryStream mStream = new MemoryStream();
-            RijndaelManaged aes = new RijndaelManaged();
+            var mStream = new MemoryStream();
+            var aes = new RijndaelManaged();
 
             byte[] plainBytes = Encoding.UTF8.GetBytes(data);
-            byte[] bKey = new byte[32];
+            var bKey = new byte[32];
             Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
 
             aes.Mode = CipherMode.ECB;
@@ -132,7 +132,7 @@ namespace mhxy.Utils {
             //aes.Key = _key;  
             aes.Key = bKey;
             //aes.IV = _iV;  
-            CryptoStream cryptoStream = new CryptoStream(mStream, aes.CreateEncryptor(), CryptoStreamMode.Write);
+            var cryptoStream = new CryptoStream(mStream, aes.CreateEncryptor(), CryptoStreamMode.Write);
             try {
                 cryptoStream.Write(plainBytes, 0, plainBytes.Length);
                 cryptoStream.FlushFinalBlock();
@@ -153,24 +153,24 @@ namespace mhxy.Utils {
         /// <returns>明文</returns>
         public static string AesDecrypt(this string data, string key) {
             byte[] encryptedBytes = Convert.FromBase64String(data);
-            byte[] bKey = new byte[32];
+            var bKey = new byte[32];
             Array.Copy(Encoding.UTF8.GetBytes(key.PadRight(bKey.Length)), bKey, bKey.Length);
 
-            MemoryStream mStream = new MemoryStream(encryptedBytes);
+            var mStream = new MemoryStream(encryptedBytes);
             //mStream.Write( encryptedBytes, 0, encryptedBytes.Length );  
             //mStream.Seek( 0, SeekOrigin.Begin );  
-            RijndaelManaged aes = new RijndaelManaged {
+            var aes = new RijndaelManaged {
                 Mode = CipherMode.ECB,
                 Padding = PaddingMode.PKCS7,
                 KeySize = 128,
                 Key = bKey
             };
             //aes.IV = _iV;  
-            CryptoStream cryptoStream = new CryptoStream(mStream, aes.CreateDecryptor(), CryptoStreamMode.Read);
+            var cryptoStream = new CryptoStream(mStream, aes.CreateDecryptor(), CryptoStreamMode.Read);
             try {
-                byte[] tmp = new byte[encryptedBytes.Length + 32];
+                var tmp = new byte[encryptedBytes.Length + 32];
                 int len = cryptoStream.Read(tmp, 0, encryptedBytes.Length + 32);
-                byte[] ret = new byte[len];
+                var ret = new byte[len];
                 Array.Copy(tmp, 0, ret, 0, len);
                 return Encoding.UTF8.GetString(ret);
             } finally {
@@ -213,7 +213,7 @@ namespace mhxy.Utils {
         ///     转换成字符串
         /// </summary>
         private static string Bytes2Str(this IEnumerable<byte> source, string formatStr = "{0:X2}") {
-            StringBuilder pwd = new StringBuilder();
+            var pwd = new StringBuilder();
             foreach (byte btStr in source) {
                 pwd.AppendFormat(formatStr, btStr);
             }

@@ -96,7 +96,12 @@ namespace mhxy {
         public static uint ShowConsole;
 
         /// <summary>
-        /// 是否显示地图遮罩层
+        ///     加载调试器
+        /// </summary>
+        public static bool LoadDebugger;
+
+        /// <summary>
+        ///     是否显示地图遮罩层
         /// </summary>
         public static bool ShowMapMask;
 
@@ -142,12 +147,14 @@ namespace mhxy {
             CurrentDirectory = @"C:\Users\guodp\Source\mhxy";
             ShowConsole = 1;
             ShowMapMask = false;
+            LoadDebugger = true;
 #else
             Encrypt = true;
             Profile = true;
             CurrentDirectory = System.Environment.CurrentDirectory;
             ShowConsole = 0;
             ShowMapMask = true;
+            LoadDebugger = false;
 #endif
             ConfigPath = Path.Combine(CurrentDirectory, @"data\config");
             WdfPath = Path.Combine(CurrentDirectory, @"data\wdf");

@@ -19,21 +19,21 @@ namespace mhxy.Utils {
         /// </summary>
         [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl
             , SetLastError = false)]
-        public static extern IntPtr memcpy(IntPtr dest, IntPtr src, ulong count);
+        public static extern IntPtr Memcpy(IntPtr dest, IntPtr src, ulong count);
 
         /// <summary>
         ///     .NET wrapper to native call of 'memcpy'. Requires Microsoft Visual C++ Runtime installed
         /// </summary>
         [DllImport("msvcrt.dll", EntryPoint = "memcpy", CallingConvention = CallingConvention.Cdecl
             , SetLastError = false)]
-        public static extern IntPtr memcpy(void* dest, void* src, ulong count);
+        public static extern IntPtr Memcpy(void* dest, void* src, ulong count);
 
         /// <summary>
         ///     .NET wrapper to native call of 'memset'. Requires Microsoft Visual C++ Runtime installed
         /// </summary>
         [DllImport("msvcrt.dll", EntryPoint = "memset", CallingConvention = CallingConvention.Cdecl
             , SetLastError = false)]
-        public static extern IntPtr memset(void* dest, int value, ulong count);
+        public static extern IntPtr Memset(void* dest, int value, ulong count);
 
         /// <summary>
         ///     Set Window Visible Or Invisible

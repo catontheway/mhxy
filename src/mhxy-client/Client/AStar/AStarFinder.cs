@@ -13,10 +13,12 @@ using System.Drawing;
 namespace mhxy.Client.AStar {
 
     /// <summary>
+    /// A*算法实现的寻路器
     /// </summary>
     public class AStarFinder {
 
         /// <summary>
+        /// 寻路器
         /// </summary>
         /// <param name="grid">地图</param>
         public AStarFinder(byte[,] grid) {

@@ -11,6 +11,7 @@ namespace mhxy.Client.Interfaces {
     public class MonologInterface : InterfaceBase {
 
         /// <summary>
+        /// 画面类型
         /// </summary>
         public override InterfaceType Type => InterfaceType.Monolog;
 

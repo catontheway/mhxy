@@ -24,7 +24,7 @@ namespace mhxy.Client {
     public class ClientEngine : ServiceBase, IClientEngine {
 
         private const int SetpPerSecond = 20; //每秒钟前进步数
-        private static readonly int GobalFramePerSetp = Global.FramePerSecond / SetpPerSecond; //每步需要多少帧
+        private static readonly int GobalFramePerSetp = Global.FramePerSecond / SetpPerSecond; //界面刷新多少帧人物移动一步
 
         public ClientEngine() {
             InitializeInterfaces();
@@ -224,9 +224,18 @@ namespace mhxy.Client {
             return _currentPlayer;
         }
 
+        /// <summary>
+        ///     主角飞行到某个位置
+        /// </summary>
+        /// <param name="sceneId">地图</param>
+        /// <param name="point">坐标</param>
         public void FlyTo(string sceneId, Point point) {
         }
 
+        /// <summary>
+        ///     主角移动
+        /// </summary>
+        /// <param name="point"></param>
         public void WalkTo(Point point) {
             _paths.Clear();
             Logger.Debug("Begin FindPath");
@@ -237,7 +246,17 @@ namespace mhxy.Client {
             }
         }
 
+        /// <summary>
+        ///     界面刷新事件
+        /// </summary>
         private void DrawingService_BeforeFrame(object sender, EventArgs e) {
+            MovePlayer();
+        }
+
+        /// <summary>
+        ///     移动人物
+        /// </summary>
+        private void MovePlayer() {
             if (++_frameCount < GobalFramePerSetp) {
                 return;
             }
@@ -257,6 +276,9 @@ namespace mhxy.Client {
             }
         }
 
+        /// <summary>
+        ///     初始化界面处理器
+        /// </summary>
         private void InitializeInterfaces() {
             _interfaces[InterfaceType.Start] = new StartInterface();
             _interfaces[InterfaceType.SignIn] = new SignInInterface();
@@ -269,6 +291,9 @@ namespace mhxy.Client {
             _interfaces[InterfaceType.Monolog] = new MonologInterface();
         }
 
+        /// <summary>
+        ///     加载存档到数据
+        /// </summary>
         private void ProfileToData() {
             var scene = new Scene {
                 MapId = _currentProfile.MapId
@@ -283,6 +308,9 @@ namespace mhxy.Client {
             _currentPlayer = player;
         }
 
+        /// <summary>
+        ///     清理数据
+        /// </summary>
         private void CleanData() {
             _currentScene = null;
             _currentPlayer = null;
@@ -290,9 +318,13 @@ namespace mhxy.Client {
 
     }
 
+    /// <summary>
+    ///     IClientEngine 扩展方法
+    /// </summary>
     public static class Externtions {
 
         /// <summary>
+        ///     开始
         /// </summary>
         /// <param name="engine"></param>
         public static void Start(this IClientEngine engine) {
@@ -304,8 +336,17 @@ namespace mhxy.Client {
                 if (!engine.LoadProfile(Global.DevelopProfileId)) {
                     engine.CreateProfile(Global.DevelopProfileId);
                 }
+
                 engine.Goto(InterfaceType.Main);
             }
+        }
+
+
+        /// <summary>
+        ///     停止
+        /// </summary>
+        /// <param name="engine"></param>
+        public static void Stop(this IClientEngine engine) {
         }
 
     }

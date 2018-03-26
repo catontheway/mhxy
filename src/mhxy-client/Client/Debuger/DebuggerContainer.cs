@@ -14,19 +14,15 @@ using System.Threading;
 namespace mhxy.Client.Debuger {
 
     /// <summary>
+    ///     调试工具
     /// </summary>
     public class DebuggerContainer {
-
-        public DebuggerContainer() {
-            InitDebugger();
-            Thread thread = new Thread(Start);
-            thread.Start();
-        }
 
         private readonly List<DebuggerBase> _debugger = new List<DebuggerBase>();
 
         private void Start() {
             while (true) {
+                Console.WriteLine(@"Please Input Command...");
                 var line = Console.ReadLine();
                 if (line != null) {
                     var args = line.Split();
@@ -38,19 +34,29 @@ namespace mhxy.Client.Debuger {
                         break;
                     }
 
+                    var handlered = false;
                     foreach (var debugger in _debugger) {
                         if (debugger.CanHandler(args)) {
                             debugger.Handler(args);
+                            handlered = true;
                         }
+                    }
+
+                    if (!handlered) {
+                        Console.WriteLine($@"Invalid Command : {string.Join(" ", args)}");
                     }
                 }
             }
         }
 
         public void Hook() {
+            InitDebugger();
+            Thread thread = new Thread(Start);
+            thread.Start();
         }
 
         private void InitDebugger() {
+            _debugger.Clear();
             _debugger.Add(new PathDebugger());
         }
 

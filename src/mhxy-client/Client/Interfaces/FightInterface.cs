@@ -10,6 +10,9 @@ namespace mhxy.Client.Interfaces {
     /// </summary>
     public class FightInterface : InterfaceBase {
 
+        /// <summary>
+        /// 画面类型
+        /// </summary>
         public override InterfaceType Type => InterfaceType.Fight;
 
     }

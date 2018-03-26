@@ -56,7 +56,7 @@ namespace mhxy.Client.OpenTk {
 
         /// <summary>
         /// </summary>
-        public void RunDefault() {
+        public void Show() {
             Run(Global.FramePerSecond);
         }
 

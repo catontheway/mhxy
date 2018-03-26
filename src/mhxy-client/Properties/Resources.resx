@@ -186,7 +186,7 @@
   <data name="Security_RSA_Sign_HashType" xml:space="preserve">
     <value>参数hashType必须为MD5或SHA1</value>
   </data>
-  <data name="ServiceLocator_ServiceLocator_Error" xml:space="preserve">
+  <data name="ServiceLocator_Load_Error" xml:space="preserve">
     <value>初始化失败！</value>
   </data>
 </root>

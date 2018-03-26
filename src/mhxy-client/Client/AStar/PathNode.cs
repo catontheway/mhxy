@@ -13,6 +13,7 @@ using mhxy.Common.Model;
 namespace mhxy.Client.AStar {
 
     /// <summary>
+    /// 路径节点
     /// </summary>
     public class PathNode {
 

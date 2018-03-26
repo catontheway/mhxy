@@ -270,9 +270,9 @@ namespace mhxy {
         /// <summary>
         ///   查找类似 初始化失败！ 的本地化字符串。
         /// </summary>
-        internal static string ServiceLocator_ServiceLocator_Error {
+        internal static string ServiceLocator_Load_Error {
             get {
-                return ResourceManager.GetString("ServiceLocator_ServiceLocator_Error", resourceCulture);
+                return ResourceManager.GetString("ServiceLocator_Load_Error", resourceCulture);
             }
         }
     }

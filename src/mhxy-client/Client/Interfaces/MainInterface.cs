@@ -18,7 +18,7 @@ namespace mhxy.Client.Interfaces {
     /// </summary>
     public class MainInterface : InterfaceBase {
 
-        private readonly DrawableMap _map = new DrawableMap();
+        private readonly DrawableScene _scene = new DrawableScene();
         private readonly DrawableCurrentPlayer _currentUser = new DrawableCurrentPlayer();
 
         //private Point _goto = Point.Empty;
@@ -32,7 +32,7 @@ namespace mhxy.Client.Interfaces {
         ///     显示
         /// </summary>
         protected override void ShowCore() {
-            ServiceLocator.DrawingService.Add(_map);
+            ServiceLocator.DrawingService.Add(_scene);
             ServiceLocator.DrawingService.Add(_currentUser);
             ServiceLocator.Window.MouseDown += GameWindow_MouseDown;
             ServiceLocator.Window.KeyDown += GameWindow_KeyDown;
@@ -55,7 +55,7 @@ namespace mhxy.Client.Interfaces {
             ServiceLocator.Window.KeyDown -= GameWindow_KeyDown;
             ServiceLocator.Window.MouseDown -= GameWindow_MouseDown;
             ServiceLocator.DrawingService.Remove(_currentUser);
-            ServiceLocator.DrawingService.Remove(_map);
+            ServiceLocator.DrawingService.Remove(_scene);
         }
 
     }

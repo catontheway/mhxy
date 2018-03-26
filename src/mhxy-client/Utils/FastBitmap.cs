@@ -383,7 +383,7 @@ namespace mhxy.Utils {
             int component = color & 0xFF;
             if (component == ((color >> 8) & 0xFF) && component == ((color >> 16) & 0xFF) &&
                 component == ((color >> 24) & 0xFF)) {
-                NativeMethod.memset(_scan0, component, (ulong) (Height * Stride * BytesPerPixel));
+                NativeMethod.Memset(_scan0, component, (ulong) (Height * Stride * BytesPerPixel));
             } else {
                 // Defines the ammount of assignments that the main while() loop is performing per loop.
                 // The value specified here must match the number of assignment statements inside that loop
@@ -463,7 +463,7 @@ namespace mhxy.Utils {
             if (component == ((color >> 8) & 0xFF) && component == ((color >> 16) & 0xFF) &&
                 component == ((color >> 24) & 0xFF)) {
                 for (int y = minY; y < maxY; y++) {
-                    NativeMethod.memset(_scan0 + minX + y * Stride, component, strideWidth);
+                    NativeMethod.Memset(_scan0 + minX + y * Stride, component, strideWidth);
                 }
             } else {
                 // Prepare a horizontal slice of pixels that will be copied over each horizontal row down.
@@ -492,7 +492,7 @@ namespace mhxy.Utils {
 
                     int* sx = _scan0 + minX;
                     for (int y = minY; y < maxY; y++) {
-                        NativeMethod.memcpy(sx + y * Stride, pRow, strideWidth);
+                        NativeMethod.Memcpy(sx + y * Stride, pRow, strideWidth);
                     }
                 }
             }
@@ -560,7 +560,7 @@ namespace mhxy.Utils {
                     long offsetSrc = srcX + srcY * fastSource.Stride;
                     long offsetDest = destX + destY * Stride;
 
-                    NativeMethod.memcpy(_scan0 + offsetDest, fastSource._scan0 + offsetSrc, strideWidth);
+                    NativeMethod.Memcpy(_scan0 + offsetDest, fastSource._scan0 + offsetSrc, strideWidth);
                 }
             }
         }
@@ -584,7 +584,7 @@ namespace mhxy.Utils {
             }
 
             using (FastBitmap fastSource = source.FastLock(), fastTarget = target.FastLock()) {
-                NativeMethod.memcpy(fastTarget.Scan0, fastSource.Scan0
+                NativeMethod.Memcpy(fastTarget.Scan0, fastSource.Scan0
                     , (ulong) (fastSource.Height * fastSource.Stride * BytesPerPixel));
             }
 

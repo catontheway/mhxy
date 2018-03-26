@@ -6,7 +6,7 @@
 namespace mhxy.Common.Model {
 
     /// <summary>
-    ///     战斗属性(伤害 闪避等)
+    ///     战斗属性(伤害 命中 闪避等)
     /// </summary>
     public class Attribute3 {
 

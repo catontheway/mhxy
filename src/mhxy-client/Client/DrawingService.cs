@@ -14,10 +14,12 @@ using mhxy.Common;
 namespace mhxy.Client {
 
     /// <summary>
+    /// 绘制服务
     /// </summary>
     public class DrawingService : ServiceBase, IDrawingService {
 
         /// <summary>
+        /// 绘制服务
         /// </summary>
         public DrawingService() {
             _canvas = new Canvas(Global.Width, Global.Height);
@@ -29,24 +31,40 @@ namespace mhxy.Client {
         }
 
         private readonly Dictionary<DrawPriority, List<IDrawable>> _drawables =
-            new Dictionary<DrawPriority, List<IDrawable>>();
+            new Dictionary<DrawPriority, List<IDrawable>>();//绘制对象
 
-        private Canvas _canvas;
+        private Canvas _canvas;//画布
 
-        private bool _drawing;
+        private bool _drawing;// 是否正在绘制
 
+        /// <summary>
+        /// 添加绘制对象
+        /// </summary>
+        /// <param name="drawableObj"></param>
         public void Add(IDrawable drawableObj) {
             _drawables[drawableObj.Priority].Add(drawableObj);
         }
 
+        /// <summary>
+        /// 移除绘制对象
+        /// </summary>
+        /// <param name="drawableObj"></param>
         public void Remove(IDrawable drawableObj) {
             _drawables[drawableObj.Priority].Remove(drawableObj);
         }
 
+        /// <summary>
+        /// 获取当前画布
+        /// </summary>
+        /// <returns></returns>
         public Canvas GetCurrentCanvas() {
             return _canvas;
         }
 
+        /// <summary>
+        /// 绘制并返回绘制后的画布
+        /// </summary>
+        /// <returns></returns>
         public Canvas Draw() {
             if (!_drawing) {
                 _drawing = true;
@@ -68,6 +86,9 @@ namespace mhxy.Client {
             return _canvas;
         }
 
+        /// <summary>
+        /// 更新画面
+        /// </summary>
         public void UpdateFrame() {
             OnBeforeFrame();
             var priority = DrawPriority.Lowest;
@@ -82,8 +103,14 @@ namespace mhxy.Client {
             _drawables[priority].ForEach(drawable => drawable.NextFrame());
         }
 
+        /// <summary>
+        /// 更新画面前事件
+        /// </summary>
         public event EventHandler BeforeFrame;
 
+        /// <summary>
+        /// 移除所有绘制对象
+        /// </summary>
         public void RemoveAll() {
             RemoveAll(DrawPriority.Lowest);
             RemoveAll(DrawPriority.Lower);
@@ -92,10 +119,17 @@ namespace mhxy.Client {
             RemoveAll(DrawPriority.Highest);
         }
 
+        /// <summary>
+        /// 移除某个绘制对象
+        /// </summary>
+        /// <param name="priority"></param>
         private void RemoveAll(DrawPriority priority) {
             _drawables[priority].Clear();
         }
 
+        /// <summary>
+        /// Trigger Event
+        /// </summary>
         protected virtual void OnBeforeFrame() {
             BeforeFrame?.Invoke(this, EventArgs.Empty);
         }

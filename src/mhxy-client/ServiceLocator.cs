@@ -8,6 +8,7 @@
 using System;
 using System.Windows.Forms;
 using mhxy.Client;
+using mhxy.Client.Debuger;
 using mhxy.Client.OpenTk;
 using mhxy.Job;
 using mhxy.Logging;
@@ -34,6 +35,8 @@ namespace mhxy {
             LogManager.AddLoggerAdapter(new Log4NetLoggerAdapter());
             GlobalLogger = LogManager.GetLogger(typeof(ServiceLocator));
             try {
+                // 添加服务 需要注意服务的依赖顺序
+                DebuggerContainer = new DebuggerContainer();
                 ScheduleService = new ScheduleService();
                 ProfileService = new ProfileService(Global.ProfilePath);
                 ConfigManager = new ConfigManager(Global.ConfigPath);
@@ -44,7 +47,7 @@ namespace mhxy {
                 Window = new GlWindow();
             } catch (Exception e) {
                 GlobalLogger.Error(e);
-                MessageBox.Show(Resources.ServiceLocator_ServiceLocator_Error);
+                MessageBox.Show(Resources.ServiceLocator_Load_Error);
                 Environment.Exit(0);
             }
         }
@@ -93,6 +96,11 @@ namespace mhxy {
         ///     调度服务
         /// </summary>
         public static IScheduleService ScheduleService { get; }
+
+        /// <summary>
+        ///     调试器
+        /// </summary>
+        public static DebuggerContainer DebuggerContainer { get; }
 
     }
 

@@ -14,11 +14,6 @@ using mhxy.Utils;
 
 #endregion
 
-//using System.Drawing;
-//using ImageProcessor;
-//using ImageProcessor.Imaging.Formats;
-//using StbSharp;
-
 namespace mhxy.NetEase.Wass {
 
     /// <summary>
@@ -170,13 +165,6 @@ namespace mhxy.NetEase.Wass {
                                 DataHandler(lineData, buffer, startIndex, pixelOffset, pixelLen);
                             }
 
-                            //for (int i = 0; i < buffer.Length; i++) {
-                            //    var bytes = BitConverter.GetBytes(buffer[i]);
-                            //    spFrame.Data[i * 4 + 0] = bytes[0];
-                            //    spFrame.Data[i * 4 + 1] = bytes[1];
-                            //    spFrame.Data[i * 4 + 2] = bytes[2];
-                            //    spFrame.Data[i * 4 + 3] = bytes[3];
-                            //}
                             spFrame.Bitmap = new Bitmap(spFrame.BitmapWidth, spFrame.BitmapHeight);
                             using (FastBitmap fastBitmap = new FastBitmap(spFrame.Bitmap)) {
                                 fastBitmap.Lock();
@@ -189,18 +177,6 @@ namespace mhxy.NetEase.Wass {
                                 fastBitmap.Unlock();
                             }
 
-                            //using (var stream = new MemoryStream()) {
-                            //    var writer = new ImageWriter();
-                            //    var image = new StbSharp.Image { Comp = 4, Data = spFrame.Data, Height = spFrame.BitmapHeight, Width = spFrame.BitmapWidth };
-                            //    writer.WriteBmp(image, stream);
-                            //    var bitmapData = stream.ToArray();
-                            //    spFrame.Bitmap = new Bitmap(spFrame.BitmapWidth, spFrame.BitmapHeight);
-                            //    using (var imageFactory = new ImageFactory()) {
-                            //        if (imageFactory.Load(bitmapData).Format(new BitmapFormat()).Image is Bitmap bitmap) {
-                            //            spFrame.Bitmap = new Bitmap(bitmap);
-                            //        }
-                            //    }
-                            //}
                             _frames[group, frame] = spFrame;
                         }
                     }

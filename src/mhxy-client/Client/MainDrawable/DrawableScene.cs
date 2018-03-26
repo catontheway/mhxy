@@ -1,4 +1,4 @@
-﻿// FileName:  DrawableMap.cs
+﻿// FileName:  DrawableScene.cs
 // Author:  guodp <guodp9u0@gmail.com>
 // Create Date:  20180202 13:57
 // Description:   
@@ -14,14 +14,14 @@ using mhxy.Utils;
 namespace mhxy.Client.MainDrawable {
 
     /// <summary>
-    ///     地图绘制
+    ///     场景绘制
     /// </summary>
-    public class DrawableMap : DrawableBase {
+    public class DrawableScene : DrawableBase {
 
         /// <summary>
-        ///     地图绘制
+        ///     场景绘制
         /// </summary>
-        public DrawableMap() : base(DrawPriority.Lowest) {
+        public DrawableScene() : base(DrawPriority.Lowest) {
         }
 
         private Rectangle _currentRectangle = new Rectangle(0, 0, Global.Width, Global.Height); // 绘制大小
@@ -31,7 +31,7 @@ namespace mhxy.Client.MainDrawable {
         /// <summary>
         ///     切换到下一帧
         /// </summary>
-        public override void NextFrame() {
+        protected override void NextFrameCore() {
             // 获取场景 & 地图 &
             var currentScene = ServiceLocator.ClientEngine.GetCurrentScene();
             if (!string.Equals(_currentMapId, currentScene.MapId)) {
@@ -55,7 +55,7 @@ namespace mhxy.Client.MainDrawable {
             _currentRectangle.Y = y;
         }
 
-        public override void Draw(DrawArgs args) {
+        protected override void DrawCore(DrawArgs args) {
             if (_currentMap == null) {
                 return;
             }

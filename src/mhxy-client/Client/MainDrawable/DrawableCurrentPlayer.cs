@@ -23,10 +23,11 @@ namespace mhxy.Client.MainDrawable {
         private const int FramePerSecond = 10; //播放速度
         private static readonly int GlobalFramePerFrame = Global.FramePerSecond / FramePerSecond; //实际播放速度根据全局画面速度计算
 
-        public DrawableCurrentPlayer() : base(DrawPriority.Lower) {
+        /// <summary>
+        ///     主角绘制构造方法
+        /// </summary>
+        public DrawableCurrentPlayer() : base(DrawPriority.Lower, GlobalFramePerFrame) {
         }
-
-        private int _frameCount;
 
         private SpWas _walk;
         private SpWas _stand;
@@ -35,13 +36,7 @@ namespace mhxy.Client.MainDrawable {
         private SpFrame _frame;
         private SpHeader _header;
 
-        public override void NextFrame() {
-            if (++_frameCount < GlobalFramePerFrame) {
-                //没有达到切换画面条件
-                return;
-            }
-
-            _frameCount = 0;
+        protected override void NextFrameCore() {
             _currentPlayer = ServiceLocator.ClientEngine.GetCurrentPlayer();
             if (_walk == null) {
                 ServiceLocator.WasManager.TryGetSpWas("shape.wdf", 0x54F3FC94, out _walk);
@@ -63,7 +58,7 @@ namespace mhxy.Client.MainDrawable {
             _header = _currentPlayer.Moving ? _walk.SpHeader : _stand.SpHeader;
         }
 
-        public override void Draw(DrawArgs args) {
+        protected override void DrawCore(DrawArgs args) {
             //空值检测
             if (_frame == null || _header == null || _currentPlayer == null) {
                 return;

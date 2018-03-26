@@ -6,6 +6,7 @@
 namespace mhxy.Client.Controls {
 
     /// <summary>
+    /// 输入框
     /// </summary>
     public class TextBox : ControlBase {
 

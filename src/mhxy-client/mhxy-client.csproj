@@ -93,7 +93,7 @@
     <Compile Include="Client\Controls\Button.cs" />
     <Compile Include="Client\Controls\ControlBase.cs" />
     <Compile Include="Client\Controls\Panel.cs" />
-    <Compile Include="Client\MainDrawable\DrawableMap.cs" />
+    <Compile Include="Client\MainDrawable\DrawableScene.cs" />
     <Compile Include="Client\Controls\Text.cs" />
     <Compile Include="Client\Controls\TextBox.cs" />
     <Compile Include="Common\Model\Battle.cs" />
@@ -114,6 +114,10 @@
     <Compile Include="Client\IDrawingService.cs" />
     <Compile Include="Client\DrawableBase.cs" />
     <Compile Include="Global.cs" />
+    <Compile Include="NetEase\Configs\ConfigBase.cs" />
+    <Compile Include="NetEase\Configs\ItemConfig.cs" />
+    <Compile Include="NetEase\Configs\RoleConfig.cs" />
+    <Compile Include="NetEase\Configs\SceneConfig.cs" />
     <Compile Include="NetEase\Wass\SpFrame.cs" />
     <Compile Include="NetEase\Wass\TgaHeader.cs" />
     <Compile Include="Utils\FastBitmap.cs" />
@@ -183,6 +187,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
       <CustomToolNamespace>mhxy</CustomToolNamespace>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup />
